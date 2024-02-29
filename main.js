@@ -30,73 +30,79 @@ const map = new ol.Map({
 const layerSwitcher = new ol.control.LayerSwitcher({ });
 map.addControl(layerSwitcher);
 
-var button = document.createElement('button');
-    button.innerHTML = 'P';
+var element = document.createElement('div');
+element.className = 'get-position ol-unselectable ol-control';
+element.id = "PositionButton";
 
-    var handleGetPosition = function(e) {
-      getPosition();
+var button = document.createElement('button');  // Button-Element erstellen
+button.innerHTML = 'P';
+
+element.appendChild(button);  // Hinzufügen des Buttons zum 'element'
+document.body.appendChild(element);  // Füge das 'element' dem DOM hinzu
+
+var geolocation = new ol.Geolocation({
+  projection: map.getView().getProjection(),
+  tracking: false,
+  trackingOptions: {
+    enableHighAccuracy: true,
+    maximumAge: 5000  
+  }
+});
+
+var handleGetPosition = function(e) {
+  var trackingwasalreadyon = geolocation.getTracking(); 
+  console.log(trackingwasalreadyon);
+  if(trackingwasalreadyon){ 
+    geolocation.setTracking(false);
+    
+      //******************************
+      //**                          **
+      //** CODE HERE TO REMOVE THE  **
+      //** GEOLOCATION LAYERS       **
+      //**                          **
+      //******************************
+  } else { 
+    geolocation.setTracking(true); 
+    getPosition(); 
+  } 
 };
 
 button.addEventListener('click', handleGetPosition, false);
 button.addEventListener('touchstart', handleGetPosition, false);
 
-var element = document.createElement('div');
-element.className = 'get-position ol-unselectable ol-control';
-element.id ="PositionButton";
-element.appendChild(button);
-
-var GetPositionControl = new ol.control.Control({
-    element: element
-});
-map.addControl(GetPositionControl);
-
-
-// set up the geolocation api to track our position
 function getPosition() {
-  var geolocation = new ol.Geolocation({
-    projection: map.getView().getProjection(),
-    tracking: true,
-    trackingOptions: {
-      enableHighAccuracy: true,
-      maximumAge: 5000  
-    }
-  });
+  var accuracyFeature = new ol.Feature();
+   geolocation.on('change:accuracyGeometry', function() {
+     accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+   });
+   var positionFeature = new ol.Feature();
+   positionFeature.setStyle(new ol.style.Style({
+     image: new ol.style.Circle({
+       radius: 4,
+       fill: new ol.style.Fill({
+         color: '#3399CC'
+       }),
+       stroke: new ol.style.Stroke({
+         color: '#fff',
+         width: 1
+       })
+     })
+   }));
+   geolocation.on('change:position', function() {
+     var pos = geolocation.getPosition();
+     positionFeature.setGeometry(pos ?
+         new ol.geom.Point(pos) : null);
+     mapView.setCenter(pos);
+     mapView.setZoom(19);    
+   });
 
- var accuracyFeature = new ol.Feature();
-  geolocation.on('change:accuracyGeometry', function() {
-    accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
-  });
-
-  var positionFeature = new ol.Feature();
-  positionFeature.setStyle(new ol.style.Style({
-    image: new ol.style.Circle({
-      radius: 4,
-      fill: new ol.style.Fill({
-        color: '#3399CC'
-      }),
-      stroke: new ol.style.Stroke({
-        color: '#fff',
-        width: 1
-      })
-    })
-  }));
-
-  geolocation.on('change:position', function() {
-    var pos = geolocation.getPosition();
-    positionFeature.setGeometry(pos ?
-        new ol.geom.Point(pos) : null);
-    mapView.setCenter(pos);
-    mapView.setZoom(19);    
-  });
-
-  new ol.layer.Vector({
-    map: map,
-    source: new ol.source.Vector({
-      features: [accuracyFeature, positionFeature]
-    })
-  });     
+   new ol.layer.Vector({
+     map: map,
+     source: new ol.source.Vector({
+       features: [accuracyFeature, positionFeature]
+     })
+   });     
 };  
-
 
 // sle
 const exp_bw_sle_layer = new ol.layer.Vector({
