@@ -70,39 +70,56 @@ var handleGetPosition = function(e) {
 button.addEventListener('click', handleGetPosition, false);
 button.addEventListener('touchstart', handleGetPosition, false);
 
-function getPosition() {
-  var accuracyFeature = new ol.Feature();
-   geolocation.on('change:accuracyGeometry', function() {
-     accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
-   });
-   var positionFeature = new ol.Feature();
-   positionFeature.setStyle(new ol.style.Style({
-     image: new ol.style.Circle({
-       radius: 4,
-       fill: new ol.style.Fill({
-         color: '#3399CC'
-       }),
-       stroke: new ol.style.Stroke({
-         color: '#fff',
-         width: 1
-       })
-     })
-   }));
-   geolocation.on('change:position', function() {
-     var pos = geolocation.getPosition();
-     positionFeature.setGeometry(pos ?
-         new ol.geom.Point(pos) : null);
-     mapView.setCenter(pos);
-     mapView.setZoom(19);    
-   });
+// Vector-Layer und Features erstellen
+var accuracyFeature = new ol.Feature();
+var positionFeature = new ol.Feature();
 
-   new ol.layer.Vector({
-     map: map,
-     source: new ol.source.Vector({
-       features: [accuracyFeature, positionFeature]
-     })
-   });     
-};  
+var vectorLayer = new ol.layer.Vector({
+  map: map,
+  source: new ol.source.Vector({
+    features: [accuracyFeature, positionFeature]
+  })
+});
+
+// Funktion zum Aktualisieren der Position
+function updatePosition() {
+  geolocation.on('change:accuracyGeometry', function() {
+    accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+  });
+
+  geolocation.on('change:position', function() {
+    var pos = geolocation.getPosition();
+    positionFeature.setGeometry(pos ? new ol.geom.Point(pos) : null);
+    mapView.setCenter(pos);
+    mapView.setZoom(19);
+  });
+}
+
+// Funktion zum Starten der Verfolgung
+function startTracking() {
+  geolocation.setTracking(true);
+  updatePosition();
+}
+
+// Funktion zum Stoppen der Verfolgung
+function stopTracking() {
+  geolocation.setTracking(false);
+  accuracyFeature.setGeometry(null);
+  positionFeature.setGeometry(null);
+}
+
+// Event-Listener für den Button
+button.addEventListener('click', function() {
+  var trackingWasAlreadyOn = geolocation.getTracking();
+  if (trackingWasAlreadyOn) {
+    stopTracking();
+  } else {
+    startTracking();
+  }
+});
+
+// Starte die Positionsupdates, wenn die Seite geladen wird
+startTracking();
 
 // sle
 const exp_bw_sle_layer = new ol.layer.Vector({
