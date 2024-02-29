@@ -1,3 +1,4 @@
+
 const sleStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
     fill: new ol.style.Fill({color: 'red'}),
@@ -41,6 +42,7 @@ button.addEventListener('touchstart', handleGetPosition, false);
 
 var element = document.createElement('div');
 element.className = 'get-position ol-unselectable ol-control';
+element.id ="PositionButton";
 element.appendChild(button);
 
 var GetPositionControl = new ol.control.Control({
