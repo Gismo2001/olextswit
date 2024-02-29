@@ -1,5 +1,3 @@
-import './style.css';
-
 const sleStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
     fill: new ol.style.Fill({color: 'red'}),

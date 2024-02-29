@@ -16,10 +16,21 @@ body {
 }
 
 /* CSS-Stil für die get-position-Klasse */
-.get-position {
+#get-position {
   position: absolute;
   top: 150px; /* Ändere dies entsprechend deiner Layout-Anforderungen */
   left: 150px; /* Ändere dies entsprechend deiner Layout-Anforderungen */
+  background-color: #f10404;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+#myButton {
+  position: absolute;
+  top: 150px;
+  left: 150px;
   background-color: #f10404;
   border: 1px solid #ccc;
   border-radius: 4px;
