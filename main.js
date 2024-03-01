@@ -80,10 +80,15 @@ var vectorLayer = new ol.layer.Vector({
     features: [accuracyFeature, positionFeature]
   }),
   style: new ol.style.Style({
-    image: new ol.style.Icon({
-      src: './data/marker.jpg', // Pfad zum Bild
-      scale: 1, // Skalierung des Bildes
-      anchor: [0.5, 1] // Ankerpunkt des Bildes (Mitte unten)
+    image: new ol.style.Circle({
+      radius: 7, // Radius des Punkts
+      fill: new ol.style.Fill({
+        color: 'blue' // Farbe des Punkts
+      }),
+      stroke: new ol.style.Stroke({
+        color: 'white', // Farbe des Randes
+        width: 2 // Breite des Randes
+      })
     })
   })
 });
