@@ -82,7 +82,7 @@ var vectorLayer = new ol.layer.Vector({
   style: new ol.style.Style({
     image: new ol.style.Icon({
       src: './data/marker.jpg', // Pfad zum Bild
-      scale: 0.5, // Skalierung des Bildes
+      scale: 1, // Skalierung des Bildes
       anchor: [0.5, 1] // Ankerpunkt des Bildes (Mitte unten)
     })
   })
