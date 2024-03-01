@@ -51,7 +51,7 @@ var geolocation = new ol.Geolocation({
 
 var handleGetPosition = function(e) {
   var trackingwasalreadyon = geolocation.getTracking(); 
-  console.log(trackingwasalreadyon);
+  //console.log(trackingwasalreadyon);
   if(trackingwasalreadyon){ 
     geolocation.setTracking(false);
     
@@ -78,6 +78,13 @@ var vectorLayer = new ol.layer.Vector({
   map: map,
   source: new ol.source.Vector({
     features: [accuracyFeature, positionFeature]
+  }),
+  style: new ol.style.Style({
+    image: new ol.style.Icon({
+      src: './data/marker.jpg', // Pfad zum Bild
+      scale: 0.5, // Skalierung des Bildes
+      anchor: [0.5, 1] // Ankerpunkt des Bildes (Mitte unten)
+    })
   })
 });
 
@@ -91,7 +98,7 @@ function updatePosition() {
     var pos = geolocation.getPosition();
     positionFeature.setGeometry(pos ? new ol.geom.Point(pos) : null);
     mapView.setCenter(pos);
-    mapView.setZoom(19);
+    //mapView.setZoom(19);
   });
 }
 
