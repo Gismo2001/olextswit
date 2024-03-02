@@ -152,8 +152,7 @@ const wmsLayer = new ol.layer.Tile({
       'LAYERS': 'Gewaessernetz',
       'TILED': true,
     },
-    serverType: 'arcgis',
-    crossOrigin: 'anonymous',
+        crossOrigin: 'anonymous'
   }),
   title: 'hydro',
 });
