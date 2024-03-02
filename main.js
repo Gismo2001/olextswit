@@ -17,7 +17,7 @@ const attribution = new ol.control.Attribution({
 
 const mapView = new ol.View({
   center: ol.proj.fromLonLat([7.35, 52.7]),
-  zoom: 15
+  zoom: 9
 });
 
 const map = new ol.Map({
@@ -194,6 +194,6 @@ const BaseGroup = new ol.layer.Group({
   layers: [ESRIWorldImagery, googleLayer, osmTile]
 });
 
+map.addLayer(BaseGroup);
 map.addLayer(wmsLayer);
-
-
+map.addLayer(exp_bw_sle_layer);
