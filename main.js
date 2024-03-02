@@ -151,6 +151,7 @@ const wmsHydErstOrdLayer = new ol.layer.Tile({
     params: {
       'LAYERS': 'Gewässernetz_1._Ordnung29778',
       'TILED': true,
+      'TRANSPARENT': true,
     },
     serverType: 'arcgis',
     crossOrigin: 'anonymous',
@@ -220,7 +221,7 @@ const wmsLayerGroup = new ol.layer.Group({
 title: "wms-Layer",
 fold: true,
 fold: 'close',
-layers: [wmsHydErstOrdLayer, wmsHydZweitOrdLayer, wmsHydDrittOrdLayer]
+layers: [wmsHydErstOrdLayer]
 });
 wmsLayerGroup.setVisible(false);
 
