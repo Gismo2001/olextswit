@@ -38,7 +38,6 @@ button.innerHTML = 'P';
 
 element.appendChild(button);  // Hinzufügen des Buttons zum 'element'
 document.body.appendChild(element);  // Füge das 'element' dem DOM hinzu
-var firstPositionFound = false; // Variable für den ersten erfolgreichen Fix
 
 var geolocation = new ol.Geolocation({
   projection: map.getView().getProjection(),
@@ -49,6 +48,28 @@ var geolocation = new ol.Geolocation({
   }
 });
 
+var handleGetPosition = function(e) {
+  var trackingwasalreadyon = geolocation.getTracking(); 
+  //console.log(trackingwasalreadyon);
+  if(trackingwasalreadyon){ 
+    geolocation.setTracking(false);
+    
+      //******************************
+      //**                          **
+      //** CODE HERE TO REMOVE THE  **
+      //** GEOLOCATION LAYERS       **
+      //**                          **
+      //******************************
+  } else { 
+    geolocation.setTracking(true); 
+    getPosition(); 
+  } 
+};
+
+button.addEventListener('click', handleGetPosition, false);
+button.addEventListener('touchstart', handleGetPosition, false);
+
+// Vector-Layer und Features erstellen
 var accuracyFeature = new ol.Feature();
 var positionFeature = new ol.Feature();
 
@@ -59,18 +80,19 @@ var vectorLayer = new ol.layer.Vector({
   }),
   style: new ol.style.Style({
     image: new ol.style.Circle({
-      radius: 7,
+      radius: 7, // Radius des Punkts
       fill: new ol.style.Fill({
-        color: 'blue'
+        color: 'blue' // Farbe des Punkts
       }),
       stroke: new ol.style.Stroke({
-        color: 'white',
-        width: 2
+        color: 'white', // Farbe des Randes
+        width: 2 // Breite des Randes
       })
     })
   })
 });
 
+// Funktion zum Aktualisieren der Position
 function updatePosition() {
   geolocation.on('change:accuracyGeometry', function() {
     accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
@@ -78,25 +100,25 @@ function updatePosition() {
 
   geolocation.on('change:position', function() {
     var pos = geolocation.getPosition();
-    if (pos && !firstPositionFound) {
-      positionFeature.setGeometry(new ol.geom.Point(pos));
-      map.getView().setCenter(pos);
-      firstPositionFound = true;
-    }
+    positionFeature.setGeometry(pos ? new ol.geom.Point(pos) : null);
+    mapView.setCenter(pos);
   });
 }
 
+// Funktion zum Starten der Verfolgung
 function startTracking() {
   geolocation.setTracking(true);
   updatePosition();
 }
 
+// Funktion zum Stoppen der Verfolgung
 function stopTracking() {
   geolocation.setTracking(false);
   accuracyFeature.setGeometry(null);
   positionFeature.setGeometry(null);
 }
 
+// Event-Listener für den Button
 button.addEventListener('click', function() {
   var trackingWasAlreadyOn = geolocation.getTracking();
   if (trackingWasAlreadyOn) {
