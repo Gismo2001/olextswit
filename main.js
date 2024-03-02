@@ -130,7 +130,7 @@ button.addEventListener('click', function() {
 });
 
 // Starte die Positionsupdates, wenn die Seite geladen wird
-startTracking();
+//startTracking();
 
 // sle
 const exp_bw_sle_layer = new ol.layer.Vector({
