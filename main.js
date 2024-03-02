@@ -1,3 +1,8 @@
+import { myProdP1P2 } from "./myFunc";
+
+let x = myProdP1P2(4, 3);
+console.log (x);
+
 
 const sleStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
