@@ -150,9 +150,10 @@ const wmsLayer = new ol.layer.Tile({
     url: 'https://via.bund.de/wsv/bwastr/wms',
     params: {
       'LAYERS': 'Gewaessernetz',
-      'TILED': true,
+      'TILED': false,
     },
-        crossOrigin: 'anonymous'
+    serverType: 'geoserver',
+    crossOrigin: 'anonymous',
   }),
   title: 'hydro',
 });
