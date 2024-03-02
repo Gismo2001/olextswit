@@ -7,18 +7,29 @@
     <link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css"> 
     <link href="https://cdn.jsdelivr.net/npm/ol-ext@4.0.14/dist/ol-ext.min.css" rel="stylesheet">
     <style>
-      body {
-        overflow: hidden;
-        margin: 0; /* Empfohlen, um den Standardmargen zu entfernen und Platz für Scrollleisten zu vermeiden */
-      }
-      
-      #map {
-        width: 100vw;
-        height: 100vh;
-      }
+body {
+  overflow: hidden;
+  margin: 0;
+}
+
+#map {
+  width: 100vw;
+  height: 100vh;
+}
+
+.get-position {
+  position: absolute;
+  top: 150px;
+  left: 150px;
+  background-color: #f10404;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+  cursor: pointer;
+}
+
     </style>
-    <script type="module" crossorigin src="/assets/index-9mwRO_Kh.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Trc0S6nz.css">
+    <script type="module" crossorigin src="./assets/index-DwTtsN5J.js"></script>
   </head>
   <body>
     <div id="map" class="map"></div>
