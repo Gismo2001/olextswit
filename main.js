@@ -147,9 +147,9 @@ const exp_bw_sle_layer = new ol.layer.Vector({
 
 const wmsLayer = new ol.layer.Tile({
   source: new ol.source.TileWMS({
-    url: 'https://via.bund.de/wsv/bwastr/wms',
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
     params: {
-      'LAYERS': 'Gewaessernetz',
+      'LAYERS': 'Gewässernetz',
       'TILED': false,
     },
     serverType: 'geoserver',
