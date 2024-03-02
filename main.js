@@ -131,7 +131,6 @@ button.addEventListener('click', function() {
 
 // Starte die Positionsupdates, wenn die Seite geladen wird
 startTracking();
-
 // sle
 const exp_bw_sle_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
@@ -144,6 +143,21 @@ const exp_bw_sle_layer = new ol.layer.Vector({
   title: 'sle',
   style: sleStyle,
   visible: true
+});
+
+const wmsSource = new ol.source.TileWMS({
+  url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
+  params: {
+    'LAYERS': 'Gewässernetz', // Verwende den Namen des Layers
+    'TILED': true,
+  },
+  serverType: 'arcgis',
+  crossOrigin: 'anonymous', // Falls benötigt
+});
+
+const wmsLayer = new ol.layer.Tile({
+  source: wmsSource,
+  title: 'hydro'
 });
 
 const googleLayer = new ol.layer.Tile({
@@ -182,6 +196,8 @@ const BaseGroup = new ol.layer.Group({
 });
 
 map.addLayer(BaseGroup);
+map.addLayer(wmsLayer);
 map.addLayer(exp_bw_sle_layer);
+
 
 
