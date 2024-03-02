@@ -145,18 +145,48 @@ const exp_bw_sle_layer = new ol.layer.Vector({
   visible: true
 });
 
-const wmsLayer = new ol.layer.Tile({
+const wmsHydErstOrdLayer = new ol.layer.Tile({
   source: new ol.source.TileWMS({
     url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
     params: {
-      'LAYERS': 'Gewässernetz',
-      'TILED': false,
+      'LAYERS': 'Gewässernetz_1._Ordnung29778',
+      'TILED': true,
     },
-    serverType: 'geoserver',
+    serverType: 'arcgis',
     crossOrigin: 'anonymous',
   }),
-  title: 'hydro',
+  title: 'wmsHydErstOrd',
+  visible: true
 });
+
+const wmsHydZweitOrdLayer = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Gewässernetz_2._Ordnung8177',
+      'TILED': true,
+    },
+    serverType: 'arcgis',
+    crossOrigin: 'anonymous',
+  }),
+  title: 'wmsHydZweitOrd',
+  visible: false
+});
+
+const wmsHydDrittOrdLayer = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Gewässernetz_3.Ordnung9928',
+      'TILED': true,
+    },
+    serverType: 'arcgis',
+    crossOrigin: 'anonymous',
+  }),
+  title: 'wmsHydDritttOrd',
+  visible: false
+});
+
 
 const googleLayer = new ol.layer.Tile({
   title: "GoogleSat",
@@ -186,6 +216,14 @@ const osmTile = new ol.layer.Tile({
   }),
 });
 
+const wmsLayerGroup = new ol.layer.Group({
+title: "wms-Layer",
+fold: true,
+fold: 'close',
+layers: [wmsHydErstOrdLayer, wmsHydZweitOrdLayer, wmsHydDrittOrdLayer]
+});
+wmsLayerGroup.setVisible(false);
+
 const BaseGroup = new ol.layer.Group({
   title: "Hintergrund",
   fold: true,
@@ -194,5 +232,5 @@ const BaseGroup = new ol.layer.Group({
 });
 
 map.addLayer(BaseGroup);
-map.addLayer(wmsLayer);
+map.addLayer(wmsLayerGroup);
 map.addLayer(exp_bw_sle_layer);
