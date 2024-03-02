@@ -31,7 +31,7 @@ map.addControl(layerSwitcher);
 
 var element = document.createElement('div');
 element.className = 'get-position ol-unselectable ol-control';
-element.id = "PositionButton";
+element.id = "Button";
 
 var button = document.createElement('button');  // Button-Element erstellen
 button.innerHTML = 'P';
