@@ -145,20 +145,19 @@ const exp_bw_sle_layer = new ol.layer.Vector({
   visible: true
 });
 
-const wmsSource = new ol.source.TileWMS({
-  url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
-  params: {
-    'LAYERS': 'Gewässernetz', // Verwende den Namen des Layers
-    'TILED': true,
-  },
-  serverType: 'arcgis',
-  crossOrigin: 'anonymous', // Falls benötigt
+const wmsLayer = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Gewässernetz',
+      'TILED': true,
+    },
+    serverType: 'arcgis',
+    crossOrigin: 'anonymous',
+  }),
+  title: 'hydro',
 });
 
-const wmsLayer = new ol.layer.Tile({
-  source: wmsSource,
-  title: 'hydro'
-});
 
 const googleLayer = new ol.layer.Tile({
   title: "GoogleSat",
