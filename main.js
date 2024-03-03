@@ -1,3 +1,5 @@
+import './style.css';
+
 /// Funktion zur Adresssuche mit OpenCage Geocoding API
 window.searchAddress = function searchAddress() {
   var address = document.getElementById('addressInput').value;
