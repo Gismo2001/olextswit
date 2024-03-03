@@ -471,23 +471,29 @@ const gew_layer_layer = new ol.layer.Vector({
   })
 })
 
-
-
-
-
 const layerSwitcher = new ol.control.LayerSwitcher({ });
 map.addControl(layerSwitcher);
 
-//neues div-Element mit Namen: "element" und den Klassen get-position ol-unselectabler und ol-control
+// Neues div-Element mit Namen: "element" und den Klassen "get-position", "ol-unselectable" und "ol-control"
 var element = document.createElement('div');
 element.className = 'get-position ol-unselectable ol-control';
 element.id = "Button";
-//Button erstellen, und mit dem Text "p" beschriften
 const button = document.createElement('button');
 button.innerHTML = 'P';
-//Button hinzufügen
-element.appendChild(button);  // Hinzufügen des Buttons zum 'element'
-document.body.appendChild(element);  // Füge das 'element' dem DOM hinzu
+element.appendChild(button);
+document.body.appendChild(element);
+
+// Neues div-Element mit Namen: "elementM"
+var elementM = document.createElement('div');
+elementM.className = 'getMeasure';
+elementM.id = "ButtonM";
+const buttonM = document.createElement('button');
+buttonM.innerHTML = 'M'; // Hier den Text für den ButtonM festlegen
+buttonM.className = 'getMeasure'; // Klasse zuweisen
+elementM.appendChild(buttonM);
+document.body.appendChild(elementM);
+
+
 
 //neues Objekt der Klasse ol.Geolocation
 var geolocation = new ol.Geolocation({
@@ -519,6 +525,12 @@ var handleGetPosition = function(e) {
 
 button.addEventListener('click', handleGetPosition, false);
 button.addEventListener('touchstart', handleGetPosition, false);
+buttonM.addEventListener('click', function() {
+  console.log("buttonM geklickt");
+});
+buttonM.addEventListener('touchstart', function() {
+  console.log("buttonM berührt");
+});
 
 // Vector-Layer und Features erstellen
 var accuracyFeature = new ol.Feature();
@@ -579,6 +591,7 @@ button.addEventListener('click', function() {
   }
 });
 
+
 // Starte die Positionsupdates, wenn die Seite geladen wird
 //startTracking();
 
@@ -594,7 +607,7 @@ const wmsHydErstOrdLayer = new ol.layer.Tile({
     crossOrigin: 'anonymous',
   }),
   title: '1. Ordn.',
-  visible: true
+  visible: false
 });
 
 const wmsHydZweitOrdLayer = new ol.layer.Tile({
@@ -642,6 +655,24 @@ const wmsUesgLayer = new ol.layer.Tile({
   }),
   title: 'Uesg',
   visible: false,
+  opacity: .5,
+  minResolution: 0,
+  maxResolution: 10
+});
+
+const wmsNsgLayer = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Natur_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Fauna-Flora-Habitat-Gebiete_(FFH)_in_Niedersachsen44579',
+      'TILED': true,
+    },
+    serverType: 'arcgis',
+    crossOrigin: 'anonymous',
+  }),
+  title: 'NSG',
+  visible: false,
+  opacity: .5,
   minResolution: 0,
   maxResolution: 10
 });
@@ -830,10 +861,11 @@ const wmsLayerGroup = new ol.layer.Group({
 title: "WMS-Lay",
 fold: true,
 fold: 'close',
-layers: [wmsHydDrittOrdLayer, wmsHydZweitOrdLayer, wmsHydErstOrdLayer, wmsUesgLayer]
+layers: [wmsHydDrittOrdLayer, wmsHydZweitOrdLayer, wmsHydErstOrdLayer, wmsNsgLayer, wmsUesgLayer]
 });
 
-wmsLayerGroup.setVisible(false);
+wmsLayerGroup.setVisible(true);
+
 
 const GNAtlasGroup = new ol.layer.Group({
   title: "GN-DOP's",
