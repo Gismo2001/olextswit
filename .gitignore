@@ -4,3 +4,9 @@ npm-debug.log
 
 # VS Code
 .vscode/
+
+# Netlify
+.netlify/
+
+# myLayers folder
+myLayers/
