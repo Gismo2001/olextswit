@@ -53,14 +53,8 @@ var handleGetPosition = function(e) {
   //console.log(trackingwasalreadyon);
   if(trackingwasalreadyon){ 
     geolocation.setTracking(false);
-    
-      //******************************
-      //**                          **
       //** CODE HERE TO REMOVE THE  **
-      //** GEOLOCATION LAYERS       **
-      //**                          **
-      //******************************
-  } else { 
+    } else { 
     geolocation.setTracking(true); 
     getPosition(); 
   } 
