@@ -259,7 +259,6 @@ const map = new ol.Map({
   target: "map",
   view: mapView,
   controls: ol.control.defaults().extend([attribution])
-  
 });
 
 
@@ -590,6 +589,29 @@ button.addEventListener('click', function() {
     startTracking();
   }
 });
+
+
+var buttonState = false;
+document.getElementById("toggleButton").addEventListener("click", toggleButton);
+
+function toggleButton() {
+    // Funktionslogik hier
+    var button = document.getElementById("toggleButton");
+
+    // Toggle Button-Zustand
+    buttonState = !buttonState;
+
+    // Ändere den Text und die Farbe entsprechend dem Zustand
+    if (buttonState) {
+        button.innerHTML = "An ";
+        button.classList.remove("off");
+        button.classList.add("on");
+    } else {
+        button.innerHTML = "Aus";
+        button.classList.remove("on");
+        button.classList.add("off");
+    }
+};
 
 
 // Starte die Positionsupdates, wenn die Seite geladen wird
