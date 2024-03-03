@@ -1,3 +1,70 @@
+/// Funktion zur Adresssuche mit OpenCage Geocoding API
+window.searchAddress = function searchAddress() {
+  var address = document.getElementById('addressInput').value;
+  var apiKey = 'c592a3d99b8d43878cf7d727d44187ce'; // Ersetze dies durch deinen OpenCage API-Schlüssel
+
+  var apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`;
+
+  fetch(apiUrl)
+    .then(response => response.json())
+    .then(data => {
+      if (data.results.length > 0) {
+        var location = data.results[0].geometry;
+        // Karte auf die gefundenen Koordinaten zentrieren
+        map.getView().setCenter(ol.proj.fromLonLat([location.lng, location.lat]));
+        map.getView().setZoom(17); // Zoom-Level anpassen
+
+        // Temporären Marker hinzufügen
+        addTempMarker([location.lng, location.lat]);
+      } else {
+        // Adresse nicht gefunden, Meldung ausgeben
+        alert('Adresse nicht gefunden');
+      }
+    })
+    .catch(error => {
+      console.error('Geokodierung-Fehler:', error);
+    });
+}
+
+// Event-Listener für die Enter-Taste hinzufügen
+var inputElement = document.getElementById('addressInput');
+inputElement.addEventListener('keydown', function (event) {
+  if (event.key === 'Enter') {
+    searchAddress();
+  }
+});
+
+// Funktion zum Hinzufügen eines temporären Markers
+function addTempMarker(coordinates) {
+  var tempMarker = new ol.layer.Vector({
+    source: new ol.source.Vector({
+      features: [new ol.Feature({
+        geometry: new ol.geom.Point(coordinates),
+      })]
+    }),
+    style: new ol.style.Style({
+      image: new ol.style.Icon({
+        src: './data/marker1.jpg',
+        scale: 1 // Skalieren Sie die Größe des Icons nach Bedarf
+      })
+    })
+  });
+
+  // Fügen Sie den temporären Marker zur Karte hinzu
+  map.addLayer(tempMarker);
+}
+
+// Funktion zum Entfernen des temporären Markers
+function removeTempMarker() {
+  // Durchlaufen Sie alle Karten-Layer und entfernen Sie alle, die als temporärer Marker markiert sind
+  map.getLayers().getArray().forEach(function (layer) {
+    if (layer.get('tempMarker')) {
+      map.removeLayer(layer);
+    }
+  });
+}
+
+
 //Style für sle
 const sleStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
@@ -42,8 +109,6 @@ button.innerHTML = 'P';
 //Button hinzufügen
 element.appendChild(button);  // Hinzufügen des Buttons zum 'element'
 document.body.appendChild(element);  // Füge das 'element' dem DOM hinzu
-
-
 
 //neues Objekt der Klasse ol.Geolocation
 var geolocation = new ol.Geolocation({
@@ -147,7 +212,7 @@ const exp_bw_sle_layer = new ol.layer.Vector({
       },
       strategy: ol.loadingstrategy.bbox
   }),
-  title: 'sle',
+  title: 'Schleuse',
   style: sleStyle,
   visible: true
 });
@@ -163,7 +228,7 @@ const wmsHydErstOrdLayer = new ol.layer.Tile({
     serverType: 'arcgis',
     crossOrigin: 'anonymous',
   }),
-  title: 'wmsHydErstOrd',
+  title: '1. Ordn.',
   visible: true
 });
 
@@ -177,8 +242,10 @@ const wmsHydZweitOrdLayer = new ol.layer.Tile({
     serverType: 'arcgis',
     crossOrigin: 'anonymous',
   }),
-  title: 'wmsHydZweitOrd',
-  visible: false
+  title: '2. Ordn.',
+  visible: false,
+  minResolution: 0,
+  maxResolution: 75
 });
 
 const wmsHydDrittOrdLayer = new ol.layer.Tile({
@@ -191,10 +258,28 @@ const wmsHydDrittOrdLayer = new ol.layer.Tile({
     serverType: 'arcgis',
     crossOrigin: 'anonymous',
   }),
-  title: 'wmsHydDritttOrd',
-  visible: false
+  title: '3. Ordn.',
+  visible: false,
+  minResolution: 0,
+  maxResolution: 6
 });
 
+
+var dop20ni_layer = new ol.layer.Tile({
+  title: "DOP20 NI",
+  opacity: 1.000000,
+  visible: false,
+  type: 'base',
+  source: new ol.source.TileWMS({
+    url: "https://www.geobasisdaten.niedersachsen.de/doorman/noauth/wms_ni_dop",
+    attributions: 'Orthophotos Niedersachsen, LGLN',
+    params: {
+      "LAYERS": "dop20",
+      "TILED": true, // "true" sollte ohne Anführungszeichen sein
+      "VERSION": "1.3.0"
+    },
+  }),
+});
 
 const googleLayer = new ol.layer.Tile({
   title: "GoogleSat",
@@ -228,16 +313,16 @@ const wmsLayerGroup = new ol.layer.Group({
 title: "wms-Layer",
 fold: true,
 fold: 'close',
-layers: [wmsHydErstOrdLayer]
+layers: [wmsHydDrittOrdLayer, wmsHydZweitOrdLayer, wmsHydErstOrdLayer]
 });
 
 wmsLayerGroup.setVisible(false);
 
 const BaseGroup = new ol.layer.Group({
-  title: "Hintergrund",
+  title: "Base",
   fold: true,
   fold: 'close',
-  layers: [ESRIWorldImagery, googleLayer, osmTile]
+  layers: [ESRIWorldImagery, googleLayer, dop20ni_layer, osmTile]
 });
 
 map.addLayer(BaseGroup);
