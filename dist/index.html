@@ -27,9 +27,21 @@
         border-radius: 2px;
         padding: 3px 3px; 
         cursor: pointer;
-        font-size: 12px; 
+        font-size: 12px;         
       }
     
+      .getMeasure {
+        position: absolute;
+        bottom: 25px;
+        left: 5px;
+        background-color: #f10404;
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        padding: 3px 3px; 
+        cursor: pointer;
+        font-size: 20px; 
+      }
+
       #searchBox {
         position: absolute;
         top: 10px; 
@@ -61,15 +73,18 @@
       }
     </style>
     
-    <script type="module" crossorigin src="./assets/index-DnxT7F7P.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DUTvHwGp.css">
+    <script type="module" crossorigin src="./assets/index-CWbN8vzl.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Cxe0nhsI.css">
   </head>
   <body>
+   <!--  <div id="buttonContainer">
+      <button id="toggleButton">An</button>
+   </div> -->
     <div id="notification">
       <p>Es gab einen Fehler bei der Standortbestimmung.</p>
       <p>Möchten Sie es erneut versuchen? <span id="retryButton">Erneut versuchen</span></p>
     </div>
-
+    
     <div id="searchBox">
       <input type="text" id="addressInput" placeholder="Adresse eingeben"/>
       <button onclick="searchAddress()">Suchen</button>

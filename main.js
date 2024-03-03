@@ -67,7 +67,12 @@ function removeTempMarker() {
 const attribution = new ol.control.Attribution({
   collapsible: true
 });
-
+const gehoelz_vecStyle = new ol.style.Style({
+  stroke: new ol.style.Stroke({
+    color: 'rgba(173, 114, 3, 1)',
+    width: 3
+  }),
+});
 
 const gew_infoStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
@@ -261,6 +266,15 @@ const map = new ol.Map({
   controls: ol.control.defaults().extend([attribution])
 });
 
+// exp_gew_info
+const gehoelzvecLayer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+  format: new ol.format.GeoJSON(),
+  url: function (extent) {return './myLayers/gehoelz_vec.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
+  title: 'gehoelz_vec', // Titel für den Layer-Switcher
+  style: gehoelz_vecStyle,
+  visible: false
+});
 
 
 const exp_allgm_fsk_layer = new ol.layer.Vector({
@@ -483,14 +497,14 @@ element.appendChild(button);
 document.body.appendChild(element);
 
 // Neues div-Element mit Namen: "elementM"
-var elementM = document.createElement('div');
+/* var elementM = document.createElement('div');
 elementM.className = 'getMeasure';
 elementM.id = "ButtonM";
 const buttonM = document.createElement('button');
 buttonM.innerHTML = 'M'; // Hier den Text für den ButtonM festlegen
 buttonM.className = 'getMeasure'; // Klasse zuweisen
 elementM.appendChild(buttonM);
-document.body.appendChild(elementM);
+document.body.appendChild(elementM); */
 
 
 
@@ -524,13 +538,10 @@ var handleGetPosition = function(e) {
 
 button.addEventListener('click', handleGetPosition, false);
 button.addEventListener('touchstart', handleGetPosition, false);
-buttonM.addEventListener('click', function() {
-  console.log("buttonM geklickt");
-});
-buttonM.addEventListener('touchstart', function() {
-  console.log("buttonM berührt");
-});
 
+/* buttonM.addEventListener('click', function() {});
+buttonM.addEventListener('touchstart', function() {});
+ */
 // Vector-Layer und Features erstellen
 var accuracyFeature = new ol.Feature();
 var positionFeature = new ol.Feature();
@@ -591,7 +602,7 @@ button.addEventListener('click', function() {
 });
 
 
-var buttonState = false;
+/* var buttonState = false;
 document.getElementById("toggleButton").addEventListener("click", toggleButton);
 
 function toggleButton() {
@@ -611,7 +622,7 @@ function toggleButton() {
         button.classList.remove("on");
         button.classList.add("off");
     }
-};
+}; */
 
 
 // Starte die Positionsupdates, wenn die Seite geladen wird
@@ -902,7 +913,7 @@ const BwGroup = new ol.layer.Group({
   title: "Bauw.",
   fold: true,
   fold: 'close',  
-  layers: [exp_gew_info_layer, exp_bw_son_lin_layer, exp_bw_son_pun_layer, exp_bw_ein_layer, exp_bw_bru_andere_layer, exp_bw_bru_nlwkn_layer, exp_bw_que_layer, exp_bw_due_layer, exp_bw_weh_layer, exp_bw_sle_layer]
+  layers: [gehoelzvecLayer, exp_gew_info_layer, exp_bw_son_lin_layer, exp_bw_son_pun_layer, exp_bw_ein_layer, exp_bw_bru_andere_layer, exp_bw_bru_nlwkn_layer, exp_bw_que_layer, exp_bw_due_layer, exp_bw_weh_layer, exp_bw_sle_layer]
 });
 
 const kmGroup = new ol.layer.Group({
@@ -1050,6 +1061,17 @@ map.on('click', function (evt) {
       '<a href="' + feature.get('foto4') + '" onclick="window.open(\'' + feature.get('foto4') + '\', \'_blank\'); return false;">Foto 4</a></p>' +
       '<br>' + "Beschreib kurz = " + feature.get('Beschreib') + '</p>' +
       beschreibLangHtml +
+      '</div>';
+    }
+
+    // Führen Sie Aktionen für den Layernamen 'gehoelz_vecLayer' durch
+    if (layname === 'gehoelz_vec') {
+      coordinates = evt.coordinate; 
+      popup.setPosition(coordinates);
+      content.innerHTML =
+      '<div style="max-height: 300px; overflow-y: auto;">' +
+      '<p>Gehölzentwicklung' + '<br>' +
+      '<br>' + "Bemerk: " + feature.get('UMn_Bemerk') + '</p>' +
       '</div>';
     }
 

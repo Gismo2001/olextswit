@@ -1,27 +1,28 @@
-#buttonContainer {
-  position: absolute;
-  bottom: 80px; /* Abstand von unten */
-  left: 10px; /* Zentrierung horizontal */
-  z-index: 1100; /* Höhere Z-Index als die Karte */
-}
+/* #buttonContainer {
+  /*position: absolute;
+  /*bottom: 80px; /* Abstand von unten */
+  /*left: 10px; /* Zentrierung horizontal */
+  /*z-index: 1100; /* Höhere Z-Index als die Karte */
+/*}
 
-#toggleButton {
-  width: 25px;
-  height: 25px;
-  padding: 5px;
-  font-size: 12px;
-  cursor: pointer;
-}
 
-#toggleButton.on {
-  background-color: green;
-  color: white;
-}
+/*#toggleButton {
+/*  width: 25px;
+/*  height: 25px;
+/*  padding: 5px;
+/*  font-size: 12px;
+/*  cursor: pointer;
+/*}
 
-#toggleButton.off {
-  background-color: red;
-  color: white;
-}
+/*#toggleButton.on {
+/*  background-color: green;
+/*  color: white;
+/*}
+
+/*#toggleButton.off {
+/*  background-color: red;
+/*  color: white;
+/*}
 
 *{
   box-sizing: border-box;
