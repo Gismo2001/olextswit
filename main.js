@@ -1,3 +1,4 @@
+//Style für sle
 const sleStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
     fill: new ol.style.Fill({color: 'red'}),
@@ -11,8 +12,9 @@ const sleStyle = new ol.style.Style({
   })
 });
 
+
 const attribution = new ol.control.Attribution({
-  collapsible: false
+  collapsible: true
 });
 
 const mapView = new ol.View({
@@ -26,36 +28,47 @@ const map = new ol.Map({
   controls: ol.control.defaults().extend([attribution])
   
 });
+
 const layerSwitcher = new ol.control.LayerSwitcher({ });
 map.addControl(layerSwitcher);
 
+//neues div-Element mit Namen: "element" und den Klassen get-position ol-unselectabler und ol-control
 var element = document.createElement('div');
 element.className = 'get-position ol-unselectable ol-control';
 element.id = "Button";
-
-var button = document.createElement('button');  // Button-Element erstellen
+//Button erstellen, und mit dem Text "p" beschriften
+const button = document.createElement('button');
 button.innerHTML = 'P';
-
+//Button hinzufügen
 element.appendChild(button);  // Hinzufügen des Buttons zum 'element'
 document.body.appendChild(element);  // Füge das 'element' dem DOM hinzu
 
+
+
+//neues Objekt der Klasse ol.Geolocation
 var geolocation = new ol.Geolocation({
-  projection: map.getView().getProjection(),
-  tracking: false,
-  trackingOptions: {
-    enableHighAccuracy: true,
-    maximumAge: 5000  
-  }
+  projection: map.getView().getProjection(), // Projektion der Karte
+  tracking: false, // VerFolgung deaktiviert
+  trackingOptions: {enableHighAccuracy: true, maximumAge: 5000}
 });
 
+// Funktion zum Abrufen der Position
+function getPosition() {
+  // Hier kannst du den Code für die Positionierung einfügen
+ // console.log('Position wird abgerufen...');
+}
+
 var handleGetPosition = function(e) {
-  var trackingwasalreadyon = geolocation.getTracking(); 
-  //console.log(trackingwasalreadyon);
-  if(trackingwasalreadyon){ 
+  console.log('Button wurde geklickt!');
+  
+  var trackingWasAlreadyOn = geolocation.getTracking(); 
+  if (trackingWasAlreadyOn) { 
     geolocation.setTracking(false);
-      //** CODE HERE TO REMOVE THE  **
-    } else { 
+    console.log('Tracking wurde gestoppt.');
+    //** CODE HERE TO REMOVE THE LAYER **
+  } else { 
     geolocation.setTracking(true); 
+    console.log('Tracking wurde gestartet.');
     getPosition(); 
   } 
 };
@@ -217,6 +230,7 @@ fold: true,
 fold: 'close',
 layers: [wmsHydErstOrdLayer]
 });
+
 wmsLayerGroup.setVisible(false);
 
 const BaseGroup = new ol.layer.Group({
