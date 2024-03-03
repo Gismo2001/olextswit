@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run copy-mylayers",
+    "copy-mylayers": "xcopy /E /I myLayers dist\\myLayers",
     "serve": "vite preview"
   },
   "devDependencies": {
@@ -18,3 +19,4 @@
     "package": "^1.0.1"
   }
 }
+
