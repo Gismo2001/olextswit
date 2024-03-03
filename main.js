@@ -597,23 +597,6 @@ const wmsHydErstOrdLayer = new ol.layer.Tile({
   visible: true
 });
 
-
-const wmsHydDrittOrdLayer = new ol.layer.Tile({
-  source: new ol.source.TileWMS({
-    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
-    params: {
-      'LAYERS': 'Gewässernetz_3.Ordnung9928',
-      'TILED': true,
-    },
-    serverType: 'arcgis',
-    crossOrigin: 'anonymous',
-  }),
-  title: '3. Ordn.',
-  visible: false,
-  minResolution: 0,
-  maxResolution: 6
-});
-
 const wmsHydZweitOrdLayer = new ol.layer.Tile({
   source: new ol.source.TileWMS({
     url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
@@ -631,7 +614,37 @@ const wmsHydZweitOrdLayer = new ol.layer.Tile({
 });
 
 
+const wmsHydDrittOrdLayer = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Gewässernetz_3.Ordnung9928',
+      'TILED': true,
+    },
+    serverType: 'arcgis',
+    crossOrigin: 'anonymous',
+  }),
+  title: '3. Ordn.',
+  visible: false,
+  minResolution: 0,
+  maxResolution: 6
+});
 
+const wmsUesgLayer = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/HWSchutz_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Überschwemmungsgebiete_Verordnungsfläechen_Niedersachsen11182',
+      'TILED': true,
+    },
+    serverType: 'arcgis',
+    crossOrigin: 'anonymous',
+  }),
+  title: 'Uesg',
+  visible: false,
+  minResolution: 0,
+  maxResolution: 10
+});
 
 const gnAtlas2023 = new ol.layer.Tile({
   source: new ol.source.TileWMS(({
@@ -817,7 +830,7 @@ const wmsLayerGroup = new ol.layer.Group({
 title: "WMS-Lay",
 fold: true,
 fold: 'close',
-layers: [wmsHydDrittOrdLayer, wmsHydZweitOrdLayer, wmsHydErstOrdLayer]
+layers: [wmsHydDrittOrdLayer, wmsHydZweitOrdLayer, wmsHydErstOrdLayer, wmsUesgLayer]
 });
 
 wmsLayerGroup.setVisible(false);
