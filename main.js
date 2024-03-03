@@ -597,21 +597,6 @@ const wmsHydErstOrdLayer = new ol.layer.Tile({
   visible: true
 });
 
-const wmsHydZweitOrdLayer = new ol.layer.Tile({
-  source: new ol.source.TileWMS({
-    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
-    params: {
-      'LAYERS': 'Gewässernetz_2._Ordnung8177',
-      'TILED': true,
-    },
-    serverType: 'arcgis',
-    crossOrigin: 'anonymous',
-  }),
-  title: '2. Ordn.',
-  visible: false,
-  minResolution: 0,
-  maxResolution: 75
-});
 
 const wmsHydDrittOrdLayer = new ol.layer.Tile({
   source: new ol.source.TileWMS({
@@ -628,6 +613,25 @@ const wmsHydDrittOrdLayer = new ol.layer.Tile({
   minResolution: 0,
   maxResolution: 6
 });
+
+const wmsHydZweitOrdLayer = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Gewässernetz_2._Ordnung8177',
+      'TILED': true,
+    },
+    serverType: 'arcgis',
+    crossOrigin: 'anonymous',
+  }),
+  title: '2. Ordn.',
+  visible: false,
+  minResolution: 0,
+  maxResolution: 75
+});
+
+
+
 
 const gnAtlas2023 = new ol.layer.Tile({
   source: new ol.source.TileWMS(({
@@ -750,8 +754,20 @@ const gnAtlas1937 = new ol.layer.Tile({
   visible: false,
 });
 
-
-
+const wmsBaseMapDEGrau = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+    url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+    params: {
+      'LAYERS': 'WMS DE BASEMAP.DE WEB RASTER',
+      'TILED': true,
+    },
+    crossOrigin: 'anonymous',
+  }),
+  title: 'base grau',
+  visible: false,
+  minResolution: 0,
+  maxResolution: 75
+});
 
 var dop20ni_layer = new ol.layer.Tile({
   title: "DOP20 NI",
@@ -797,9 +813,6 @@ const osmTile = new ol.layer.Tile({
   }),
 });
 
-
-
-
 const wmsLayerGroup = new ol.layer.Group({
 title: "WMS-Lay",
 fold: true,
@@ -836,7 +849,7 @@ const BaseGroup = new ol.layer.Group({
   title: "Base",
   fold: true,
   fold: 'close',
-  layers: [ESRIWorldImagery, googleLayer, dop20ni_layer, osmTile]
+  layers: [wmsBaseMapDEGrau, ESRIWorldImagery, googleLayer, dop20ni_layer, osmTile]
 });
 
 map.addLayer(BaseGroup);
@@ -846,3 +859,151 @@ map.addLayer(gew_layer_layer);
 map.addLayer(wmsLayerGroup);
 map.addLayer(kmGroup);
 map.addLayer(BwGroup);
+
+
+
+var container = document.getElementById('popup');
+var content = document.getElementById('popup-content');
+var closer = document.getElementById('popup-closer');
+
+var popup = new ol.Overlay({
+  element: container,//document.getElementById('popup'),
+  autoPan: true,
+  autoPanAnimation: {
+    duration: 250
+  }
+});
+
+map.addOverlay(popup);
+
+closer.onclick = function()
+{
+  popup.setPosition(undefined);
+  closer.blur();
+  return false;
+};
+
+// 
+map.on('click', function (evt) {
+  var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+    var layname = layer.get('title');
+    console.log(layname);
+    var coordinates = evt.coordinates;
+    var beschreibLangValue = feature.get('beschreib_lang');
+    var beschreibLangHtml = '';
+
+    if (beschreibLangValue && beschreibLangValue.trim() !== '') {
+      beschreibLangHtml = '<br>' + '<u>' + "Beschreib (lang): " + '</u>' + beschreibLangValue + '</p>';
+    };
+
+    // Popup soll nur für bestimmte Layernamen angezeigt werden
+    if (layname !== 'gew' && layname !== 'km10scal' && layname !== 'km100scal' && layname !== 'km500scal' && layname !== 'fsk' && layname !== 'son_lin') {
+      console.log('Clicked on layer:', layname);
+      if (feature) {
+        coordinates = feature.getGeometry().getCoordinates();
+        popup.setPosition(coordinates);
+       
+        // HTML-Tag Foto1
+        var foto1Value = feature.get('foto1');
+        var foto1Html = '';
+        
+        var foto2Value = feature.get('foto2');
+        var foto2Html = '';
+        
+        var foto3Value = feature.get('foto3');
+        var foto3Html = '';
+        
+        var foto4Value = feature.get('foto4');
+        var foto4Html = '';
+        
+        if (foto1Value && foto1Value.trim() !== '') {
+          foto1Html = '<a href="' + foto1Value + '" onclick="window.open(\'' + foto1Value + '\', \'_blank\'); return false;">Foto 1</a>';
+        } else {
+          foto1Html =   " Foto 1 ";
+        }
+      
+        if (foto2Value && foto2Value.trim() !== '') {
+          foto2Html = '<a href="' + foto2Value + '" onclick="window.open(\'' + foto2Value + '\', \'_blank\'); return false;">Foto 2</a>';
+        } else {
+          foto2Html = " Foto 2 ";
+        }
+      
+        if (foto3Value && foto3Value.trim() !== '') {
+          foto3Html = '<a href="' + foto3Value + '" onclick="window.open(\'' + foto3Value + '\', \'_blank\'); return false;">Foto 3</a>';
+        } else {
+          foto3Html = " Foto 3 ";
+        }
+      
+        if (foto4Value && foto4Value.trim() !== '') {
+          foto4Html = '<a href="' + foto4Value + '" onclick="window.open(\'' + foto4Value + '\', \'_blank\'); return false;">Foto 4</a>';
+        } else {
+          foto4Html = " Foto 4 ";
+        }
+      
+      content.innerHTML =
+          '<div style="max-height: 200px; overflow-y: auto;">' +
+          '<p style="font-weight: bold; text-decoration: underline;">' + feature.get('Name') + '</p>' +
+          '<p>' + "Id = " + feature.get('bw_id') + '</p>' +
+          '<p>' + foto1Html + " " + foto2Html + " " + foto3Html + " " + foto4Html + 
+           '<br>' + '<u>' + "Beschreibung (kurz): " + '</u>' + feature.get('Beschreib') + '</p>' +
+           '<p>' + beschreibLangHtml + '</p>' +
+          '</div>';
+      
+        
+      } else {
+        popup.setPosition(undefined);
+      }
+    }
+    // Führen Sie Aktionen für den Layernamen 'gew_info' durch
+    if (layname === 'gew_info') {
+      coordinates = evt.coordinate; 
+      popup.setPosition(coordinates);
+      content.innerHTML =
+      '<div style="max-height: 300px; overflow-y: auto;">' +
+      '<p>Name: ' + feature.get('IDUabschn') + '<br>' +
+      '<p><a href="' + feature.get('link1') + '" onclick="window.open(\'' + feature.get('link1') + '\', \'_blank\'); return false;">Link 1</a> ' +
+      '<a href="' + feature.get('link2') + '" onclick="window.open(\'' + feature.get('link2') + '\', \'_blank\'); return false;">Link 2</a> ' +
+      '<a href="' + feature.get('foto1') + '" onclick="window.open(\'' + feature.get('foto1') + '\', \'_blank\'); return false;">Foto 1</a> ' +
+      '<a href="' + feature.get('foto2') + '" onclick="window.open(\'' + feature.get('foto2') + '\', \'_blank\'); return false;">Foto 2</a></p>' +
+      'Kat ' + feature.get('Kat') + '</a>' +
+      '<br>' + "von = " + feature.get('Bez_Anfang') + " bis " + feature.get('Bez_Ende')  + '</p>' +
+      '</div>';
+    }
+
+    // Führen Sie Aktionen für den Layernamen 'son_lin' durch
+    if (layname === 'son_lin') {
+      coordinates = evt.coordinate; 
+      popup.setPosition(coordinates);
+      content.innerHTML =
+      '<div style="max-height: 300px; overflow-y: auto;">' +
+      '<p>Name: ' + feature.get('Name') + '<br>' +
+      '<p><a href="' + feature.get('foto1') + '" onclick="window.open(\'' + feature.get('foto1') + '\', \'_blank\'); return false;">Foto 1</a> ' +
+      '<a href="' + feature.get('foto2') + '" onclick="window.open(\'' + feature.get('foto2') + '\', \'_blank\'); return false;">Foto 2</a> ' +
+      '<a href="' + feature.get('foto3') + '" onclick="window.open(\'' + feature.get('foto3') + '\', \'_blank\'); return false;">Foto 3</a> ' +
+      '<a href="' + feature.get('foto4') + '" onclick="window.open(\'' + feature.get('foto4') + '\', \'_blank\'); return false;">Foto 4</a></p>' +
+      '<br>' + "Beschreib kurz = " + feature.get('Beschreib') + '</p>' +
+      beschreibLangHtml +
+      '</div>';
+    }
+
+    // Führen Sie Aktionen für den Layernamen 'fsk' durch
+    if (layname === 'fsk') {
+      coordinates = evt.coordinate; // Define coordinates for 'fsk'
+      popup.setPosition(coordinates);
+      content.innerHTML =
+      content.innerHTML =
+     '<div style="max-height: 300px; overflow-y: auto;">' +
+      '<p><strong>gemark Flur Flurstück:</strong><br>' + feature.get('Suche') + '</p>' +
+      'FSK: ' + feature.get('fsk') + '</p>' +  
+      '<p>' + 'Art (p=privat): ' + feature.get('Art') + '</p>' +
+      '</div>';
+     }
+  });
+});
+
+document.getElementById('popup-closer').onclick = function () {
+  popup.setPosition(undefined);
+  return false;
+};
+
+
