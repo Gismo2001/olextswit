@@ -7,6 +7,3 @@ npm-debug.log
 
 # Netlify
 .netlify/
-
-# myLayers folder
-myLayers/
