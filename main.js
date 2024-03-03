@@ -1,7 +1,7 @@
 /// Funktion zur Adresssuche mit OpenCage Geocoding API
 window.searchAddress = function searchAddress() {
   var address = document.getElementById('addressInput').value;
-  var apiKey = 'c592a3d99b8d43878cf7d727d44187ce'; // Ersetze dies durch deinen OpenCage API-Schlüssel
+  var apiKey = process.env.API_KEY || 'c592a3d99b8d43878cf7d727d44187ce';
 
   var apiUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`;
 
