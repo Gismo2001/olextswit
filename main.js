@@ -72,12 +72,68 @@ const gehoelz_vecStyle = new ol.style.Style({
   }),
 });
 
-const gew_infoStyle = new ol.style.Style({
+const arrowStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
-    color: 'rgba(209, 100, 253, 1)',
-    width: 3
+    color: 'black', // Schwarze Farbe für die Linie
+    width: 4,        // Breite der Linie (dicker)
+  }),
+  geometry: function (feature) {
+    const coordinates = feature.getGeometry().getCoordinates();
+
+    const arrowLine = new ol.geom.LineString(coordinates);
+    const lastCoordinate = coordinates[coordinates.length - 1];
+    const secondLastCoordinate = coordinates[coordinates.length - 2];
+
+    const dx = lastCoordinate[0] - secondLastCoordinate[0];
+    const dy = lastCoordinate[1] - secondLastCoordinate[1];
+    const rotation = Math.atan2(dy, dx);
+
+    // Länge der Pfeillinien
+    const arrowLength = 15;
+
+    // Koordinaten für die Pfeillinien
+    const arrow1 = [
+      lastCoordinate[0] - arrowLength * Math.cos(rotation - Math.PI / 8),
+      lastCoordinate[1] - arrowLength * Math.sin(rotation - Math.PI / 8),
+    ];
+
+    const arrow2 = [
+      lastCoordinate[0] - arrowLength * Math.cos(rotation + Math.PI / 8),
+      lastCoordinate[1] - arrowLength * Math.sin(rotation + Math.PI / 8),
+    ];
+
+    arrowLine.setCoordinates([...coordinates, arrow1, lastCoordinate, arrow2]);
+
+    return arrowLine;
+  },
+});
+
+// Stil für den Endpunkt
+const endpointStyle = new ol.style.Style({
+  geometry: function (feature) {
+    const coordinates = feature.getGeometry().getCoordinates();
+    return new ol.geom.Point(coordinates[coordinates.length - 1]);
+  },
+  image: new ol.style.Circle({
+    radius: 6,          // Radius des Kreises (Endpunkt)
+    fill: new ol.style.Fill({ color: 'red' }), // Füllfarbe des Kreises
+    stroke: new ol.style.Stroke({
+      color: 'black',    // Randfarbe des Kreises
+      width: 2,          // Breite des Randes
+    }),
   }),
 });
+
+// Kombinierter Stil für Linie und Endpunkt
+const combinedStyle = [arrowStyle, endpointStyle];
+
+
+//const gew_infoStyle = new ol.style.Style({
+//  stroke: new ol.style.Stroke({
+//    color: 'rgba(209, 100, 253, 1)',
+//    width: 3
+//  }),
+//});
 
 const son_linStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
@@ -278,7 +334,8 @@ const gehoelzvecLayer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
   url: function (extent) {return './myLayers/gehoelz_vec.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'gehoelz_vec', // Titel für den Layer-Switcher
+  title: 'Gehölz(Plan)', // Titel für den Layer-Switcher
+  name: 'gehoelz_vec',
   style: gehoelz_vecStyle,
   visible: false
 });
@@ -286,7 +343,8 @@ const gehoelzvecLayer = new ol.layer.Vector({
 
 const exp_allgm_fsk_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_allgm_fsk.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'fsk', // Titel für den Layer-Switcher
+  title: 'FSK',
+  name: 'FSK', 
   style: getStyleForArtFSK,
   visible: false,
   minResolution: 0,
@@ -298,8 +356,9 @@ const exp_gew_info_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
   url: function (extent) {return './myLayers/exp_gew_info.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'gew_info', // Titel für den Layer-Switcher
-  style: gew_infoStyle,
+  title: 'Gew, Info', 
+  name: 'gew_info',
+  style: combinedStyle,
   visible: false
 });
 
@@ -308,7 +367,8 @@ const exp_bw_son_lin_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
   url: function (extent) {return './myLayers/exp_bw_son_lin.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'son_lin', // Titel für den Layer-Switcher
+  title: 'Sonstige, Linien', // Titel für den Layer-Switcher
+  name: 'son_lin', // Titel für den Layer-Switcher
   style: son_linStyle,
   visible: false
 });
@@ -318,7 +378,8 @@ const exp_bw_son_pun_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
   url: function (extent) {return './myLayers/exp_bw_son_pun.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'son_pun', // Titel für den Layer-Switcher
+  title: 'Sonstige, Punkte', 
+  name: 'son_pun', 
   style: son_punStyle,
   visible: false
 });
@@ -328,7 +389,8 @@ const exp_bw_ein_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
   url: function (extent) {return './myLayers/exp_bw_ein.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'ein', // Titel für den Layer-Switcher
+  title: 'Einläufe', 
+  name: 'ein', 
   style: getStyleForArtEin,
   visible: false
 });
@@ -342,7 +404,8 @@ const exp_bw_que_layer = new ol.layer.Vector({
     },
     strategy: ol.loadingstrategy.bbox
   }),
-  title: 'que', // Titel für den Layer-Switcher
+  title: 'Querung', 
+  name: 'que', // Titel für den Layer-Switcher
   style: queStyle,
   visible: false
 });
@@ -356,7 +419,8 @@ const exp_bw_due_layer = new ol.layer.Vector({
     },
     strategy: ol.loadingstrategy.bbox
   }),
-  title: 'due', // Titel für den Layer-Switcher
+  title: 'Düker', // Titel für den Layer-Switcher
+  name: 'due', // Titel für den Layer-Switcher
   style: dueStyle,
   visible: false
 });
@@ -370,7 +434,8 @@ const exp_bw_weh_layer = new ol.layer.Vector({
     },
     strategy: ol.loadingstrategy.bbox
   }),
-  title: 'weh', // Titel für den Layer-Switcher
+  title: 'Wehr', // Titel für den Layer-Switcher
+  name: 'weh', // Titel für den Layer-Switcher
   style: wehStyle,
   visible: false
 });
@@ -378,7 +443,8 @@ const exp_bw_weh_layer = new ol.layer.Vector({
 //bru nlwkn
 const exp_bw_bru_nlwkn_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_bw_bru_nlwkn.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'bru_nlwkn', // Titel für den Layer-Switcher
+  title: 'Brücke (NLWKN)', // Titel für den Layer-Switcher
+  name: 'bru_nlwkn', // Titel für den Layer-Switcher
   style: bru_nlwknStyle,
   visible: false
 });
@@ -386,7 +452,8 @@ const exp_bw_bru_nlwkn_layer = new ol.layer.Vector({
 //bru andere
 const exp_bw_bru_andere_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_bw_bru_andere.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'bru_andere', // Titel für den Layer-Switcher
+  title: 'Brücke (andere)', 
+  name: 'bru_andere', 
   style: bru_andereStyle,
   visible: false
 });
@@ -400,7 +467,8 @@ const exp_bw_sle_layer = new ol.layer.Vector({
     },
     strategy: ol.loadingstrategy.bbox
   }),
-  title: 'sle', // Titel für den Layer-Switcher
+  title: 'Schleuse', // Titel für den Layer-Switcher
+  name: 'sle', // Titel für den Layer-Switcher
   style: sleStyle,
   visible: true
 });
@@ -630,10 +698,6 @@ function toggleButton() {
         button.classList.add("off");
     }
 }; */
-
-
-// Starte die Positionsupdates, wenn die Seite geladen wird
-//startTracking();
 
 const wmsHydErstOrdLayer = new ol.layer.Tile({
   source: new ol.source.TileWMS({
@@ -904,9 +968,6 @@ fold: 'close',
 layers: [wmsHydDrittOrdLayer, wmsHydZweitOrdLayer, wmsHydErstOrdLayer, wmsNsgLayer, wmsUesgLayer]
 });
 
-wmsLayerGroup.setVisible(true);
-
-
 const GNAtlasGroup = new ol.layer.Group({
   title: "GN-DOP's",
   fold: true,
@@ -914,7 +975,6 @@ const GNAtlasGroup = new ol.layer.Group({
   layers: [ gnAtlas2023, gnAtlas2020, gnAtlas2017, gnAtlas2014, gnAtlas2012, gnAtlas2010, gnAtlas2009, gnAtlas2002, gnAtlas1970, gnAtlas1957, gnAtlas1937]
   });
   
-wmsLayerGroup.setVisible(false);
 
 const BwGroup = new ol.layer.Group({
   title: "Bauw.",
@@ -971,7 +1031,7 @@ closer.onclick = function()
 // 
 map.on('click', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-    var layname = layer.get('title');
+    var layname = layer.get('name');
     console.log(layname);
     var coordinates = evt.coordinates;
     var beschreibLangValue = feature.get('beschreib_lang');
@@ -1027,10 +1087,10 @@ map.on('click', function (evt) {
       
       content.innerHTML =
           '<div style="max-height: 200px; overflow-y: auto;">' +
-          '<p style="font-weight: bold; text-decoration: underline;">' + feature.get('Name') + '</p>' +
+          '<p style="font-weight: bold; text-decoration: underline;">' + feature.get('name') + '</p>' +
           '<p>' + "Id = " + feature.get('bw_id') + '</p>' +
           '<p>' + foto1Html + " " + foto2Html + " " + foto3Html + " " + foto4Html + 
-           '<br>' + '<u>' + "Beschreibung (kurz): " + '</u>' + feature.get('Beschreib') + '</p>' +
+           '<br>' + '<u>' + "Beschreibung (kurz): " + '</u>' + feature.get('beschreib') + '</p>' +
            '<p>' + beschreibLangHtml + '</p>' +
           '</div>';
       
@@ -1051,7 +1111,7 @@ map.on('click', function (evt) {
       '<a href="' + feature.get('foto1') + '" onclick="window.open(\'' + feature.get('foto1') + '\', \'_blank\'); return false;">Foto 1</a> ' +
       '<a href="' + feature.get('foto2') + '" onclick="window.open(\'' + feature.get('foto2') + '\', \'_blank\'); return false;">Foto 2</a></p>' +
       'Kat ' + feature.get('Kat') + '</a>' +
-      '<br>' + "von = " + feature.get('Bez_Anfang') + " bis " + feature.get('Bez_Ende')  + '</p>' +
+      '<br>' + "von " + feature.get('Bez_Anfang') + " bis " + feature.get('Bez_Ende')  + '</p>' +
       '</div>';
     }
 
@@ -1061,12 +1121,12 @@ map.on('click', function (evt) {
       popup.setPosition(coordinates);
       content.innerHTML =
       '<div style="max-height: 300px; overflow-y: auto;">' +
-      '<p>Name: ' + feature.get('Name') + '<br>' +
+      '<p>Name: ' + feature.get('name') + '<br>' +
       '<p><a href="' + feature.get('foto1') + '" onclick="window.open(\'' + feature.get('foto1') + '\', \'_blank\'); return false;">Foto 1</a> ' +
       '<a href="' + feature.get('foto2') + '" onclick="window.open(\'' + feature.get('foto2') + '\', \'_blank\'); return false;">Foto 2</a> ' +
       '<a href="' + feature.get('foto3') + '" onclick="window.open(\'' + feature.get('foto3') + '\', \'_blank\'); return false;">Foto 3</a> ' +
       '<a href="' + feature.get('foto4') + '" onclick="window.open(\'' + feature.get('foto4') + '\', \'_blank\'); return false;">Foto 4</a></p>' +
-      '<br>' + "Beschreib kurz = " + feature.get('Beschreib') + '</p>' +
+      '<br>' + "Beschreib kurz = " + feature.get('beschreib') + '</p>' +
       beschreibLangHtml +
       '</div>';
     }
