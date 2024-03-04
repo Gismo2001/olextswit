@@ -1,5 +1,4 @@
 import './style.css';
-
 /// Funktion zur Adresssuche mit OpenCage Geocoding API
 window.searchAddress = function searchAddress() {
   var address = document.getElementById('addressInput').value;
@@ -66,9 +65,6 @@ function removeTempMarker() {
   });
 }
 
-const attribution = new ol.control.Attribution({
-  collapsible: true
-});
 const gehoelz_vecStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
     color: 'rgba(173, 114, 3, 1)',
@@ -89,7 +85,6 @@ const son_linStyle = new ol.style.Style({
     width: 4
   }),
 });
-
 
 const son_punStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
@@ -255,18 +250,28 @@ return new ol.style.Style({
   })
 });
 }
-
-
 const mapView = new ol.View({
   center: ol.proj.fromLonLat([7.35, 52.7]),
   zoom: 9
 });
 
+const attribution = new ol.control.Attribution({
+  collapsible: false,
+});
+
+const additionalControl = new ol.control.ZoomToExtent({
+  extent: [
+    727361,  6839277, 858148,
+    6990951,
+  ],
+});
+
 const map = new ol.Map({
   target: "map",
   view: mapView,
-  controls: ol.control.defaults().extend([attribution])
+  controls: ol.control.defaults().extend([attribution, additionalControl]),
 });
+
 
 // exp_gew_info
 const gehoelzvecLayer = new ol.layer.Vector({
