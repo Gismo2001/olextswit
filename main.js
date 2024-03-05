@@ -26,7 +26,6 @@ window.searchAddress = function searchAddress() {
       console.error('Geokodierung-Fehler:', error);
     });
 }
-
 // Event-Listener für die Enter-Taste hinzufügen
 var inputElement = document.getElementById('addressInput');
 inputElement.addEventListener('keydown', function (event) {
@@ -315,6 +314,7 @@ const attribution = new ol.control.Attribution({
   collapsible: false,
 });
 
+
 const additionalControl = new ol.control.ZoomToExtent({
   extent: [
     727361,  6839277, 858148,
@@ -343,8 +343,8 @@ const gehoelzvecLayer = new ol.layer.Vector({
 
 const exp_allgm_fsk_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_allgm_fsk.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'FSK',
-  name: 'FSK', 
+  title: 'fsk',
+  name: 'fsk', 
   style: getStyleForArtFSK,
   visible: false,
   minResolution: 0,
@@ -483,7 +483,27 @@ const km10scal_layer = new ol.layer.Vector({
   maxResolution: 1 
 });
 
-
+// km 100 Style-Funktion mit Beschriftung
+const km100scalStyle = function(feature, text, resolution) {
+  var minResolution = 0;
+  var maxResolution = 5; 
+  if (resolution > minResolution && resolution < maxResolution) {
+    return new ol.style.Style({
+      text: new ol.style.Text({
+        text: text,
+        font: 'normal 18px "Arial Light", "Helvetica Neue Light", Arial, sans-serif',
+        offsetX: -10,
+        offsetY: 10,        
+      }),
+      stroke: new ol.style.Stroke({
+        color: 'black', // oder eine andere Linienfarbe
+        width: 1 // oder eine andere Linienbreite  
+      })
+    });
+  } else {
+    return null;
+  }
+};
 //kilometrierung 100 m
 const km100scal_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/km_100_scal.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
@@ -496,24 +516,24 @@ const km100scal_layer = new ol.layer.Vector({
   maxResolution: 3 
 });
 
-// km 100 Style-Funktion mit Beschriftung
-const km100scalStyle = function(feature, text, resolution) {
+/// Style-Funktion mit Beschriftung
+const km500scalStyle = function(feature, text, resolution) {
   var minResolution = 0;
-  var maxResolution = 5; 
+  var maxResolution = 10; 
   if (resolution > minResolution && resolution < maxResolution) {
     return new ol.style.Style({
       text: new ol.style.Text({
         text: text,
-        font: 'normal 18px "Arial Light", "Helvetica Neue Light", Arial, sans-serif',
+        font: 'normal 20px "Arial Light", "Helvetica Neue Light", Arial, sans-serif',
         offsetX: -10,
         offsetY: 10,
         fill: new ol.style.Fill({
-          color: 'rgba(128, 128, 128, 1)' // Graue Farbe
+          color: 'rgba(0, 0, 0, 1)'
         }),
-        stroke: new ol.style.Stroke({
-          color: '#000000',
-          width: 0.25
-        })
+      }),
+      stroke: new ol.style.Stroke({
+        color: 'black', // oder eine andere Linienfarbe
+        width: 2 // oder eine andere Linienbreite  
       })
     });
   } else {
@@ -532,21 +552,6 @@ const km500scal_layer = new ol.layer.Vector({
   minResolution: 0,
   maxResolution: 10 
 });
-
-// Style-Funktion mit Beschriftung
-const km500scalStyle = function(feature, text, resolution) {
-  var minResolution = 0;
-  var maxResolution = 10; 
-  if (resolution > minResolution && resolution < maxResolution) {
-    return new ol.style.Style({
-      text: new ol.style.Text({text: text, font: 'normal 20px "Arial Light", "Helvetica Neue Light", Arial, sans-serif', offsetX: -10, offsetY: 10, fill: new ol.style.Fill({color: 'rgba(0, 0, 0, 1)'}),
-      stroke: new ol.style.Stroke({color: '#000000', width: .25 })
-      })
-    });
-  } else {
-    return null;
-  }
-};
 
 //gew Layer
 const gew_layer_layer = new ol.layer.Vector({
