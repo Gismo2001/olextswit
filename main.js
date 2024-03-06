@@ -1,5 +1,6 @@
-import './style.css';
+//import './style.css';
 /// Funktion zur Adresssuche mit OpenCage Geocoding API
+import { gehoelz_vecStyle } from "./extfunc"; 
 window.searchAddress = function searchAddress() {
   var address = document.getElementById('addressInput').value;
   var apiKey = process.env.API_KEY || 'c592a3d99b8d43878cf7d727d44187ce';
@@ -26,6 +27,7 @@ window.searchAddress = function searchAddress() {
       console.error('Geokodierung-Fehler:', error);
     });
 }
+
 // Event-Listener für die Enter-Taste hinzufügen
 var inputElement = document.getElementById('addressInput');
 inputElement.addEventListener('keydown', function (event) {
@@ -63,13 +65,6 @@ function removeTempMarker() {
     }
   });
 }
-
-const gehoelz_vecStyle = new ol.style.Style({
-  stroke: new ol.style.Stroke({
-    color: 'rgba(173, 114, 3, 1)',
-    width: 3
-  }),
-});
 
 const arrowStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
@@ -979,7 +974,6 @@ const GNAtlasGroup = new ol.layer.Group({
   fold: 'close',
   layers: [ gnAtlas2023, gnAtlas2020, gnAtlas2017, gnAtlas2014, gnAtlas2012, gnAtlas2010, gnAtlas2009, gnAtlas2002, gnAtlas1970, gnAtlas1957, gnAtlas1937]
   });
-  
 
 const BwGroup = new ol.layer.Group({
   title: "Bauw.",
@@ -1018,6 +1012,7 @@ var closer = document.getElementById('popup-closer');
 
 var popup = new ol.Overlay({
   element: container,//document.getElementById('popup'),
+  id: '1',
   autoPan: true,
   autoPanAnimation: {
     duration: 250
@@ -1037,14 +1032,45 @@ closer.onclick = function()
 map.on('click', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
     var layname = layer.get('name');
-    console.log(layname);
+
+    /* var newWindowContent;
+    switch (layname) {
+      case 'sle':
+        alert(layname);
+        newWindowContent = '<div style="padding: 20px;">sle wurde geklickt</div>';
+        break;
+      case 'weh':
+        alert(layname);
+        break;
+      case 'bru_nlwkn':
+        alert(layname);
+        break;
+      case 'bru_andere':
+        alert(layname);
+        break;
+      case 'gew_info':
+        // Hier könnten weitere Aktionen für 'gew_info' hinzugefügt werden
+        break;
+      default:
+        alert("sonstige: " + layname);
+    }
+
+    if (newWindowContent) {
+      // Hier wird ein neues Fenster geöffnet
+      var newWindow = window.open('', '_blank');
+      newWindow.document.write(newWindowContent);
+    }
+    */
+  
     var coordinates = evt.coordinates;
     var beschreibLangValue = feature.get('beschreib_lang');
     var beschreibLangHtml = '';
-
     if (beschreibLangValue && beschreibLangValue.trim() !== '') {
       beschreibLangHtml = '<br>' + '<u>' + "Beschreib (lang): " + '</u>' + beschreibLangValue + '</p>';
     };
+
+
+
 
     // Popup soll nur für bestimmte Layernamen angezeigt werden
     if (layname !== 'gew' && layname !== 'km10scal' && layname !== 'km100scal' && layname !== 'km500scal' && layname !== 'fsk' && layname !== 'son_lin') {
@@ -1093,7 +1119,7 @@ map.on('click', function (evt) {
       content.innerHTML =
           '<div style="max-height: 200px; overflow-y: auto;">' +
           '<p style="font-weight: bold; text-decoration: underline;">' + feature.get('name') + '</p>' +
-          '<p>' + "Id = " + feature.get('bw_id') + '</p>' +
+          '<p>' + "Id = " + feature.get('bw_id') +  ' (' + feature.get('KTR') +')' +  '</p>' +
           '<p>' + foto1Html + " " + foto2Html + " " + foto3Html + " " + foto4Html + 
            '<br>' + '<u>' + "Beschreibung (kurz): " + '</u>' + feature.get('beschreib') + '</p>' +
            '<p>' + beschreibLangHtml + '</p>' +
@@ -1115,11 +1141,10 @@ map.on('click', function (evt) {
       '<a href="' + feature.get('link2') + '" onclick="window.open(\'' + feature.get('link2') + '\', \'_blank\'); return false;">Link 2</a> ' +
       '<a href="' + feature.get('foto1') + '" onclick="window.open(\'' + feature.get('foto1') + '\', \'_blank\'); return false;">Foto 1</a> ' +
       '<a href="' + feature.get('foto2') + '" onclick="window.open(\'' + feature.get('foto2') + '\', \'_blank\'); return false;">Foto 2</a><br>' +
-
-      
       '<p><a href="' + feature.get('BSB') + '" onclick="window.open(\'' + feature.get('BSB') + '\', \'_blank\'); return false;">BSB  </a>' +
       '<a href="' + feature.get('MNB') + '" onclick="window.open(\'' + feature.get('MNB') + '\', \'_blank\'); return false;">MNB</a><br> ' +
-      'Kat ' + feature.get('Kat') + '</a>' +
+      'Kat: ' + feature.get('Kat') + '</a>' +
+      ', KTR: ' + feature.get('REFID_KTR') + '</a>' +
       '<br>' + "von " + feature.get('Bez_Anfang') + " bis " + feature.get('Bez_Ende')  + '</p>' +
       '</div>';
     }
@@ -1130,7 +1155,7 @@ map.on('click', function (evt) {
       popup.setPosition(coordinates);
       content.innerHTML =
       '<div style="max-height: 300px; overflow-y: auto;">' +
-      '<p>Name: ' + feature.get('name') + '<br>' +
+      '<p>Name: ' + feature.get('name') +  ' (' + feature.get('KTR') +')' + '<br>' +
       '<p><a href="' + feature.get('foto1') + '" onclick="window.open(\'' + feature.get('foto1') + '\', \'_blank\'); return false;">Foto 1</a> ' +
       '<a href="' + feature.get('foto2') + '" onclick="window.open(\'' + feature.get('foto2') + '\', \'_blank\'); return false;">Foto 2</a> ' +
       '<a href="' + feature.get('foto3') + '" onclick="window.open(\'' + feature.get('foto3') + '\', \'_blank\'); return false;">Foto 3</a> ' +
