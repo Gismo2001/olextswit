@@ -1,6 +1,229 @@
 //import './style.css';
 /// Funktion zur Adresssuche mit OpenCage Geocoding API
-import { gehoelz_vecStyle } from "./extfunc"; 
+
+import { bru_nlwknStyle, bru_andereStyle } from './extfunc';
+
+
+//Berechnung Style für FSK
+function getStyleForArtFSK(feature) {
+  const artValue = feature.get('Art');
+  let fillColor, strokeColor;
+
+  switch (artValue) {
+  case 'p':
+      fillColor = 'rgba(200, 200, 200, .6)';
+      strokeColor = 'black';
+      break;
+  case 'o':
+      fillColor = 'rgba(255, 220, 220, .6)';
+      strokeColor = 'black';
+      break;
+  case 'l':
+      fillColor = 'rgba(255, 190, 150, .6)';
+      strokeColor = 'black';
+      break;
+  default:
+      fillColor = 'rgba(255, 255, 255, 1)';
+      strokeColor = 'grey';
+  }
+  return new ol.style.Style({
+      fill: new ol.style.Fill({
+          color: fillColor
+      }),
+      stroke: new ol.style.Stroke({
+          color: strokeColor,
+          width: 0.5
+      })
+  });
+};
+const gehoelz_vecStyle = new ol.style.Style({
+  stroke: new ol.style.Stroke({
+    color: 'rgba(173, 114, 3, 1)',
+    width: 3
+  }),
+});
+
+
+const son_linStyle = new ol.style.Style({
+  stroke: new ol.style.Stroke({
+      color: 'rgba(209, 32, 253, 1)',
+      width: 4
+  }),
+});
+
+const son_punStyle = new ol.style.Style({
+  image: new ol.style.RegularShape({
+      fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1)' }),
+      stroke: new ol.style.Stroke({
+      color: 'black',
+      width: 2
+      }),
+      points: 4,
+      radius: 7,
+      angle: Math.PI / 4
+  })
+});
+
+
+
+const wehStyle = new ol.style.Style({
+  image: new ol.style.RegularShape({
+      fill: new ol.style.Fill({color: 'green'}),
+      stroke: new ol.style.Stroke({
+      color: 'black',
+      width: 2
+      }),
+      points: 3,
+      radius: 7,
+      rotation: 0  // Setzen Sie die Rotation auf 0 für ein Dreieck
+  })
+});
+
+
+
+
+const sleStyle = new ol.style.Style({
+  image: new ol.style.RegularShape({
+      fill: new ol.style.Fill({color: 'red'}),
+      stroke: new ol.style.Stroke({
+      color: 'grey',
+      width: 2
+      }),
+      points: 4,
+      radius: 7,
+      angle: Math.PI / 4
+  })
+});
+
+const queStyle = new ol.style.Style({
+  image: new ol.style.RegularShape({
+      fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
+      stroke: new ol.style.Stroke({
+      color: 'black',
+      width: .5
+      }),
+      points: 4,
+      radius: 7,
+      angle: Math.PI / 2
+  })
+});
+
+
+const km10scalStyle = new ol.style.Style({
+  stroke: new ol.style.Stroke({
+      color: 'grey',
+      width: .5
+  })
+});
+
+function getStyleForArtEin(feature) {   
+  const artValue = feature.get('Ein_ord');
+  let fillColor, strokeColor;
+  switch (artValue) {
+      case '1. Ordnung':
+          fillColor = 'rgba(0, 68, 255, .8)';
+          strokeColor = 'black';
+          break;
+      case '2. Ordnung':
+          fillColor = 'rgba(214, 0, 0, .8)';
+          strokeColor = 'black';
+          break;
+      case '3. Ordnung':
+          fillColor = 'rgba(114, 114, 114, .8)';
+          strokeColor = 'black';
+          break;
+      case 'Sonstige':
+          fillColor = 'rgba(27, 117, 0, .8)';
+          strokeColor = 'black';
+          break;
+      default:
+          fillColor = 'grey';
+          strokeColor = 'grey';
+      }
+      return new ol.style.Style({
+      image: new ol.style.Circle({
+          fill: new ol.style.Fill({
+              color: fillColor
+          }),
+          stroke: new ol.style.Stroke({
+              color: strokeColor,
+              width: 0.5
+          }),
+          radius: 7
+          })
+      
+      })
+};
+  
+const dueStyle = new ol.style.Style({
+  image: new ol.style.RegularShape({
+      fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
+      stroke: new ol.style.Stroke({
+      color: 'black',
+      width: 2
+      }),
+      points: 4,
+      radius: 7,
+      angle: Math.PI / 4
+  })
+});
+
+const arrowStyle = new ol.style.Style({
+  stroke: new ol.style.Stroke({
+      color: 'black', // Schwarze Farbe für die Linie
+      width: 4,        // Breite der Linie (dicker)
+  }),
+  geometry: function (feature) {
+      const coordinates = feature.getGeometry().getCoordinates();
+  
+      const arrowLine = new ol.geom.LineString(coordinates);
+      const lastCoordinate = coordinates[coordinates.length - 1];
+      const secondLastCoordinate = coordinates[coordinates.length - 2];
+  
+      const dx = lastCoordinate[0] - secondLastCoordinate[0];
+      const dy = lastCoordinate[1] - secondLastCoordinate[1];
+      const rotation = Math.atan2(dy, dx);
+  
+      // Länge der Pfeillinien
+      const arrowLength = 15;
+  
+      // Koordinaten für die Pfeillinien
+      const arrow1 = [
+      lastCoordinate[0] - arrowLength * Math.cos(rotation - Math.PI / 8),
+      lastCoordinate[1] - arrowLength * Math.sin(rotation - Math.PI / 8),
+      ];
+  
+      const arrow2 = [
+      lastCoordinate[0] - arrowLength * Math.cos(rotation + Math.PI / 8),
+      lastCoordinate[1] - arrowLength * Math.sin(rotation + Math.PI / 8),
+      ];
+  
+      arrowLine.setCoordinates([...coordinates, arrow1, lastCoordinate, arrow2]);
+  
+      return arrowLine;
+  },
+  });
+  
+  // Stil für den Endpunkt
+  const endpointStyle = new ol.style.Style({
+      geometry: function (feature) {
+          const coordinates = feature.getGeometry().getCoordinates();
+          return new ol.geom.Point(coordinates[coordinates.length - 1]);
+      },
+      image: new ol.style.Circle({
+          radius: 6,          // Radius des Kreises (Endpunkt)
+          fill: new ol.style.Fill({ color: 'red' }), // Füllfarbe des Kreises
+          stroke: new ol.style.Stroke({
+          color: 'black',    // Randfarbe des Kreises
+          width: 2,          // Breite des Randes
+          }),
+      }),
+  });
+  
+  // Kombinierter Stil für Linie und Endpunkt
+  const combinedStyle = [arrowStyle, endpointStyle];
+  
+
 window.searchAddress = function searchAddress() {
   var address = document.getElementById('addressInput').value;
   var apiKey = process.env.API_KEY || 'c592a3d99b8d43878cf7d727d44187ce';
@@ -66,245 +289,6 @@ function removeTempMarker() {
   });
 }
 
-const arrowStyle = new ol.style.Style({
-  stroke: new ol.style.Stroke({
-    color: 'black', // Schwarze Farbe für die Linie
-    width: 4,        // Breite der Linie (dicker)
-  }),
-  geometry: function (feature) {
-    const coordinates = feature.getGeometry().getCoordinates();
-
-    const arrowLine = new ol.geom.LineString(coordinates);
-    const lastCoordinate = coordinates[coordinates.length - 1];
-    const secondLastCoordinate = coordinates[coordinates.length - 2];
-
-    const dx = lastCoordinate[0] - secondLastCoordinate[0];
-    const dy = lastCoordinate[1] - secondLastCoordinate[1];
-    const rotation = Math.atan2(dy, dx);
-
-    // Länge der Pfeillinien
-    const arrowLength = 15;
-
-    // Koordinaten für die Pfeillinien
-    const arrow1 = [
-      lastCoordinate[0] - arrowLength * Math.cos(rotation - Math.PI / 8),
-      lastCoordinate[1] - arrowLength * Math.sin(rotation - Math.PI / 8),
-    ];
-
-    const arrow2 = [
-      lastCoordinate[0] - arrowLength * Math.cos(rotation + Math.PI / 8),
-      lastCoordinate[1] - arrowLength * Math.sin(rotation + Math.PI / 8),
-    ];
-
-    arrowLine.setCoordinates([...coordinates, arrow1, lastCoordinate, arrow2]);
-
-    return arrowLine;
-  },
-});
-
-// Stil für den Endpunkt
-const endpointStyle = new ol.style.Style({
-  geometry: function (feature) {
-    const coordinates = feature.getGeometry().getCoordinates();
-    return new ol.geom.Point(coordinates[coordinates.length - 1]);
-  },
-  image: new ol.style.Circle({
-    radius: 6,          // Radius des Kreises (Endpunkt)
-    fill: new ol.style.Fill({ color: 'red' }), // Füllfarbe des Kreises
-    stroke: new ol.style.Stroke({
-      color: 'black',    // Randfarbe des Kreises
-      width: 2,          // Breite des Randes
-    }),
-  }),
-});
-
-// Kombinierter Stil für Linie und Endpunkt
-const combinedStyle = [arrowStyle, endpointStyle];
-
-
-//const gew_infoStyle = new ol.style.Style({
-//  stroke: new ol.style.Stroke({
-//    color: 'rgba(209, 100, 253, 1)',
-//    width: 3
-//  }),
-//});
-
-const son_linStyle = new ol.style.Style({
-  stroke: new ol.style.Stroke({
-    color: 'rgba(209, 32, 253, 1)',
-    width: 4
-  }),
-});
-
-const son_punStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-    fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1)' }),
-    stroke: new ol.style.Stroke({
-      color: 'black',
-      width: 2
-    }),
-    points: 4,
-    radius: 7,
-    angle: Math.PI / 4
-  })
-});
-  
-const queStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-    fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
-    stroke: new ol.style.Stroke({
-      color: 'black',
-      width: .5
-    }),
-    points: 4,
-    radius: 7,
-    angle: Math.PI / 2
-  })
-});
-  
-const dueStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-    fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
-    stroke: new ol.style.Stroke({
-      color: 'black',
-      width: 2
-    }),
-    points: 4,
-    radius: 7,
-    angle: Math.PI / 4
-  })
-});
-  
-const wehStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: 'green'}),
-    stroke: new ol.style.Stroke({
-      color: 'black',
-      width: 2
-    }),
-    points: 3,
-    radius: 7,
-    rotation: 0  // Setzen Sie die Rotation auf 0 für ein Dreieck
-  })
-});
-  
-const bru_nlwknStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: 'blue'}),
-    stroke: new ol.style.Stroke({color: 'grey', width: 1}),
-    points: 4,
-    radius: 7,
-    angle: Math.PI / 4
-  })
-});
-  
-const bru_andereStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-    fill: new ol.style.Fill({color:'rgba(100, 100, 100, 1)'}),
-    stroke: new ol.style.Stroke({color: 'grey',width: 1}),
-    points: 4,
-    radius: 6,
-    angle: Math.PI / 4
-  })
-});
-  
-const sleStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-    fill: new ol.style.Fill({color: 'red'}),
-    stroke: new ol.style.Stroke({
-      color: 'grey',
-      width: 2
-    }),
-    points: 4,
-    radius: 7,
-    angle: Math.PI / 4
-  })
-});
-  
-const km10scalStyle = new ol.style.Style({
-  stroke: new ol.style.Stroke({
-    color: 'grey',
-    width: .5
-  })
-});
-   
-function getStyleForArtEin(feature) {   
-  const artValue = feature.get('Ein_ord');
-  let fillColor, strokeColor;
-  switch (artValue) {
-      case '1. Ordnung':
-        fillColor = 'rgba(0, 68, 255, .8)';
-        strokeColor = 'black';
-        break;
-      case '2. Ordnung':
-        fillColor = 'rgba(214, 0, 0, .8)';
-        strokeColor = 'black';
-        break;
-      case '3. Ordnung':
-        fillColor = 'rgba(114, 114, 114, .8)';
-        strokeColor = 'black';
-        break;
-      case 'Sonstige':
-        fillColor = 'rgba(27, 117, 0, .8)';
-        strokeColor = 'black';
-        break;
-      default:
-        fillColor = 'grey';
-        strokeColor = 'grey';
-    }
-    return new ol.style.Style({
-      image: new ol.style.Circle({
-          fill: new ol.style.Fill({
-            color: fillColor
-          }),
-          stroke: new ol.style.Stroke({
-            color: strokeColor,
-            width: 0.5
-          }),
-          radius: 7
-        })
-      
-    })
-}
-
-//Berechnung Style für FSK
-function getStyleForArtFSK(feature) {
-const artValue = feature.get('Art');
-let fillColor, strokeColor;
-
-switch (artValue) {
-  case 'p':
-    fillColor = 'rgba(200, 200, 200, .6)';
-    strokeColor = 'black';
-    break;
-  case 'o':
-    fillColor = 'rgba(255, 220, 220, .6)';
-    strokeColor = 'black';
-    break;
-  case 'l':
-    fillColor = 'rgba(255, 190, 150, .6)';
-    strokeColor = 'black';
-    break;
-  default:
-    fillColor = 'rgba(255, 255, 255, 1)';
-    strokeColor = 'grey';
-}
-
-return new ol.style.Style({
-  fill: new ol.style.Fill({
-    color: fillColor
-  }),
-  stroke: new ol.style.Stroke({
-    color: strokeColor,
-    width: 0.5
-  })
-});
-}
-const mapView = new ol.View({
-  center: ol.proj.fromLonLat([7.35, 52.7]),
-  zoom: 9
-});
-
 const attribution = new ol.control.Attribution({
   collapsible: false,
 });
@@ -317,6 +301,11 @@ const additionalControl = new ol.control.ZoomToExtent({
   ],
 });
 
+const mapView = new ol.View({
+  center: ol.proj.fromLonLat([7.35, 52.7]),
+  zoom: 9
+  });
+  
 const map = new ol.Map({
   target: "map",
   view: mapView,
@@ -1031,13 +1020,11 @@ closer.onclick = function()
 // 
 map.on('click', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-    var layname = layer.get('name');
-
-    /* var newWindowContent;
+  /* var layname = layer.get('name');
+  
     switch (layname) {
       case 'sle':
         alert(layname);
-        newWindowContent = '<div style="padding: 20px;">sle wurde geklickt</div>';
         break;
       case 'weh':
         alert(layname);
@@ -1053,14 +1040,9 @@ map.on('click', function (evt) {
         break;
       default:
         alert("sonstige: " + layname);
-    }
+    } */
 
-    if (newWindowContent) {
-      // Hier wird ein neues Fenster geöffnet
-      var newWindow = window.open('', '_blank');
-      newWindow.document.write(newWindowContent);
-    }
-    */
+    
   
     var coordinates = evt.coordinates;
     var beschreibLangValue = feature.get('beschreib_lang');
