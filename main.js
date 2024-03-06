@@ -1020,9 +1020,9 @@ closer.onclick = function()
 // 
 map.on('click', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-  /* var layname = layer.get('name');
+  var layname = layer.get('name');
   
-    switch (layname) {
+  /*   switch (layname) {
       case 'sle':
         alert(layname);
         break;
