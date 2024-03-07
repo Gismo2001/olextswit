@@ -1,25 +1,11 @@
-//import './style.css';
-/// Funktion zur Adresssuche mit OpenCage Geocoding API
-
-import { bru_nlwknStyle, bru_andereStyle, getStyleForArtFSK } from './extfunc';
-
-
-
+import './style.css';
+import { bru_nlwknStyle, bru_andereStyle, getStyleForArtFSK, son_linStyle } from './extfunc';
 const gehoelz_vecStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
     color: 'rgba(173, 114, 3, 1)',
     width: 3
   }),
 });
-
-
-const son_linStyle = new ol.style.Style({
-  stroke: new ol.style.Stroke({
-      color: 'rgba(209, 32, 253, 1)',
-      width: 4
-  }),
-});
-
 const son_punStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
       fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1)' }),
@@ -32,9 +18,6 @@ const son_punStyle = new ol.style.Style({
       angle: Math.PI / 4
   })
 });
-
-
-
 const wehStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
       fill: new ol.style.Fill({color: 'green'}),
@@ -47,10 +30,6 @@ const wehStyle = new ol.style.Style({
       rotation: 0  // Setzen Sie die Rotation auf 0 für ein Dreieck
   })
 });
-
-
-
-
 const sleStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
       fill: new ol.style.Fill({color: 'red'}),
@@ -63,7 +42,6 @@ const sleStyle = new ol.style.Style({
       angle: Math.PI / 4
   })
 });
-
 const queStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
       fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
@@ -76,15 +54,12 @@ const queStyle = new ol.style.Style({
       angle: Math.PI / 2
   })
 });
-
-
 const km10scalStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
       color: 'grey',
       width: .5
   })
 });
-
 function getStyleForArtEin(feature) {   
   const artValue = feature.get('Ein_ord');
   let fillColor, strokeColor;
@@ -123,7 +98,6 @@ function getStyleForArtEin(feature) {
       
       })
 };
-  
 const dueStyle = new ol.style.Style({
   image: new ol.style.RegularShape({
       fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
@@ -136,7 +110,6 @@ const dueStyle = new ol.style.Style({
       angle: Math.PI / 4
   })
 });
-
 const arrowStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
       color: 'black', // Schwarze Farbe für die Linie
@@ -172,8 +145,6 @@ const arrowStyle = new ol.style.Style({
       return arrowLine;
   },
   });
-  
-  // Stil für den Endpunkt
   const endpointStyle = new ol.style.Style({
       geometry: function (feature) {
           const coordinates = feature.getGeometry().getCoordinates();
@@ -188,10 +159,8 @@ const arrowStyle = new ol.style.Style({
           }),
       }),
   });
-  
-  // Kombinierter Stil für Linie und Endpunkt
-  const combinedStyle = [arrowStyle, endpointStyle];
-  
+ // Kombinierter Stil für Linie und Endpunkt
+const combinedStyle = [arrowStyle, endpointStyle];
 
 window.searchAddress = function searchAddress() {
   var address = document.getElementById('addressInput').value;
