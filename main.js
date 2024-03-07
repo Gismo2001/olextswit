@@ -1,41 +1,10 @@
 //import './style.css';
 /// Funktion zur Adresssuche mit OpenCage Geocoding API
 
-import { bru_nlwknStyle, bru_andereStyle } from './extfunc';
+import { bru_nlwknStyle, bru_andereStyle, getStyleForArtFSK } from './extfunc';
 
 
-//Berechnung Style für FSK
-function getStyleForArtFSK(feature) {
-  const artValue = feature.get('Art');
-  let fillColor, strokeColor;
 
-  switch (artValue) {
-  case 'p':
-      fillColor = 'rgba(200, 200, 200, .6)';
-      strokeColor = 'black';
-      break;
-  case 'o':
-      fillColor = 'rgba(255, 220, 220, .6)';
-      strokeColor = 'black';
-      break;
-  case 'l':
-      fillColor = 'rgba(255, 190, 150, .6)';
-      strokeColor = 'black';
-      break;
-  default:
-      fillColor = 'rgba(255, 255, 255, 1)';
-      strokeColor = 'grey';
-  }
-  return new ol.style.Style({
-      fill: new ol.style.Fill({
-          color: fillColor
-      }),
-      stroke: new ol.style.Stroke({
-          color: strokeColor,
-          width: 0.5
-      })
-  });
-};
 const gehoelz_vecStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
     color: 'rgba(173, 114, 3, 1)',
@@ -1160,16 +1129,28 @@ map.on('click', function (evt) {
 
     // Führen Sie Aktionen für den Layernamen 'fsk' durch
     if (layname === 'fsk') {
-      coordinates = evt.coordinate; // Define coordinates for 'fsk'
-      popup.setPosition(coordinates);
-      content.innerHTML =
-      content.innerHTML =
-     '<div style="max-height: 300px; overflow-y: auto;">' +
-      '<p><strong>gemark Flur Flurstück:</strong><br>' + feature.get('Suche') + '</p>' +
-      'FSK: ' + feature.get('fsk') + '</p>' +  
-      '<p>' + 'Art (p=privat): ' + feature.get('Art') + '</p>' +
-      '</div>';
-     }
+      if (feature.get('Art') === 'o' || feature.get('Art') === 'l') {
+        coordinates = evt.coordinate; // Define coordinates for 'fsk'
+        popup.setPosition(coordinates);
+        content.innerHTML =
+          '<div style="max-height: 300px; overflow-y: auto;">' +
+          '<p><strong>gemark Flur Flurstück:</strong><br>' + feature.get('Suche') + '</p>' +
+          'FSK: ' + feature.get('fsk') + '</p>' +
+          'FSK(ASL): ' + feature.get('FSK_ASL') + '</p>' +
+          '<p>' + 'Eig.(öffentl.): ' + feature.get('Eig1') + '</p>' +
+          '</div>';
+      } else {
+        coordinates = evt.coordinate; // Define coordinates for 'fsk'
+        popup.setPosition(coordinates);
+        content.innerHTML =
+          '<div style="max-height: 300px; overflow-y: auto;">' +
+          '<p><strong>gemark Flur Flurstück:</strong><br>' + feature.get('Suche') + '</p>' +
+          'FSK: ' + feature.get('fsk') + '</p>' +
+          '<p>' + 'Art (p=privat): ' + feature.get('Art') + '</p>' +
+          '</div>';
+      }
+    }
+    
   });
 });
 

@@ -20,5 +20,38 @@ const bru_andereStyle = new ol.style.Style({
     })
   });
 
-export { bru_nlwknStyle, bru_andereStyle };
+  //Berechnung Style für FSK
+function getStyleForArtFSK(feature) {
+    const artValue = feature.get('Art');
+    let fillColor, strokeColor;
+  
+    switch (artValue) {
+    case 'p':
+        fillColor = 'rgba(200, 200, 200, .6)';
+        strokeColor = 'black';
+        break;
+    case 'o':
+        fillColor = 'rgba(255, 220, 220, .6)';
+        strokeColor = 'black';
+        break;
+    case 'l':
+        fillColor = 'rgba(255, 190, 150, .6)';
+        strokeColor = 'black';
+        break;
+    default:
+        fillColor = 'rgba(255, 255, 255, 1)';
+        strokeColor = 'grey';
+    }
+    return new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: fillColor
+        }),
+        stroke: new ol.style.Stroke({
+            color: strokeColor,
+            width: 0.5
+        })
+    });
+  };
+
+export { bru_nlwknStyle, bru_andereStyle, getStyleForArtFSK  };
   
