@@ -1,115 +1,23 @@
-import './style.css';
-import { bru_nlwknStyle, bru_andereStyle, getStyleForArtFSK, son_linStyle } from './extfunc';
-const gehoelz_vecStyle = new ol.style.Style({
-  stroke: new ol.style.Stroke({
-    color: 'rgba(173, 114, 3, 1)',
-    width: 3
-  }),
-});
-const son_punStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-      fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1)' }),
-      stroke: new ol.style.Stroke({
-      color: 'black',
-      width: 2
-      }),
-      points: 4,
-      radius: 7,
-      angle: Math.PI / 4
-  })
-});
-const wehStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-      fill: new ol.style.Fill({color: 'green'}),
-      stroke: new ol.style.Stroke({
-      color: 'black',
-      width: 2
-      }),
-      points: 3,
-      radius: 7,
-      rotation: 0  // Setzen Sie die Rotation auf 0 für ein Dreieck
-  })
-});
-const sleStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-      fill: new ol.style.Fill({color: 'red'}),
-      stroke: new ol.style.Stroke({
-      color: 'grey',
-      width: 2
-      }),
-      points: 4,
-      radius: 7,
-      angle: Math.PI / 4
-  })
-});
-const queStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-      fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
-      stroke: new ol.style.Stroke({
-      color: 'black',
-      width: .5
-      }),
-      points: 4,
-      radius: 7,
-      angle: Math.PI / 2
-  })
-});
-const km10scalStyle = new ol.style.Style({
-  stroke: new ol.style.Stroke({
-      color: 'grey',
-      width: .5
-  })
-});
-function getStyleForArtEin(feature) {   
-  const artValue = feature.get('Ein_ord');
-  let fillColor, strokeColor;
-  switch (artValue) {
-      case '1. Ordnung':
-          fillColor = 'rgba(0, 68, 255, .8)';
-          strokeColor = 'black';
-          break;
-      case '2. Ordnung':
-          fillColor = 'rgba(214, 0, 0, .8)';
-          strokeColor = 'black';
-          break;
-      case '3. Ordnung':
-          fillColor = 'rgba(114, 114, 114, .8)';
-          strokeColor = 'black';
-          break;
-      case 'Sonstige':
-          fillColor = 'rgba(27, 117, 0, .8)';
-          strokeColor = 'black';
-          break;
-      default:
-          fillColor = 'grey';
-          strokeColor = 'grey';
-      }
-      return new ol.style.Style({
-      image: new ol.style.Circle({
-          fill: new ol.style.Fill({
-              color: fillColor
-          }),
-          stroke: new ol.style.Stroke({
-              color: strokeColor,
-              width: 0.5
-          }),
-          radius: 7
-          })
-      
-      })
-};
-const dueStyle = new ol.style.Style({
-  image: new ol.style.RegularShape({
-      fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
-      stroke: new ol.style.Stroke({
-      color: 'black',
-      width: 2
-      }),
-      points: 4,
-      radius: 7,
-      angle: Math.PI / 4
-  })
-});
+//import './style.css';
+import { 
+  getStyleForArtEin,
+  gehoelz_vecStyle, 
+  sleStyle, 
+  wehStyle, 
+  bru_nlwknStyle, 
+  bru_andereStyle,
+  dueStyle, 
+  queStyle, 
+  getStyleForArtFSK, 
+  son_linStyle, 
+  son_punStyle,
+  km10scalStyle 
+} from './extStyle';
+
+import { someFunctionFromExtFunc } from './extFunc.js';
+
+someFunctionFromExtFunc(); // Annahme: someFunctionFromExtFunc ist eine Funktion in extFunc.js
+
 const arrowStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
       color: 'black', // Schwarze Farbe für die Linie
@@ -498,17 +406,14 @@ button.innerHTML = 'P';
 element.appendChild(button);
 document.body.appendChild(element);
 
-// Neues div-Element mit Namen: "elementM"
-/* var elementM = document.createElement('div');
+// Korrigierter Code für das zweite Element
+var elementM = document.createElement('div');
 elementM.className = 'getMeasure';
 elementM.id = "ButtonM";
 const buttonM = document.createElement('button');
-buttonM.innerHTML = 'M'; // Hier den Text für den ButtonM festlegen
-buttonM.className = 'getMeasure'; // Klasse zuweisen
-elementM.appendChild(buttonM);
-document.body.appendChild(elementM); */
-
-
+buttonM.innerHTML = 'M';  // Ändere dies zu buttonM
+elementM.appendChild(buttonM);  // Ändere dies zu buttonM
+document.body.appendChild(elementM);  // Ändere dies zu elementM
 
 //neues Objekt der Klasse ol.Geolocation
 var geolocation = new ol.Geolocation({
@@ -541,9 +446,9 @@ var handleGetPosition = function(e) {
 button.addEventListener('click', handleGetPosition, false);
 button.addEventListener('touchstart', handleGetPosition, false);
 
-/* buttonM.addEventListener('click', function() {});
+buttonM.addEventListener('click', function() {});
 buttonM.addEventListener('touchstart', function() {});
- */
+
 // Vector-Layer und Features erstellen
 var accuracyFeature = new ol.Feature();
 var positionFeature = new ol.Feature();
@@ -595,6 +500,7 @@ function stopTracking() {
 
 // Event-Listener für den Button
 button.addEventListener('click', function() {
+  
   var trackingWasAlreadyOn = geolocation.getTracking();
   if (trackingWasAlreadyOn) {
     stopTracking();
@@ -603,6 +509,9 @@ button.addEventListener('click', function() {
   }
 });
 
+buttonM.addEventListener('click', function() {
+  alert('gecklickt');
+});
 
 /* var buttonState = false;
 document.getElementById("toggleButton").addEventListener("click", toggleButton);
