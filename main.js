@@ -16,8 +16,7 @@ import {
 } from './extStyle';
 
 import { 
-  addTempMarker,
-  removeTempMarker
+  //addTempMarker
  } from './extfunc';
 
  
@@ -108,6 +107,35 @@ inputElement.addEventListener('keydown', function (event) {
   }
 });
 
+function addTempMarker(coordinates) {
+  var tempMarker = new ol.layer.Vector({
+    source: new ol.source.Vector({
+      features: [new ol.Feature({
+        geometry: new ol.geom.Point(coordinates),
+      })]
+    }),
+    style: new ol.style.Style({
+      image: new ol.style.Icon({
+        src: './data/marker1.jpg',
+        scale: 1 // Skalieren Sie die Größe des Icons nach Bedarf
+      })
+    })
+  });
+
+  // Fügen Sie den temporären Marker zur Karte hinzu
+  map.addLayer(tempMarker);
+}
+
+
+// Funktion zum Entfernen des temporären Markers
+function removeTempMarker() {
+  // Durchlaufen Sie alle Karten-Layer und entfernen Sie alle, die als temporärer Marker markiert sind
+  map.getLayers().getArray().forEach(function (layer) {
+    if (layer.get('tempMarker')) {
+      map.removeLayer(layer);
+    }
+  });
+}
 
 const attribution = new ol.control.Attribution({
   collapsible: false,
@@ -422,6 +450,79 @@ button.addEventListener('touchstart', handleGetPosition, false);
 
 buttonM.addEventListener('click', function() {});
 buttonM.addEventListener('touchstart', function() {});
+
+
+
+var accuracyFeature = new ol.Feature();
+var positionFeature = new ol.Feature();
+
+var vectorLayer = new ol.layer.Vector({
+  map: map,
+  source: new ol.source.Vector({
+    features: [accuracyFeature, positionFeature]
+  }),
+  style: new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 7, // Radius des Punkts
+      fill: new ol.style.Fill({
+        color: 'blue' // Farbe des Punkts
+      }),
+      stroke: new ol.style.Stroke({
+        color: 'white', // Farbe des Randes
+        width: 2 // Breite des Randes
+      })
+    })
+  })
+});
+
+// Tooltip-Overlay für die Längenanzeige
+const lengthTooltip = new ol.Overlay({
+  element: document.getElementById('length-tooltip'),
+  offset: [0, -15],
+  positioning: 'bottom-center',
+});
+map.addOverlay(lengthTooltip);
+
+let lineCoordinates = [];
+
+// Listener für den Mausklick
+map.on('click', function (event) {
+  const clickedCoordinate = event.coordinate;
+
+  // Füge den Punkt zur Zeichenlinie hinzu
+  lineCoordinates.push(clickedCoordinate);
+
+  // Aktualisiere die Zeichenlinie auf der Karte
+  updateDrawnLine();
+
+  // Zeige die Länge des Liniensegments im Tooltip an
+  showLengthTooltip();
+
+  // Zentriere die Karte auf den zuletzt geklickten Punkt
+  map.getView().setCenter(clickedCoordinate);
+});
+
+function updateDrawnLine() {
+  const lineFeature = new ol.Feature({
+    geometry: new ol.geom.LineString(lineCoordinates),
+  });
+
+  const lineStyle = new ol.style.Style({
+    fill: new ol.style.Fill({
+      color: 'rgba(255, 255, 255, 0.2)',
+    }),
+    stroke: new ol.style.Stroke({
+      color: 'blue',
+      width: 2,
+    }),
+  });
+
+  lineFeature.setStyle(lineStyle);
+
+  const source = vectorLayer.getSource();
+  source.clear();
+  source.addFeature(lineFeature);
+}
 
 
 // Funktion zum Aktualisieren der Position
