@@ -396,15 +396,6 @@ const gew_layer_layer = new ol.layer.Vector({
 const layerSwitcher = new ol.control.LayerSwitcher({ });
 map.addControl(layerSwitcher);
 
-// Neues div-Element mit Namen: "element" und den Klassen "get-position", "ol-unselectable" und "ol-control"
-var element = document.createElement('div');
-element.className = 'get-position ol-unselectable ol-control';
-element.id = "Button";
-const button = document.createElement('button');
-button.innerHTML = 'P';
-element.appendChild(button);
-document.body.appendChild(element);
-
 // Korrigierter Code für das zweite Element
 var elementM = document.createElement('div');
 elementM.className = 'getMeasure';
@@ -413,6 +404,20 @@ const buttonM = document.createElement('button');
 buttonM.innerHTML = 'M';  // Ändere dies zu buttonM
 elementM.appendChild(buttonM);  // Ändere dies zu buttonM
 document.body.appendChild(elementM);  // Ändere dies zu elementM
+
+
+buttonM.addEventListener('click', function() {});
+buttonM.addEventListener('touchstart', function() {});
+
+
+// Neues div-Element mit Namen: "element" und den Klassen "get-position", "ol-unselectable" und "ol-control"
+var element = document.createElement('div');
+element.className = 'get-position ol-unselectable ol-control';
+element.id = "Button";
+const button = document.createElement('button');
+button.innerHTML = 'P';
+element.appendChild(button);
+document.body.appendChild(element);
 
 //neues Objekt der Klasse ol.Geolocation
 var geolocation = new ol.Geolocation({
@@ -445,8 +450,6 @@ var handleGetPosition = function(e) {
 button.addEventListener('click', handleGetPosition, false);
 button.addEventListener('touchstart', handleGetPosition, false);
 
-buttonM.addEventListener('click', function() {});
-buttonM.addEventListener('touchstart', function() {});
 
 
 var accuracyFeature = new ol.Feature();
@@ -487,6 +490,27 @@ button.addEventListener('click', function() {
   } else {
     startTracking();
   }
+});
+
+// Füge eine Vektorquelle und einen Vektorlayer für den blauen Kreis hinzu
+var vectorSource = new ol.source.Vector({
+  features: [positionFeature],
+});
+
+var vectorLayer = new ol.layer.Vector({
+  source: vectorSource,
+  style: new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 8,
+      fill: new ol.style.Fill({
+        color: 'blue',
+      }),
+      stroke: new ol.style.Stroke({
+        color: 'white',
+        width: 2,
+      }),
+    }),
+  }),
 });
 
 buttonM.addEventListener('click', function() {
@@ -992,4 +1016,6 @@ document.getElementById('popup-closer').onclick = function () {
   return false;
 };
 
+//Marker für Position (sollte ganz oben sein)
+map.addLayer(vectorLayer);
 
