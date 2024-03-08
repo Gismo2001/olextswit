@@ -1,4 +1,4 @@
-import './style.css';
+//import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -10,6 +10,7 @@ import {
   dueStyle, 
   queStyle, 
   getStyleForArtFSK, 
+  getStyleForArtUmn,
   son_linStyle, 
   son_punStyle,
   km10scalStyle,
@@ -192,6 +193,17 @@ const exp_gew_info_layer = new ol.layer.Vector({
   style: combinedStyle,
   visible: false
 });
+
+const exp_gew_umn_layer = new ol.layer.Vector({
+  source: new ol.source.Vector({
+  format: new ol.format.GeoJSON(),
+  url: function (extent) {return './myLayers/exp_gew_umn.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
+  title: 'U-Maßnahmen', 
+  name: 'gew_umn',
+  style: getStyleForArtUmn,
+  visible: false
+});
+
 
 // sonstige Linien
 const exp_bw_son_lin_layer = new ol.layer.Vector({
@@ -753,7 +765,7 @@ const BwGroup = new ol.layer.Group({
   title: "Bauw.",
   fold: true,
   fold: 'close',  
-  layers: [gehoelzvecLayer, exp_gew_info_layer, exp_bw_son_lin_layer, exp_bw_son_pun_layer, exp_bw_ein_layer, exp_bw_bru_andere_layer, exp_bw_bru_nlwkn_layer, exp_bw_que_layer, exp_bw_due_layer, exp_bw_weh_layer, exp_bw_sle_layer]
+  layers: [gehoelzvecLayer, exp_gew_info_layer, exp_gew_umn_layer, exp_bw_son_lin_layer, exp_bw_son_pun_layer, exp_bw_ein_layer, exp_bw_bru_andere_layer, exp_bw_bru_nlwkn_layer, exp_bw_que_layer, exp_bw_due_layer, exp_bw_weh_layer, exp_bw_sle_layer]
 });
 
 const kmGroup = new ol.layer.Group({
@@ -769,6 +781,9 @@ const BaseGroup = new ol.layer.Group({
   fold: 'close',
   layers: [wmsBaseMapDEGrau, ESRIWorldImagery, googleLayer, dop20ni_layer, osmTile]
 });
+
+//Marker für Position (sollte ganz oben sein)
+map.addLayer(vectorLayer);
 
 map.addLayer(BaseGroup);
 map.addLayer(GNAtlasGroup);
@@ -803,39 +818,13 @@ closer.onclick = function()
 // 
 map.on('click', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
-  var layname = layer.get('name');
-  
-  /*   switch (layname) {
-      case 'sle':
-        alert(layname);
-        break;
-      case 'weh':
-        alert(layname);
-        break;
-      case 'bru_nlwkn':
-        alert(layname);
-        break;
-      case 'bru_andere':
-        alert(layname);
-        break;
-      case 'gew_info':
-        // Hier könnten weitere Aktionen für 'gew_info' hinzugefügt werden
-        break;
-      default:
-        alert("sonstige: " + layname);
-    } */
-
-    
-  
+    var layname = layer.get('name');
     var coordinates = evt.coordinates;
     var beschreibLangValue = feature.get('beschreib_lang');
     var beschreibLangHtml = '';
     if (beschreibLangValue && beschreibLangValue.trim() !== '') {
-      beschreibLangHtml = '<br>' + '<u>' + "Beschreib (lang): " + '</u>' + beschreibLangValue + '</p>';
+    beschreibLangHtml = '<br>' + '<u>' + "Beschreib (lang): " + '</u>' + beschreibLangValue + '</p>';
     };
-
-
-
 
     // Popup soll nur für bestimmte Layernamen angezeigt werden
     if (layname !== 'gew' && layname !== 'km10scal' && layname !== 'km100scal' && layname !== 'km500scal' && layname !== 'fsk' && layname !== 'son_lin') {
@@ -914,6 +903,18 @@ map.on('click', function (evt) {
       '</div>';
     }
 
+    // Führen Sie Aktionen für den Layernamen 'gew_umn' durch
+    if (layname === 'gew_umn') {
+      coordinates = evt.coordinate; 
+      popup.setPosition(coordinates);
+      content.innerHTML =
+      
+      '<div style="max-height: 300px; overflow-y: auto;">' +
+      '<p>ID: ' + feature.get('Massn_ID') + '<br>' +
+      '<p>Bez: ' + feature.get('UMnArtBez') + '<br>' +
+      '</div>';
+    }
+
     // Führen Sie Aktionen für den Layernamen 'son_lin' durch
     if (layname === 'son_lin') {
       coordinates = evt.coordinate; 
@@ -973,6 +974,5 @@ document.getElementById('popup-closer').onclick = function () {
   return false;
 };
 
-//Marker für Position (sollte ganz oben sein)
-map.addLayer(vectorLayer);
+
 

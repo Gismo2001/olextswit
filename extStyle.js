@@ -177,6 +177,52 @@ function getStyleForArtFSK(feature) {
     });
   };
 
+//Berechnung Style für FSK
+function getStyleForArtUmn(feature) {
+  const mnIdValue = feature.get('Massn_ID');
+  let fillColor, strokeColor;
+
+  switch (mnIdValue) {
+  //zweimalige Mahd
+  case 23:
+      //fillColor = 'rgba(200, 200, 200, .6)';
+      strokeColor = 'rgba(135, 101, 0, 0.1)';
+      break;  
+  //zweimalige Mahd
+  case 9:
+      //fillColor = 'rgba(200, 200, 200, .6)';
+      strokeColor = 'red';
+      break;
+  //keine Mahd
+  case 4:
+      //fillColor = 'rgba(200, 200, 200, .6)';
+      strokeColor = 'blue';
+      break;
+  //einmalige Mahd
+  case 11:
+      //fillColor = 'rgba(255, 220, 220, .6)';
+      strokeColor = 'blue';
+      break;
+  //beobachtende Unterhaltung
+  case 1:
+      //fillColor = 'rgba(255, 190, 150, .6)';
+      strokeColor = 'blue';
+      break;
+  default:
+      //fillColor = 'rgba(255, 255, 255, 1)';
+      strokeColor = 'grey';
+  }
+  return new ol.style.Style({
+      //fill: new ol.style.Fill({
+      //    color: fillColor
+      //}),
+      stroke: new ol.style.Stroke({
+          color: strokeColor,
+          width: 5
+      })
+  });
+};
+
 // km 100 Style-Funktion mit Beschriftung
 const km100scalStyle = function(feature, text, resolution) {
     var minResolution = 0;
@@ -237,6 +283,7 @@ export { bru_nlwknStyle,
     gehoelz_vecStyle,
     getStyleForArtFSK,
     getStyleForArtEin,
+    getStyleForArtUmn,
     km100scalStyle,
     km500scalStyle    
 };
