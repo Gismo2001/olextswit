@@ -208,8 +208,8 @@ export { bru_nlwknStyle,
     km10scalStyle,
     gehoelz_vecStyle,
     getStyleForArtFSK,
-    getStyleForArtEin,
-    addTempMarker    
+    getStyleForArtEin
 };
+    
   
 

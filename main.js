@@ -13,9 +13,9 @@ import {
   son_linStyle, 
   son_punStyle,
   km10scalStyle,
-  addTempMarker 
 } from './extStyle';
 
+import { addTempMarker } from './extfunc';
 
  
 const arrowStyle = new ol.style.Style({
