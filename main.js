@@ -1,4 +1,4 @@
-import './style.css';
+//import './style.css';
 import { 
   getStyleForArtEin,
   gehoelz_vecStyle, 
@@ -14,9 +14,9 @@ import {
   km10scalStyle 
 } from './extStyle';
 
-import { someFunctionFromExtFunc } from './extFunc.js';
+//import { someFunctionFromExtFunc } from './extFunc.js';
 
-someFunctionFromExtFunc(); // Annahme: someFunctionFromExtFunc ist eine Funktion in extFunc.js
+//someFunctionFromExtFunc(); // Annahme: someFunctionFromExtFunc ist eine Funktion in extFunc.js
 
 const arrowStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
