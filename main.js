@@ -1,4 +1,4 @@
-import './style.css';
+//import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -126,7 +126,6 @@ function addTempMarker(coordinates) {
   map.addLayer(tempMarker);
 }
 
-
 // Funktion zum Entfernen des temporären Markers
 function removeTempMarker() {
   // Durchlaufen Sie alle Karten-Layer und entfernen Sie alle, die als temporärer Marker markiert sind
@@ -140,7 +139,6 @@ function removeTempMarker() {
 const attribution = new ol.control.Attribution({
   collapsible: false,
 });
-
 
 const additionalControl = new ol.control.ZoomToExtent({
   extent: [
@@ -171,7 +169,6 @@ const gehoelzvecLayer = new ol.layer.Vector({
   style: gehoelz_vecStyle,
   visible: false
 });
-
 
 const exp_allgm_fsk_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_allgm_fsk.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
@@ -452,78 +449,8 @@ buttonM.addEventListener('click', function() {});
 buttonM.addEventListener('touchstart', function() {});
 
 
-
 var accuracyFeature = new ol.Feature();
 var positionFeature = new ol.Feature();
-
-var vectorLayer = new ol.layer.Vector({
-  map: map,
-  source: new ol.source.Vector({
-    features: [accuracyFeature, positionFeature]
-  }),
-  style: new ol.style.Style({
-    image: new ol.style.Circle({
-      radius: 7, // Radius des Punkts
-      fill: new ol.style.Fill({
-        color: 'blue' // Farbe des Punkts
-      }),
-      stroke: new ol.style.Stroke({
-        color: 'white', // Farbe des Randes
-        width: 2 // Breite des Randes
-      })
-    })
-  })
-});
-
-// Tooltip-Overlay für die Längenanzeige
-const lengthTooltip = new ol.Overlay({
-  element: document.getElementById('length-tooltip'),
-  offset: [0, -15],
-  positioning: 'bottom-center',
-});
-map.addOverlay(lengthTooltip);
-
-let lineCoordinates = [];
-
-// Listener für den Mausklick
-map.on('click', function (event) {
-  const clickedCoordinate = event.coordinate;
-
-  // Füge den Punkt zur Zeichenlinie hinzu
-  lineCoordinates.push(clickedCoordinate);
-
-  // Aktualisiere die Zeichenlinie auf der Karte
-  updateDrawnLine();
-
-  // Zeige die Länge des Liniensegments im Tooltip an
-  showLengthTooltip();
-
-  // Zentriere die Karte auf den zuletzt geklickten Punkt
-  map.getView().setCenter(clickedCoordinate);
-});
-
-function updateDrawnLine() {
-  const lineFeature = new ol.Feature({
-    geometry: new ol.geom.LineString(lineCoordinates),
-  });
-
-  const lineStyle = new ol.style.Style({
-    fill: new ol.style.Fill({
-      color: 'rgba(255, 255, 255, 0.2)',
-    }),
-    stroke: new ol.style.Stroke({
-      color: 'blue',
-      width: 2,
-    }),
-  });
-
-  lineFeature.setStyle(lineStyle);
-
-  const source = vectorLayer.getSource();
-  source.clear();
-  source.addFeature(lineFeature);
-}
-
 
 // Funktion zum Aktualisieren der Position
 function updatePosition() {
@@ -566,28 +493,6 @@ buttonM.addEventListener('click', function() {
   alert('gecklickt');
 });
 
-/* var buttonState = false;
-document.getElementById("toggleButton").addEventListener("click", toggleButton);
-
-function toggleButton() {
-    // Funktionslogik hier
-    var button = document.getElementById("toggleButton");
-
-    // Toggle Button-Zustand
-    buttonState = !buttonState;
-
-    // Ändere den Text und die Farbe entsprechend dem Zustand
-    if (buttonState) {
-        button.innerHTML = "An ";
-        button.classList.remove("off");
-        button.classList.add("on");
-    } else {
-        button.innerHTML = "Aus";
-        button.classList.remove("on");
-        button.classList.add("off");
-    }
-}; */
-
 const wmsHydErstOrdLayer = new ol.layer.Tile({
   source: new ol.source.TileWMS({
     url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
@@ -618,7 +523,6 @@ const wmsHydZweitOrdLayer = new ol.layer.Tile({
   minResolution: 0,
   maxResolution: 75
 });
-
 
 const wmsHydDrittOrdLayer = new ol.layer.Tile({
   source: new ol.source.TileWMS({
@@ -892,8 +796,6 @@ map.addLayer(gew_layer_layer);
 map.addLayer(wmsLayerGroup);
 map.addLayer(kmGroup);
 map.addLayer(BwGroup);
-
-
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
