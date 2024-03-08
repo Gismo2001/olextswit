@@ -1,4 +1,4 @@
-//import './style.css';
+import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -12,7 +12,9 @@ import {
   getStyleForArtFSK, 
   son_linStyle, 
   son_punStyle,
-  km10scalStyle
+  km10scalStyle,
+  km100scalStyle,
+  km500scalStyle
 } from './extStyle';
 
 import { 
@@ -54,8 +56,9 @@ const arrowStyle = new ol.style.Style({
   
       return arrowLine;
   },
-  });
-  const endpointStyle = new ol.style.Style({
+});
+
+const endpointStyle = new ol.style.Style({
       geometry: function (feature) {
           const coordinates = feature.getGeometry().getCoordinates();
           return new ol.geom.Point(coordinates[coordinates.length - 1]);
@@ -68,7 +71,7 @@ const arrowStyle = new ol.style.Style({
           width: 2,          // Breite des Randes
           }),
       }),
-  });
+});
  // Kombinierter Stil für Linie und Endpunkt
 const combinedStyle = [arrowStyle, endpointStyle];
 
@@ -157,7 +160,6 @@ const map = new ol.Map({
   view: mapView,
   controls: ol.control.defaults().extend([attribution, additionalControl]),
 });
-
 
 // exp_gew_info
 const gehoelzvecLayer = new ol.layer.Vector({
@@ -312,27 +314,7 @@ const km10scal_layer = new ol.layer.Vector({
   maxResolution: 1 
 });
 
-// km 100 Style-Funktion mit Beschriftung
-const km100scalStyle = function(feature, text, resolution) {
-  var minResolution = 0;
-  var maxResolution = 5; 
-  if (resolution > minResolution && resolution < maxResolution) {
-    return new ol.style.Style({
-      text: new ol.style.Text({
-        text: text,
-        font: 'normal 18px "Arial Light", "Helvetica Neue Light", Arial, sans-serif',
-        offsetX: -10,
-        offsetY: 10,        
-      }),
-      stroke: new ol.style.Stroke({
-        color: 'black', // oder eine andere Linienfarbe
-        width: 1 // oder eine andere Linienbreite  
-      })
-    });
-  } else {
-    return null;
-  }
-};
+
 //kilometrierung 100 m
 const km100scal_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/km_100_scal.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
@@ -344,31 +326,6 @@ const km100scal_layer = new ol.layer.Vector({
   minResolution: 0,
   maxResolution: 3 
 });
-
-/// Style-Funktion mit Beschriftung
-const km500scalStyle = function(feature, text, resolution) {
-  var minResolution = 0;
-  var maxResolution = 10; 
-  if (resolution > minResolution && resolution < maxResolution) {
-    return new ol.style.Style({
-      text: new ol.style.Text({
-        text: text,
-        font: 'normal 20px "Arial Light", "Helvetica Neue Light", Arial, sans-serif',
-        offsetX: -10,
-        offsetY: 10,
-        fill: new ol.style.Fill({
-          color: 'rgba(0, 0, 0, 1)'
-        }),
-      }),
-      stroke: new ol.style.Stroke({
-        color: 'black', // oder eine andere Linienfarbe
-        width: 2 // oder eine andere Linienbreite  
-      })
-    });
-  } else {
-    return null;
-  }
-};
 
 //kilometrierung 500 m
 const km500scal_layer = new ol.layer.Vector({
@@ -396,7 +353,7 @@ const gew_layer_layer = new ol.layer.Vector({
 const layerSwitcher = new ol.control.LayerSwitcher({ });
 map.addControl(layerSwitcher);
 
-// Korrigierter Code für das zweite Element
+//Button für Measuretool hinzufügen
 var elementM = document.createElement('div');
 elementM.className = 'getMeasure';
 elementM.id = "ButtonM";
@@ -410,7 +367,7 @@ buttonM.addEventListener('click', function() {});
 buttonM.addEventListener('touchstart', function() {});
 
 
-// Neues div-Element mit Namen: "element" und den Klassen "get-position", "ol-unselectable" und "ol-control"
+//Button für Postionierung hinzufügen
 var element = document.createElement('div');
 element.className = 'get-position ol-unselectable ol-control';
 element.id = "Button";
@@ -447,10 +404,9 @@ var handleGetPosition = function(e) {
   } 
 };
 
+//EventListener für Positionierungsbutton
 button.addEventListener('click', handleGetPosition, false);
 button.addEventListener('touchstart', handleGetPosition, false);
-
-
 
 var accuracyFeature = new ol.Feature();
 var positionFeature = new ol.Feature();
@@ -513,6 +469,7 @@ var vectorLayer = new ol.layer.Vector({
   }),
 });
 
+//EventListener für Measuretool
 buttonM.addEventListener('click', function() {
   alert('gecklickt');
 });

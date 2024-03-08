@@ -176,6 +176,54 @@ function getStyleForArtFSK(feature) {
         })
     });
   };
+
+// km 100 Style-Funktion mit Beschriftung
+const km100scalStyle = function(feature, text, resolution) {
+    var minResolution = 0;
+    var maxResolution = 5; 
+    if (resolution > minResolution && resolution < maxResolution) {
+      return new ol.style.Style({
+        text: new ol.style.Text({
+          text: text,
+          font: 'normal 18px "Arial Light", "Helvetica Neue Light", Arial, sans-serif',
+          offsetX: -10,
+          offsetY: 10,        
+        }),
+        stroke: new ol.style.Stroke({
+          color: 'black', // oder eine andere Linienfarbe
+          width: 1 // oder eine andere Linienbreite  
+        })
+      });
+    } else {
+      return null;
+    }
+  };
+
+/// Style-Funktion mit Beschriftung
+const km500scalStyle = function(feature, text, resolution) {
+    var minResolution = 0;
+    var maxResolution = 10; 
+    if (resolution > minResolution && resolution < maxResolution) {
+      return new ol.style.Style({
+        text: new ol.style.Text({
+          text: text,
+          font: 'normal 20px "Arial Light", "Helvetica Neue Light", Arial, sans-serif',
+          offsetX: -10,
+          offsetY: 10,
+          fill: new ol.style.Fill({
+            color: 'rgba(0, 0, 0, 1)'
+          }),
+        }),
+        stroke: new ol.style.Stroke({
+          color: 'black', // oder eine andere Linienfarbe
+          width: 2 // oder eine andere Linienbreite  
+        })
+      });
+    } else {
+      return null;
+    }
+  };
+  
  
 export { bru_nlwknStyle,
     sleStyle,
@@ -188,7 +236,9 @@ export { bru_nlwknStyle,
     km10scalStyle,
     gehoelz_vecStyle,
     getStyleForArtFSK,
-    getStyleForArtEin
+    getStyleForArtEin,
+    km100scalStyle,
+    km500scalStyle    
 };
     
   
