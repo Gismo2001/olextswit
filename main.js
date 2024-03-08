@@ -1,4 +1,5 @@
 //import './style.css';
+
 import { 
   getStyleForArtEin,
   gehoelz_vecStyle, 
@@ -11,13 +12,12 @@ import {
   getStyleForArtFSK, 
   son_linStyle, 
   son_punStyle,
-  km10scalStyle 
+  km10scalStyle,
+  addTempMarker 
 } from './extStyle';
 
-//import { someFunctionFromExtFunc } from './extFunc.js';
 
-//someFunctionFromExtFunc(); // Annahme: someFunctionFromExtFunc ist eine Funktion in extFunc.js
-
+ 
 const arrowStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
       color: 'black', // Schwarze Farbe für die Linie
@@ -105,26 +105,6 @@ inputElement.addEventListener('keydown', function (event) {
   }
 });
 
-// Funktion zum Hinzufügen eines temporären Markers
-function addTempMarker(coordinates) {
-  var tempMarker = new ol.layer.Vector({
-    source: new ol.source.Vector({
-      features: [new ol.Feature({
-        geometry: new ol.geom.Point(coordinates),
-      })]
-    }),
-    style: new ol.style.Style({
-      image: new ol.style.Icon({
-        src: './data/marker1.jpg',
-        scale: 1 // Skalieren Sie die Größe des Icons nach Bedarf
-      })
-    })
-  });
-
-  // Fügen Sie den temporären Marker zur Karte hinzu
-  map.addLayer(tempMarker);
-}
-
 // Funktion zum Entfernen des temporären Markers
 function removeTempMarker() {
   // Durchlaufen Sie alle Karten-Layer und entfernen Sie alle, die als temporärer Marker markiert sind
@@ -158,6 +138,29 @@ const map = new ol.Map({
   controls: ol.control.defaults().extend([attribution, additionalControl]),
 });
 
+
+
+const vector = new ol.layer.Vector({
+  source: new ol.source.Vector(),
+  title: 'measure', // Titel für den Layer-Switcher
+  name: 'measure',
+  style: new ol.style.Style({
+    image: new ol.style.Circle({
+      fill: new ol.style.Fill({
+        color: 'rgba(255, 255, 255, 0.2)',
+      }),
+      stroke: new ol.style.Stroke({
+        color: '#ffcc33',
+        width: 2,
+      }),
+      radius: 7,
+    }),
+  }),
+  visible: false,
+});
+
+
+let sketch;
 
 // exp_gew_info
 const gehoelzvecLayer = new ol.layer.Vector({
