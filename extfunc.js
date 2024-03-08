@@ -16,7 +16,20 @@ function addTempMarker(coordinates) {
   
     // Fügen Sie den temporären Marker zur Karte hinzu
     map.addLayer(tempMarker);
-  }
-  export {
-    addTempMarker    
+};
+
+
+// Funktion zum Entfernen des temporären Markers
+function removeTempMarker() {
+  // Durchlaufen Sie alle Karten-Layer und entfernen Sie alle, die als temporärer Marker markiert sind
+  map.getLayers().getArray().forEach(function (layer) {
+    if (layer.get('tempMarker')) {
+      map.removeLayer(layer);
+    }
+  });
+};
+
+export {
+    addTempMarker,
+    removeTempMarker    
 };

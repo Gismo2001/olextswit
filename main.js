@@ -1,4 +1,4 @@
-//import './style.css';
+import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -12,10 +12,13 @@ import {
   getStyleForArtFSK, 
   son_linStyle, 
   son_punStyle,
-  km10scalStyle,
+  km10scalStyle
 } from './extStyle';
 
-import { addTempMarker } from './extfunc';
+import { 
+  addTempMarker,
+  removeTempMarker
+ } from './extfunc';
 
  
 const arrowStyle = new ol.style.Style({
@@ -105,15 +108,6 @@ inputElement.addEventListener('keydown', function (event) {
   }
 });
 
-// Funktion zum Entfernen des temporären Markers
-function removeTempMarker() {
-  // Durchlaufen Sie alle Karten-Layer und entfernen Sie alle, die als temporärer Marker markiert sind
-  map.getLayers().getArray().forEach(function (layer) {
-    if (layer.get('tempMarker')) {
-      map.removeLayer(layer);
-    }
-  });
-}
 
 const attribution = new ol.control.Attribution({
   collapsible: false,
@@ -138,29 +132,6 @@ const map = new ol.Map({
   controls: ol.control.defaults().extend([attribution, additionalControl]),
 });
 
-
-
-const vector = new ol.layer.Vector({
-  source: new ol.source.Vector(),
-  title: 'measure', // Titel für den Layer-Switcher
-  name: 'measure',
-  style: new ol.style.Style({
-    image: new ol.style.Circle({
-      fill: new ol.style.Fill({
-        color: 'rgba(255, 255, 255, 0.2)',
-      }),
-      stroke: new ol.style.Stroke({
-        color: '#ffcc33',
-        width: 2,
-      }),
-      radius: 7,
-    }),
-  }),
-  visible: false,
-});
-
-
-let sketch;
 
 // exp_gew_info
 const gehoelzvecLayer = new ol.layer.Vector({
@@ -452,28 +423,6 @@ button.addEventListener('touchstart', handleGetPosition, false);
 buttonM.addEventListener('click', function() {});
 buttonM.addEventListener('touchstart', function() {});
 
-// Vector-Layer und Features erstellen
-var accuracyFeature = new ol.Feature();
-var positionFeature = new ol.Feature();
-
-var vectorLayer = new ol.layer.Vector({
-  map: map,
-  source: new ol.source.Vector({
-    features: [accuracyFeature, positionFeature]
-  }),
-  style: new ol.style.Style({
-    image: new ol.style.Circle({
-      radius: 7, // Radius des Punkts
-      fill: new ol.style.Fill({
-        color: 'blue' // Farbe des Punkts
-      }),
-      stroke: new ol.style.Stroke({
-        color: 'white', // Farbe des Randes
-        width: 2 // Breite des Randes
-      })
-    })
-  })
-});
 
 // Funktion zum Aktualisieren der Position
 function updatePosition() {
