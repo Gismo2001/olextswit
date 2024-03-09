@@ -111,6 +111,7 @@ inputElement.addEventListener('keydown', function (event) {
   }
 });
 
+// Marker für Positionsmarkierung zur Adresssuche
 function addTempMarker(coordinates) {
   var tempMarker = new ol.layer.Vector({
     source: new ol.source.Vector({
@@ -402,16 +403,12 @@ function getPosition() {
 }
 
 var handleGetPosition = function(e) {
-  console.log('Button wurde geklickt!');
-  
   var trackingWasAlreadyOn = geolocation.getTracking(); 
   if (trackingWasAlreadyOn) { 
     geolocation.setTracking(false);
-    console.log('Tracking wurde gestoppt.');
     //** CODE HERE TO REMOVE THE LAYER **
   } else { 
     geolocation.setTracking(true); 
-    console.log('Tracking wurde gestartet.');
     getPosition(); 
   } 
 };
@@ -461,11 +458,12 @@ button.addEventListener('click', function() {
 });
 
 // Füge eine Vektorquelle und einen Vektorlayer für den blauen Kreis hinzu
-var vectorSource = new ol.source.Vector({
+const vectorSource = new ol.source.Vector({
   features: [positionFeature],
 });
 
-var vectorLayer = new ol.layer.Vector({
+const vectorLayer = new ol.layer.Vector({
+  displayInLayerSwitcher: false,
   source: vectorSource,
   style: new ol.style.Style({
     image: new ol.style.Circle({
@@ -480,6 +478,9 @@ var vectorLayer = new ol.layer.Vector({
     }),
   }),
 });
+
+//Marker für Position (sollte ganz oben sein)
+map.addLayer(vectorLayer);
 
 //EventListener für Measuretool
 buttonM.addEventListener('click', function() {
@@ -782,8 +783,7 @@ const BaseGroup = new ol.layer.Group({
   layers: [wmsBaseMapDEGrau, ESRIWorldImagery, googleLayer, dop20ni_layer, osmTile]
 });
 
-//Marker für Position (sollte ganz oben sein)
-map.addLayer(vectorLayer);
+
 
 map.addLayer(BaseGroup);
 map.addLayer(GNAtlasGroup);
