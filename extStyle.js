@@ -57,7 +57,8 @@ const dueStyle = new ol.style.Style({
         angle: Math.PI / 4
     })
 });
-const queStyle = new ol.style.Style({
+
+/* const queStyle = new ol.style.Style({
     image: new ol.style.RegularShape({
         fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
         stroke: new ol.style.Stroke({
@@ -68,7 +69,16 @@ const queStyle = new ol.style.Style({
         radius: 7,
         angle: Math.PI / 2
     })
+}); */
+
+
+const queStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+    src: './data/que.svg',
+    scale: 1 
+    })
 });
+
 
 const son_linStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({
