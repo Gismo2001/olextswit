@@ -1,4 +1,4 @@
-//import './style.css';
+import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -21,7 +21,6 @@ import {
 import { 
   //addTempMarker
  } from './extfunc';
-
  
 const arrowStyle = new ol.style.Style({
   stroke: new ol.style.Stroke({
@@ -457,31 +456,6 @@ button.addEventListener('click', function() {
   }
 });
 
-// Füge eine Vektorquelle und einen Vektorlayer für den blauen Kreis hinzu
-const vectorSource = new ol.source.Vector({
-  features: [positionFeature],
-});
-
-const vectorLayer = new ol.layer.Vector({
-  displayInLayerSwitcher: false,
-  source: vectorSource,
-  style: new ol.style.Style({
-    image: new ol.style.Circle({
-      radius: 8,
-      fill: new ol.style.Fill({
-        color: 'blue',
-      }),
-      stroke: new ol.style.Stroke({
-        color: 'white',
-        width: 2,
-      }),
-    }),
-  }),
-});
-
-//Marker für Position (sollte ganz oben sein)
-map.addLayer(vectorLayer);
-
 //EventListener für Measuretool
 buttonM.addEventListener('click', function() {
   alert('gecklickt');
@@ -792,6 +766,33 @@ map.addLayer(gew_layer_layer);
 map.addLayer(wmsLayerGroup);
 map.addLayer(kmGroup);
 map.addLayer(BwGroup);
+
+
+// Füge eine Vektorquelle und einen Vektorlayer für den blauen Kreis hinzu
+const vectorSource = new ol.source.Vector({
+  features: [positionFeature],
+});
+
+const vectorLayer = new ol.layer.Vector({
+  displayInLayerSwitcher: false,
+  source: vectorSource,
+  style: new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 8,
+      fill: new ol.style.Fill({
+        color: 'blue',
+      }),
+      stroke: new ol.style.Stroke({
+        color: 'white',
+        width: 2,
+      }),
+    }),
+  }),
+});
+
+//Marker für Position (sollte ganz oben sein)
+map.addLayer(vectorLayer);
+
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
