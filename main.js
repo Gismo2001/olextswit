@@ -1,4 +1,4 @@
-import './style.css';
+//import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -6,7 +6,7 @@ import {
   sleStyle, 
   wehStyle, 
   bru_nlwknStyle, 
-  bru_andereStyle,
+  bruAndereStyle,
   dueStyle, 
   queStyle, 
   getStyleForArtFSK, 
@@ -204,7 +204,6 @@ const exp_gew_umn_layer = new ol.layer.Vector({
   visible: false
 });
 
-
 // sonstige Linien
 const exp_bw_son_lin_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
@@ -286,7 +285,7 @@ const exp_bw_weh_layer = new ol.layer.Vector({
 //bru nlwkn
 const exp_bw_bru_nlwkn_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_bw_bru_nlwkn.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
-  title: 'Brücke (NLWKN)', // Titel für den Layer-Switcher
+  title: 'Brücke (NLWKN)', 
   name: 'bru_nlwkn', // Titel für den Layer-Switcher
   style: bru_nlwknStyle,
   visible: false
@@ -297,7 +296,7 @@ const exp_bw_bru_andere_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_bw_bru_andere.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
   title: 'Brücke (andere)', 
   name: 'bru_andere', 
-  style: bru_andereStyle,
+  style: bruAndereStyle,
   visible: false
 });
 
@@ -325,7 +324,6 @@ const km10scal_layer = new ol.layer.Vector({
   minResolution: 0,
   maxResolution: 1 
 });
-
 
 //kilometrierung 100 m
 const km100scal_layer = new ol.layer.Vector({
@@ -461,86 +459,55 @@ buttonM.addEventListener('click', function() {
   alert('gecklickt');
 });
 
-const wmsHydErstOrdLayer = new ol.layer.Tile({
-  source: new ol.source.TileWMS({
-    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
-    params: {
-      'LAYERS': 'Gewässernetz_1._Ordnung29778',
-      'TILED': true,
-      'TRANSPARENT': true,
-    },
-    serverType: 'arcgis',
-    crossOrigin: 'anonymous',
-  }),
-  title: '1. Ordn.',
-  visible: false
-});
-
-const wmsHydZweitOrdLayer = new ol.layer.Tile({
-  source: new ol.source.TileWMS({
-    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
-    params: {
-      'LAYERS': 'Gewässernetz_2._Ordnung8177',
-      'TILED': true,
-    },
-    serverType: 'arcgis',
-    crossOrigin: 'anonymous',
-  }),
-  title: '2. Ordn.',
-  visible: false,
-  minResolution: 0,
-  maxResolution: 75
-});
-
-const wmsHydDrittOrdLayer = new ol.layer.Tile({
-  source: new ol.source.TileWMS({
-    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
-    params: {
-      'LAYERS': 'Gewässernetz_3.Ordnung9928',
-      'TILED': true,
-    },
-    serverType: 'arcgis',
-    crossOrigin: 'anonymous',
-  }),
-  title: '3. Ordn.',
-  visible: false,
-  minResolution: 0,
-  maxResolution: 6
-});
-
-const wmsUesgLayer = new ol.layer.Tile({
-  source: new ol.source.TileWMS({
-    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/HWSchutz_wms/MapServer/WMSServer',
-    params: {
-      'LAYERS': 'Überschwemmungsgebiete_Verordnungsfläechen_Niedersachsen11182',
-      'TILED': true,
-    },
-    serverType: 'arcgis',
-    crossOrigin: 'anonymous',
-  }),
-  title: 'Uesg',
-  visible: false,
-  opacity: .5,
-  minResolution: 0,
-  maxResolution: 10
-});
 
 const wmsNsgLayer = new ol.layer.Tile({
+  title: "NSG",
+  name: "NSG",
   source: new ol.source.TileWMS({
     url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Natur_wms/MapServer/WMSServer',
     params: {
       'LAYERS': 'Fauna-Flora-Habitat-Gebiete_(FFH)_in_Niedersachsen44579',
-      'TILED': true,
+      'FORMAT': 'image/png',
+      'TRANSPARENT': true,
     },
-    serverType: 'arcgis',
-    crossOrigin: 'anonymous',
   }),
-  title: 'NSG',
   visible: false,
   opacity: .5,
-  minResolution: 0,
-  maxResolution: 10
 });
+
+// WMS UESG
+const  wmsUesgLayer = new ol.layer.Tile({
+  title: "ÜSG",
+  name: "ÜSG",
+  source: new ol.source.TileWMS({
+    url:  'https://www.umweltkarten-niedersachsen.de/arcgis/services/HWSchutz_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Überschwemmungsgebiete_Verordnungsfläechen_Niedersachsen11182',
+      'FORMAT': 'image/png',
+      'TRANSPARENT': true,
+    },
+  }),
+  visible: false,
+  opacity: .5,
+});
+
+
+const wmsHydErstOrdLayer = new ol.layer.Tile({
+  title: "1. Ordn.",
+  name: "1. Ordn.", 
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Gewässernetz_1._Ordnung29778',
+      'FORMAT': 'image/png',
+      'TRANSPARENT': true,
+    },
+  }),
+  visible: false,
+  opacity: .5,
+});
+
+
 
 const gnAtlas2023 = new ol.layer.Tile({
   source: new ol.source.TileWMS(({
@@ -726,7 +693,7 @@ const wmsLayerGroup = new ol.layer.Group({
 title: "WMS-Lay",
 fold: true,
 fold: 'close',
-layers: [wmsHydDrittOrdLayer, wmsHydZweitOrdLayer, wmsHydErstOrdLayer, wmsNsgLayer, wmsUesgLayer]
+layers: [ wmsHydErstOrdLayer, wmsNsgLayer, wmsUesgLayer ]
 });
 
 const GNAtlasGroup = new ol.layer.Group({
@@ -757,8 +724,6 @@ const BaseGroup = new ol.layer.Group({
   layers: [wmsBaseMapDEGrau, ESRIWorldImagery, googleLayer, dop20ni_layer, osmTile]
 });
 
-
-
 map.addLayer(BaseGroup);
 map.addLayer(GNAtlasGroup);
 map.addLayer(exp_allgm_fsk_layer);
@@ -766,7 +731,6 @@ map.addLayer(gew_layer_layer);
 map.addLayer(wmsLayerGroup);
 map.addLayer(kmGroup);
 map.addLayer(BwGroup);
-
 
 // Füge eine Vektorquelle und einen Vektorlayer für den blauen Kreis hinzu
 const vectorSource = new ol.source.Vector({
@@ -792,7 +756,6 @@ const vectorLayer = new ol.layer.Vector({
 
 //Marker für Position (sollte ganz oben sein)
 map.addLayer(vectorLayer);
-
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
@@ -912,7 +875,8 @@ map.on('click', function (evt) {
       
       '<div style="max-height: 300px; overflow-y: auto;">' +
       '<p>ID: ' + feature.get('Massn_ID') + '<br>' +
-      '<p>Bez: ' + feature.get('UMnArtBez') + '<br>' +
+      '<p>Bez (Art): ' + feature.get('UMnArtBez') + '<br>' +
+      '<p>Bez (Gruppe): ' + feature.get('UMNGrBez') + '<br>' +
       '</div>';
     }
 

@@ -13,37 +13,25 @@ const sleStyle = new ol.style.Style({
   });
 
 const wehStyle = new ol.style.Style({
-    image: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: 'green'}),
-        stroke: new ol.style.Stroke({
-        color: 'black',
-        width: 2
-        }),
-        points: 3,
-        radius: 7,
-        rotation: 0  // Setzen Sie die Rotation auf 0 für ein Dreieck
+    image: new ol.style.Icon({
+        src: './data/weh.svg',
+        scale: .9 
     })
   });
 
 const bru_nlwknStyle = new ol.style.Style({
-    image: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: 'blue'}),
-        stroke: new ol.style.Stroke({color: 'grey', width: 1}),
-        points: 4,
-        radius: 7,
-        angle: Math.PI / 4
+    image: new ol.style.Icon({
+    src: './data/bru_nlwkn.svg',
+    scale: .9 
     })
 });
 
-const bru_andereStyle = new ol.style.Style({
-    image: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color:'rgba(100, 100, 100, 1)'}),
-        stroke: new ol.style.Stroke({color: 'grey',width: 1}),
-        points: 4,
-        radius: 6,
-        angle: Math.PI / 4
+const bruAndereStyle = new ol.style.Style({
+    image: new ol.style.Icon({
+    src: './data/bru_andere.svg',
+    scale: .9 
     })
-  });
+});
 
 const dueStyle = new ol.style.Style({
     image: new ol.style.RegularShape({
@@ -58,24 +46,11 @@ const dueStyle = new ol.style.Style({
     })
 });
 
-/* const queStyle = new ol.style.Style({
-    image: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
-        stroke: new ol.style.Stroke({
-            color: 'black',
-         width: .5
-        }),
-        points: 4,
-        radius: 7,
-        angle: Math.PI / 2
-    })
-}); */
-
 
 const queStyle = new ol.style.Style({
     image: new ol.style.Icon({
     src: './data/que.svg',
-    scale: 1 
+    scale: .9
     })
 });
 
@@ -284,7 +259,7 @@ const km500scalStyle = function(feature, text, resolution) {
 export { bru_nlwknStyle,
     sleStyle,
     wehStyle, 
-    bru_andereStyle, 
+    bruAndereStyle, 
     dueStyle,
     queStyle,
     son_linStyle, 
