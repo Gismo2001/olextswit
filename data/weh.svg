@@ -1,6 +1,19 @@
 <svg width="20" height="20" version="1.1" viewBox="0 0 5.2917 5.2917" xmlns="http://www.w3.org/2000/svg">
-		<title>weh</title>
-		<rect x="1.5875" width="2.1167" height="5.2917" style="stroke-width:0"/>
-		<path transform="matrix(1.0481 .015859 -.015684 1.0598 .44771 1.1547)" d="m1.1079 1.3643-1.4988 0.89839-0.014321-0.87359-0.014321-0.87359 0.76371 0.42439z" style="stroke-width:0"/>
-		<path transform="matrix(-1.0481 .015859 .015684 1.0598 4.844 1.1801)" d="m1.1079 1.3643-1.4988 0.89839-0.014321-0.87359-0.014321-0.87359 0.76371 0.42439z" style="stroke-width:0"/>
+	<title>bru</title>
+	<g>
+		<ellipse cx="2.6458" cy="2.6458" rx="2.4512" ry="2.4512" 
+		style="fill:#fff;stroke-width:.38926;stroke:#000"/>
+		<text x="0" y="3.4" 
+			style="fill:#000000;
+			font-family:Arial;
+			font-size:2.2931px;
+			font-variant-caps:normal;
+			font-variant-east-asian:
+			normal;font-variant-ligatures:
+			normal;font-variant-numeric:normal;
+			stroke-width:.19463" 
+			xml:space="preserve">
+			<tspan x="0" y="3.4">Weh</tspan>
+		</text>
+	</g>
 </svg>

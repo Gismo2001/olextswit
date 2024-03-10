@@ -1,14 +1,8 @@
 //extfunc.js
 const sleStyle = new ol.style.Style({
-    image: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color: 'red'}),
-        stroke: new ol.style.Stroke({
-        color: 'grey',
-        width: 2
-        }),
-        points: 4,
-        radius: 7,
-        angle: Math.PI / 4
+    image: new ol.style.Icon({
+        src: './data/sle.svg',
+        scale: .9 
     })
   });
 

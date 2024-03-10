@@ -1,4 +1,4 @@
-import './style.css';
+//import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -360,6 +360,235 @@ const gew_layer_layer = new ol.layer.Vector({
   })
 })
 
+
+const wmsNsgLayer = new ol.layer.Tile({
+  title: "NSG",
+  name: "NSG",
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Natur_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Naturschutzgebiet',
+      'FORMAT': 'image/png',
+      'TRANSPARENT': true,
+      'TILED': true,
+    },
+  }),
+  visible: false,
+  opacity: .5,
+});
+const wmsLsgLayer = new ol.layer.Tile({
+  title: "LSG",
+  name: "LSG",
+  source: new ol.source.TileWMS({
+    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Natur_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Landschaftsschutzgebiet',
+      'FORMAT': 'image/png',
+      'TRANSPARENT': true,
+      'TILED': true,
+    },
+  }),
+  visible: false,
+  opacity: .5,
+});
+const  wmsUesgLayer = new ol.layer.Tile({
+  title: "ÜSG",
+  name: "ÜSG",
+  source: new ol.source.TileWMS({
+    url:  'https://www.umweltkarten-niedersachsen.de/arcgis/services/HWSchutz_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Überschwemmungsgebiete_Verordnungsfläechen_Niedersachsen11182',
+      'FORMAT': 'image/png',
+      'TRANSPARENT': true,
+      'TILED': true,
+    },
+  }),
+  visible: false,
+  opacity: .5,
+});
+const  wmsWrrlFgLayer = new ol.layer.Tile({
+  title: "Fließgew.",
+  name: "Fließgew.",
+  source: new ol.source.TileWMS({
+    url:  'http://www.umweltkarten-niedersachsen.de/arcgis/services/WRRL_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Natuerliche_erheblich_veraenderte_und_kuenstliche_Fliessgewaesser',
+      'FORMAT': 'image/png',
+      'TRANSPARENT': true,
+      'TILED': true,
+    },
+  }),
+  visible: false,
+  opacity: .5,
+});
+
+
+const gnAtlas2023 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "10", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "2023",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas2020 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "9", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "2020",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas2017 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "8", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "2017",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas2014 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "7", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "2014",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas2012 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "6", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "2012",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas2010 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "5", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "2010",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas2009 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "4", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "2009",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas2002 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "3", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "2002",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas1970 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "2", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "1970",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas1957 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "1", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "1957",
+  opacity: 1.000000,
+  visible: false,
+});
+const gnAtlas1937 = new ol.layer.Tile({
+  source: new ol.source.TileWMS(({
+      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
+      attributions: ' ',
+     params: {"LAYERS": "0", "TILED": "true", "VERSION": "1.3.0"},
+    })),
+  title: "1937",
+  opacity: 1.000000,
+  visible: false,
+});
+
+const wmsBaseMapDEGrau = new ol.layer.Tile({
+  source: new ol.source.TileWMS({
+    url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
+    params: {
+      'LAYERS': 'WMS DE BASEMAP.DE WEB RASTER',
+      'TILED': true,
+    },
+    crossOrigin: 'anonymous',
+  }),
+  title: 'base grau',
+  visible: false,
+  minResolution: 0,
+  maxResolution: 75
+});
+var dop20ni_layer = new ol.layer.Tile({
+  title: "DOP20 NI",
+  opacity: 1.000000,
+  visible: false,
+  type: 'base',
+  source: new ol.source.TileWMS({
+    url: "https://www.geobasisdaten.niedersachsen.de/doorman/noauth/wms_ni_dop",
+    attributions: 'Orthophotos Niedersachsen, LGLN',
+    params: {
+      "LAYERS": "dop20",
+      "TILED": true, // "true" sollte ohne Anführungszeichen sein
+      "VERSION": "1.3.0"
+    },
+  }),
+});
+const googleLayer = new ol.layer.Tile({
+  title: "GoogleSat",
+  type: 'base',
+  baseLayer: false,
+  visible: false,
+  source: new ol.source.TileImage({url: 'http://mt1.google.com/vt/lyrs=s&hl=pl&&x={x}&y={y}&z={z}' })
+});
+const ESRIWorldImagery = new ol.layer.Tile({
+  title: 'ESRI',
+  type: 'base',
+  opacity: 1.000000,
+  visible: false,
+  source: new ol.source.XYZ({
+      attributions: 'Powered by Esri',
+      url: 'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+  })
+});
+const osmTile = new ol.layer.Tile({
+  title: "osm",
+  type: 'base',
+  source: new ol.source.OSM({
+      url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      attributions: ['© OpenStreetMap contributors', 'Tiles courtesy of <a href="https://www.openstreetmap.org/"></a>'],
+  }),
+});
+
 const layerSwitcher = new ol.control.LayerSwitcher({ });
 map.addControl(layerSwitcher);
 
@@ -372,10 +601,8 @@ buttonM.innerHTML = 'M';  // Ändere dies zu buttonM
 elementM.appendChild(buttonM);  // Ändere dies zu buttonM
 document.body.appendChild(elementM);  // Ändere dies zu elementM
 
-
 buttonM.addEventListener('click', function() {});
 buttonM.addEventListener('touchstart', function() {});
-
 
 //Button für Postionierung hinzufügen
 var element = document.createElement('div');
@@ -459,264 +686,30 @@ buttonM.addEventListener('click', function() {
   alert('gecklickt');
 });
 
-
-const wmsNsgLayer = new ol.layer.Tile({
-  title: "NSG",
-  name: "NSG",
-  source: new ol.source.TileWMS({
-    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Natur_wms/MapServer/WMSServer',
-    params: {
-      'LAYERS': 'Fauna-Flora-Habitat-Gebiete_(FFH)_in_Niedersachsen44579',
-      'FORMAT': 'image/png',
-      'TRANSPARENT': true,
-    },
-  }),
-  visible: false,
-  opacity: .5,
-});
-
-// WMS UESG
-const  wmsUesgLayer = new ol.layer.Tile({
-  title: "ÜSG",
-  name: "ÜSG",
-  source: new ol.source.TileWMS({
-    url:  'https://www.umweltkarten-niedersachsen.de/arcgis/services/HWSchutz_wms/MapServer/WMSServer',
-    params: {
-      'LAYERS': 'Überschwemmungsgebiete_Verordnungsfläechen_Niedersachsen11182',
-      'FORMAT': 'image/png',
-      'TRANSPARENT': true,
-    },
-  }),
-  visible: false,
-  opacity: .5,
-});
-
-
-const wmsHydErstOrdLayer = new ol.layer.Tile({
-  title: "1. Ordn.",
-  name: "1. Ordn.", 
-  source: new ol.source.TileWMS({
-    url: 'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
-    params: {
-      'LAYERS': 'Gewässernetz_1._Ordnung29778',
-      'FORMAT': 'image/png',
-      'TRANSPARENT': true,
-    },
-  }),
-  visible: false,
-  opacity: .5,
-});
-
-
-
-const gnAtlas2023 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "10", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "2023",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas2020 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "9", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "2020",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas2017 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "8", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "2017",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas2014 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "7", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "2014",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas2012 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "6", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "2012",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas2010 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "5", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "2010",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas2009 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "4", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "2009",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas2002 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "3", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "2002",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas1970 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "2", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "1970",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas1957 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "1", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "1957",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const gnAtlas1937 = new ol.layer.Tile({
-  source: new ol.source.TileWMS(({
-      url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
-      attributions: ' ',
-     params: {"LAYERS": "0", "TILED": "true", "VERSION": "1.3.0"},
-    })),
-  title: "1937",
-  opacity: 1.000000,
-  visible: false,
-});
-
-const wmsBaseMapDEGrau = new ol.layer.Tile({
-  source: new ol.source.TileWMS({
-    url: 'https://sgx.geodatenzentrum.de/wms_basemapde',
-    params: {
-      'LAYERS': 'WMS DE BASEMAP.DE WEB RASTER',
-      'TILED': true,
-    },
-    crossOrigin: 'anonymous',
-  }),
-  title: 'base grau',
-  visible: false,
-  minResolution: 0,
-  maxResolution: 75
-});
-
-var dop20ni_layer = new ol.layer.Tile({
-  title: "DOP20 NI",
-  opacity: 1.000000,
-  visible: false,
-  type: 'base',
-  source: new ol.source.TileWMS({
-    url: "https://www.geobasisdaten.niedersachsen.de/doorman/noauth/wms_ni_dop",
-    attributions: 'Orthophotos Niedersachsen, LGLN',
-    params: {
-      "LAYERS": "dop20",
-      "TILED": true, // "true" sollte ohne Anführungszeichen sein
-      "VERSION": "1.3.0"
-    },
-  }),
-});
-
-const googleLayer = new ol.layer.Tile({
-  title: "GoogleSat",
-  type: 'base',
-  baseLayer: false,
-  visible: false,
-  source: new ol.source.TileImage({url: 'http://mt1.google.com/vt/lyrs=s&hl=pl&&x={x}&y={y}&z={z}' })
-});
-
-const ESRIWorldImagery = new ol.layer.Tile({
-  title: 'ESRI',
-  type: 'base',
-  opacity: 1.000000,
-  visible: false,
-  source: new ol.source.XYZ({
-      attributions: 'Powered by Esri',
-      url: 'https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
-  })
-});
-
-const osmTile = new ol.layer.Tile({
-  title: "osm",
-  type: 'base',
-  source: new ol.source.OSM({
-      url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      attributions: ['© OpenStreetMap contributors', 'Tiles courtesy of <a href="https://www.openstreetmap.org/"></a>'],
-  }),
-});
-
 const wmsLayerGroup = new ol.layer.Group({
 title: "WMS-Lay",
 fold: true,
 fold: 'close',
-layers: [ wmsHydErstOrdLayer, wmsNsgLayer, wmsUesgLayer ]
+layers: [ wmsLsgLayer, wmsNsgLayer, wmsUesgLayer, wmsWrrlFgLayer ]
 });
-
 const GNAtlasGroup = new ol.layer.Group({
   title: "GN-DOP's",
   fold: true,
   fold: 'close',
   layers: [ gnAtlas2023, gnAtlas2020, gnAtlas2017, gnAtlas2014, gnAtlas2012, gnAtlas2010, gnAtlas2009, gnAtlas2002, gnAtlas1970, gnAtlas1957, gnAtlas1937]
-  });
-
+});
 const BwGroup = new ol.layer.Group({
   title: "Bauw.",
   fold: true,
   fold: 'close',  
   layers: [gehoelzvecLayer, exp_gew_info_layer, exp_gew_umn_layer, exp_bw_son_lin_layer, exp_bw_son_pun_layer, exp_bw_ein_layer, exp_bw_bru_andere_layer, exp_bw_bru_nlwkn_layer, exp_bw_que_layer, exp_bw_due_layer, exp_bw_weh_layer, exp_bw_sle_layer]
 });
-
 const kmGroup = new ol.layer.Group({
   title: "Station",
   fold: true,
   fold: 'close',
   layers: [km10scal_layer, km100scal_layer, km500scal_layer]
 });
-
 const BaseGroup = new ol.layer.Group({
   title: "Base",
   fold: true,
