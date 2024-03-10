@@ -772,7 +772,6 @@ closer.onclick = function()
   return false;
 };
 
-// 
 map.on('click', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
     var layname = layer.get('name');
@@ -782,7 +781,6 @@ map.on('click', function (evt) {
     if (beschreibLangValue && beschreibLangValue.trim() !== '') {
     beschreibLangHtml = '<br>' + '<u>' + "Beschreib (lang): " + '</u>' + beschreibLangValue + '</p>';
     };
-
     // Popup soll nur für bestimmte Layernamen angezeigt werden
     if (layname !== 'gew' && layname !== 'km10scal' && layname !== 'km100scal' && layname !== 'km500scal' && layname !== 'fsk' && layname !== 'son_lin') {
       console.log('Clicked on layer:', layname);
@@ -926,6 +924,51 @@ map.on('click', function (evt) {
     
   });
 });
+
+
+map.on('singleclick', function (evt) {
+  const viewResolution = /** @type {number} */ (mapView.getResolution());
+  var viewProjection = map.getView().getProjection();
+  const urlUesg = wmsUesgLayer.getSource().getGetFeatureInfoUrl(evt.coordinate, viewResolution, viewProjection,{'INFO_FORMAT': 'text/html',  });
+  const urlNsg = wmsNsgLayer.getSource().getGetFeatureInfoUrl(evt.coordinate, viewResolution, viewProjection,{'INFO_FORMAT': 'text/html',  });
+  if (urlUesg) {fetch(urlUesg) .then((response) => response.text()).then((html) => {if (html.trim() !== '') {createAndShowInfoDiv(html, 'ÜSG Layer');}});
+  }
+  if (urlNsg) {fetch(urlNsg) .then((response) => response.text()).then((html) => {if (html.trim() !== '') {createAndShowInfoDiv(html, 'NSG Layer');}});}}
+  );
+
+  function createAndShowInfoDiv(html, layerName) {
+    const existingInfoDiv = document.getElementById('info');
+    if (existingInfoDiv) {existingInfoDiv.remove();}
+  
+    const infoDiv = document.createElement('div');
+    infoDiv.id = 'info';
+    infoDiv.style.border = '1px solid black';
+    infoDiv.style.background = 'white';
+    infoDiv.style.opacity = '1';
+    infoDiv.style.overflowX = 'auto';
+    infoDiv.innerHTML = `<strong>${layerName}</strong><br>${html}`;
+    infoDiv.style.position = 'absolute';
+    infoDiv.style.bottom = '150px';
+    infoDiv.style.left = '0px';
+    infoDiv.style.zIndex = '9999';
+
+    const closeIcon = document.createElement('span');
+    closeIcon.innerHTML = '&times;';
+    closeIcon.style.position = 'absolute';
+    closeIcon.style.top = '5px';
+    closeIcon.style.right = '5px';
+    closeIcon.style.cursor = 'pointer';
+    closeIcon.style.fontSize = '20px';
+    
+    closeIcon.addEventListener('click', function () {
+      infoDiv.style.display = 'none';
+    });
+    
+    infoDiv.appendChild(closeIcon);
+    document.body.appendChild(infoDiv);
+    
+  }
+  
 
 document.getElementById('popup-closer').onclick = function () {
   popup.setPosition(undefined);
