@@ -28,15 +28,9 @@ const bruAndereStyle = new ol.style.Style({
 });
 
 const dueStyle = new ol.style.Style({
-    image: new ol.style.RegularShape({
-        fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1'}),
-        stroke: new ol.style.Stroke({
-        color: 'black',
-        width: 2
-        }),
-        points: 4,
-        radius: 7,
-        angle: Math.PI / 4
+    image: new ol.style.Icon({
+        src: './data/due.svg',
+        scale: .9
     })
 });
 

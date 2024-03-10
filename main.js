@@ -1,4 +1,4 @@
-//import './style.css';
+import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -72,7 +72,6 @@ const endpointStyle = new ol.style.Style({
           }),
       }),
 });
- // Kombinierter Stil für Linie und Endpunkt
 const combinedStyle = [arrowStyle, endpointStyle];
 
 window.searchAddress = function searchAddress() {
@@ -101,7 +100,6 @@ window.searchAddress = function searchAddress() {
       console.error('Geokodierung-Fehler:', error);
     });
 }
-
 // Event-Listener für die Enter-Taste hinzufügen
 var inputElement = document.getElementById('addressInput');
 inputElement.addEventListener('keydown', function (event) {
@@ -109,7 +107,6 @@ inputElement.addEventListener('keydown', function (event) {
     searchAddress();
   }
 });
-
 // Marker für Positionsmarkierung zur Adresssuche
 function addTempMarker(coordinates) {
   var tempMarker = new ol.layer.Vector({
@@ -129,7 +126,6 @@ function addTempMarker(coordinates) {
   // Fügen Sie den temporären Marker zur Karte hinzu
   map.addLayer(tempMarker);
 }
-
 // Funktion zum Entfernen des temporären Markers
 function removeTempMarker() {
   // Durchlaufen Sie alle Karten-Layer und entfernen Sie alle, die als temporärer Marker markiert sind
@@ -172,7 +168,6 @@ const gehoelzvecLayer = new ol.layer.Vector({
   style: gehoelz_vecStyle,
   visible: false
 });
-
 const exp_allgm_fsk_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_allgm_fsk.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
   title: 'fsk',
@@ -182,8 +177,6 @@ const exp_allgm_fsk_layer = new ol.layer.Vector({
   minResolution: 0,
   maxResolution: 4
 })
-
-// exp_gew_info
 const exp_gew_info_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
@@ -193,7 +186,6 @@ const exp_gew_info_layer = new ol.layer.Vector({
   style: combinedStyle,
   visible: false
 });
-
 const exp_gew_umn_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
@@ -203,8 +195,6 @@ const exp_gew_umn_layer = new ol.layer.Vector({
   style: getStyleForArtUmn,
   visible: false
 });
-
-// sonstige Linien
 const exp_bw_son_lin_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
@@ -214,8 +204,6 @@ const exp_bw_son_lin_layer = new ol.layer.Vector({
   style: son_linStyle,
   visible: false
 });
-
-// sonstige Punkte
 const exp_bw_son_pun_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
@@ -225,8 +213,6 @@ const exp_bw_son_pun_layer = new ol.layer.Vector({
   style: son_punStyle,
   visible: false
 });
-
-// ein
 const exp_bw_ein_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
   format: new ol.format.GeoJSON(),
@@ -236,8 +222,6 @@ const exp_bw_ein_layer = new ol.layer.Vector({
   style: getStyleForArtEin,
   visible: false
 });
-
-// que
 const exp_bw_que_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
     format: new ol.format.GeoJSON(),
@@ -251,8 +235,6 @@ const exp_bw_que_layer = new ol.layer.Vector({
   style: queStyle,
   visible: false
 });
-
-// due
 const exp_bw_due_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
     format: new ol.format.GeoJSON(),
@@ -266,8 +248,6 @@ const exp_bw_due_layer = new ol.layer.Vector({
   style: dueStyle,
   visible: false
 });
-
-// weh
 const exp_bw_weh_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
     format: new ol.format.GeoJSON(),
@@ -281,8 +261,6 @@ const exp_bw_weh_layer = new ol.layer.Vector({
   style: wehStyle,
   visible: false
 });
-
-//bru nlwkn
 const exp_bw_bru_nlwkn_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_bw_bru_nlwkn.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
   title: 'Brücke (NLWKN)', 
@@ -290,8 +268,6 @@ const exp_bw_bru_nlwkn_layer = new ol.layer.Vector({
   style: bru_nlwknStyle,
   visible: false
 });
-
-//bru andere
 const exp_bw_bru_andere_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/exp_bw_bru_andere.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
   title: 'Brücke (andere)', 
@@ -299,8 +275,6 @@ const exp_bw_bru_andere_layer = new ol.layer.Vector({
   style: bruAndereStyle,
   visible: false
 });
-
-//sle
 const exp_bw_sle_layer = new ol.layer.Vector({
   source: new ol.source.Vector({
     format: new ol.format.GeoJSON(),
@@ -314,8 +288,6 @@ const exp_bw_sle_layer = new ol.layer.Vector({
   style: sleStyle,
   visible: true
 });
-
-//kilometrierung 10 m
 const km10scal_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/km_10_scal.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
   title: 'km10scal', // Titel für den Layer-Switcher
@@ -324,8 +296,6 @@ const km10scal_layer = new ol.layer.Vector({
   minResolution: 0,
   maxResolution: 1 
 });
-
-//kilometrierung 100 m
 const km100scal_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/km_100_scal.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
   title: 'km100scal', // Titel für den Layer-Switcher
@@ -336,8 +306,6 @@ const km100scal_layer = new ol.layer.Vector({
   minResolution: 0,
   maxResolution: 3 
 });
-
-//kilometrierung 500 m
 const km500scal_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/km_500_scal.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
   title: 'km500scal', // Titel für den Layer-Switcher
@@ -348,8 +316,6 @@ const km500scal_layer = new ol.layer.Vector({
   minResolution: 0,
   maxResolution: 10 
 });
-
-//gew Layer
 const gew_layer_layer = new ol.layer.Vector({
   source: new ol.source.Vector({format: new ol.format.GeoJSON(), url: function (extent) {return './myLayers/gew.geojson' + '?bbox=' + extent.join(','); }, strategy: ol.loadingstrategy.bbox }),
   title: 'gew', // Titel für den Layer-Switcher
@@ -359,7 +325,6 @@ const gew_layer_layer = new ol.layer.Vector({
     stroke: new ol.style.Stroke({ color: 'blue', width: 2 })
   })
 })
-
 
 const wmsNsgLayer = new ol.layer.Tile({
   title: "NSG",
@@ -391,7 +356,7 @@ const wmsLsgLayer = new ol.layer.Tile({
   visible: false,
   opacity: .5,
 });
-const  wmsUesgLayer = new ol.layer.Tile({
+const wmsUesgLayer = new ol.layer.Tile({
   title: "ÜSG",
   name: "ÜSG",
   source: new ol.source.TileWMS({
@@ -406,13 +371,13 @@ const  wmsUesgLayer = new ol.layer.Tile({
   visible: false,
   opacity: .5,
 });
-const  wmsWrrlFgLayer = new ol.layer.Tile({
+const wmsWrrlFgLayer = new ol.layer.Tile({
   title: "Fließgew.",
   name: "Fließgew.",
   source: new ol.source.TileWMS({
     url:  'http://www.umweltkarten-niedersachsen.de/arcgis/services/WRRL_wms/MapServer/WMSServer',
     params: {
-      'LAYERS': 'Natuerliche_erheblich_veraenderte_und_kuenstliche_Fliessgewaesser',
+      'LAYERS': 'Fliessgewaesser_WRRL',
       'FORMAT': 'image/png',
       'TRANSPARENT': true,
       'TILED': true,
@@ -421,7 +386,6 @@ const  wmsWrrlFgLayer = new ol.layer.Tile({
   visible: false,
   opacity: .5,
 });
-
 
 const gnAtlas2023 = new ol.layer.Tile({
   source: new ol.source.TileWMS(({
@@ -772,6 +736,7 @@ closer.onclick = function()
   return false;
 };
 
+//Info für bw-Layer
 map.on('click', function (evt) {
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
     var layname = layer.get('name');
@@ -925,50 +890,66 @@ map.on('click', function (evt) {
   });
 });
 
-
+// Info für wms-Layer
 map.on('singleclick', function (evt) {
-  const viewResolution = /** @type {number} */ (mapView.getResolution());
-  var viewProjection = map.getView().getProjection();
-  const urlUesg = wmsUesgLayer.getSource().getGetFeatureInfoUrl(evt.coordinate, viewResolution, viewProjection,{'INFO_FORMAT': 'text/html',  });
-  const urlNsg = wmsNsgLayer.getSource().getGetFeatureInfoUrl(evt.coordinate, viewResolution, viewProjection,{'INFO_FORMAT': 'text/html',  });
-  if (urlUesg) {fetch(urlUesg) .then((response) => response.text()).then((html) => {if (html.trim() !== '') {createAndShowInfoDiv(html, 'ÜSG Layer');}});
-  }
-  if (urlNsg) {fetch(urlNsg) .then((response) => response.text()).then((html) => {if (html.trim() !== '') {createAndShowInfoDiv(html, 'NSG Layer');}});}}
-  );
-
-  function createAndShowInfoDiv(html, layerName) {
-    const existingInfoDiv = document.getElementById('info');
-    if (existingInfoDiv) {existingInfoDiv.remove();}
   
-    const infoDiv = document.createElement('div');
-    infoDiv.id = 'info';
-    infoDiv.style.border = '1px solid black';
-    infoDiv.style.background = 'white';
-    infoDiv.style.opacity = '1';
-    infoDiv.style.overflowX = 'auto';
-    infoDiv.innerHTML = `<strong>${layerName}</strong><br>${html}`;
-    infoDiv.style.position = 'absolute';
-    infoDiv.style.bottom = '150px';
-    infoDiv.style.left = '0px';
-    infoDiv.style.zIndex = '9999';
+  const layersToCheck = [
+    { layer: wmsWrrlFgLayer, name: 'WRRL' },
+    { layer: wmsUesgLayer, name: 'ÜSG' },
+    { layer: wmsNsgLayer, name: 'NSG' },
+    { layer: wmsLsgLayer, name: 'LSG' },
+  ];
 
-    const closeIcon = document.createElement('span');
-    closeIcon.innerHTML = '&times;';
-    closeIcon.style.position = 'absolute';
-    closeIcon.style.top = '5px';
-    closeIcon.style.right = '5px';
-    closeIcon.style.cursor = 'pointer';
-    closeIcon.style.fontSize = '20px';
-    
-    closeIcon.addEventListener('click', function () {
-      infoDiv.style.display = 'none';
-    });
-    
-    infoDiv.appendChild(closeIcon);
-    document.body.appendChild(infoDiv);
-    
-  }
-  
+  const viewResolution = map.getView().getResolution();
+  const viewProjection = map.getView().getProjection();
+
+  layersToCheck.forEach(({ layer, name }) => {
+    if (layer.getVisible()) {
+      //console.log("gecklickt");
+      const url = layer.getSource().getGetFeatureInfoUrl(evt.coordinate, viewResolution, viewProjection, {'INFO_FORMAT': 'text/html'});
+      //console.log(name);
+      if (url) {
+        fetch(url)
+          .then((response) => response.text())
+          .then((html) => {
+            if (html.trim() !== '') {
+              const existingInfoDiv = document.getElementById('info');
+              if (existingInfoDiv) {existingInfoDiv.remove();}
+              
+              const infoDiv = document.createElement('div');
+              infoDiv.id = 'info';
+              infoDiv.style.border = '1px solid black';
+              infoDiv.style.background = 'white';
+              infoDiv.style.opacity = '1';
+              infoDiv.style.overflowX = 'auto';
+              infoDiv.innerHTML = `<strong>${name} Layer</strong><br>${html}`;
+              infoDiv.style.position = 'absolute';
+              infoDiv.style.bottom = '150px';
+              infoDiv.style.width = '100%';
+              infoDiv.style.left = '0px';
+              infoDiv.style.zIndex = '9999';
+
+              const closeIcon = document.createElement('span');
+              closeIcon.innerHTML = '&times;';
+              closeIcon.style.position = 'absolute';
+              closeIcon.style.top = '5px';
+              closeIcon.style.right = '5px';
+              closeIcon.style.cursor = 'pointer';
+              closeIcon.style.fontSize = '20px';
+              
+              closeIcon.addEventListener('click', function () {
+                infoDiv.style.display = 'none';
+              });
+              
+              infoDiv.appendChild(closeIcon);
+              document.body.appendChild(infoDiv);
+            }
+          });
+      }
+    }
+  });
+});
+
 
 document.getElementById('popup-closer').onclick = function () {
   popup.setPosition(undefined);
