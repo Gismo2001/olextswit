@@ -375,7 +375,7 @@ const wmsWrrlFgLayer = new ol.layer.Tile({
   title: "Fließgew.",
   name: "Fließgew.",
   source: new ol.source.TileWMS({
-    url:  'http://www.umweltkarten-niedersachsen.de/arcgis/services/WRRL_wms/MapServer/WMSServer',
+    url:  'https://www.umweltkarten-niedersachsen.de/arcgis/services/WRRL_wms/MapServer/WMSServer',
     params: {
       'LAYERS': 'Fliessgewaesser_WRRL',
       'FORMAT': 'image/png',
