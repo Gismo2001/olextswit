@@ -11,6 +11,7 @@
 			font-variant-east-asian:
 			normal;font-variant-ligatures:
 			normal;font-variant-numeric:normal;
+			font-weight: bold;
 			stroke-width:.19463" 
 			xml:space="preserve">
 			<tspan x="0.82741708" y="3.3903544">Due</tspan>

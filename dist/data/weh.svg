@@ -3,7 +3,7 @@
 	<g>
 		<ellipse cx="2.6458" cy="2.6458" rx="2.4512" ry="2.4512" 
 		style="fill:#fff;stroke-width:.38926;stroke:#000"/>
-		<text x="0" y="3.4" 
+		<text x="0.82741708" y="3.3903544" 
 			style="fill:#000000;
 			font-family:Arial;
 			font-size:2.2931px;
@@ -11,9 +11,10 @@
 			font-variant-east-asian:
 			normal;font-variant-ligatures:
 			normal;font-variant-numeric:normal;
+			font-weight: bold;
 			stroke-width:.19463" 
 			xml:space="preserve">
-			<tspan x="0" y="3.4">Weh</tspan>
+			<tspan x="0.82741708" y="3.3903544">Weh</tspan>
 		</text>
 	</g>
 </svg>

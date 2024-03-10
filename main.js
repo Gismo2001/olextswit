@@ -384,7 +384,7 @@ const wmsWrrlFgLayer = new ol.layer.Tile({
     },
   }),
   visible: false,
-  opacity: .5,
+  opacity: 1,
 });
 
 const gnAtlas2023 = new ol.layer.Tile({
