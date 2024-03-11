@@ -36,9 +36,8 @@ body{
   border-radius: 5px;
   /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); */
   border: 1px solid #cccccc;
-  /* bottom: 12px;  Kommentiere diese Zeile aus oder passe sie an */
-  left: 20px;  /* Anpassen, um die Position horizontal zu verschieben */
-  top: -20px; /* Ändere auf eine negative Zahl, um das Popup nach oben zu verschieben */
+  left: 20px;  
+  top: -20px; 
   min-width: 280px;
  }
 

@@ -5,51 +5,42 @@ const sleStyle = new ol.style.Style({
         scale: .9 
     })
   });
-
 const wehStyle = new ol.style.Style({
     image: new ol.style.Icon({
         src: './data/weh.svg',
         scale: .9 
     })
   });
-
 const bru_nlwknStyle = new ol.style.Style({
     image: new ol.style.Icon({
     src: './data/bru_nlwkn.svg',
     scale: .9 
     })
 });
-
 const bruAndereStyle = new ol.style.Style({
     image: new ol.style.Icon({
     src: './data/bru_andere.svg',
     scale: .9 
     })
 });
-
 const dueStyle = new ol.style.Style({
     image: new ol.style.Icon({
         src: './data/due.svg',
         scale: .9
     })
 });
-
-
 const queStyle = new ol.style.Style({
     image: new ol.style.Icon({
     src: './data/que.svg',
     scale: .9
     })
 });
-
-
 const son_linStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({
     color: 'rgba(209, 32, 253, 1)',
     width: 4
     }),
 });
-
 const son_punStyle = new ol.style.Style({
     image: new ol.style.RegularShape({
     fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1)' }),
@@ -62,22 +53,18 @@ const son_punStyle = new ol.style.Style({
     angle: Math.PI / 4
     })
 });
-
 const km10scalStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({
         color: 'grey',
         width: .5
     })
 });
-
 const gehoelz_vecStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({
     color: 'rgba(173, 114, 3, 1)',
     width: 3
     }),
 });
-
-
 function getStyleForArtEin(feature) {   
     const artValue = feature.get('Ein_ord');
     let fillColor, strokeColor;
@@ -115,9 +102,7 @@ function getStyleForArtEin(feature) {
             })
         
         })
-  };
-
-//Berechnung Style für FSK
+};
 function getStyleForArtFSK(feature) {
     const artValue = feature.get('Art');
     let fillColor, strokeColor;
@@ -148,9 +133,7 @@ function getStyleForArtFSK(feature) {
             width: 0.5
         })
     });
-  };
-
-//Berechnung Style für FSK
+};
 function getStyleForArtUmn(feature) {
   const mnIdValue = feature.get('Massn_ID');
   let fillColor, strokeColor;
@@ -195,8 +178,6 @@ function getStyleForArtUmn(feature) {
       })
   });
 };
-
-// km 100 Style-Funktion mit Beschriftung
 const km100scalStyle = function(feature, text, resolution) {
     var minResolution = 0;
     var maxResolution = 5; 
@@ -216,9 +197,7 @@ const km100scalStyle = function(feature, text, resolution) {
     } else {
       return null;
     }
-  };
-
-/// Style-Funktion mit Beschriftung
+};
 const km500scalStyle = function(feature, text, resolution) {
     var minResolution = 0;
     var maxResolution = 10; 
@@ -241,9 +220,7 @@ const km500scalStyle = function(feature, text, resolution) {
     } else {
       return null;
     }
-  };
-  
- 
+};
 export { bru_nlwknStyle,
     sleStyle,
     wehStyle, 

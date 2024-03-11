@@ -1,4 +1,4 @@
-import './style.css';
+//import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -647,7 +647,7 @@ button.addEventListener('click', function() {
 
 //EventListener für Measuretool
 buttonM.addEventListener('click', function() {
-  alert('gecklickt');
+  alert('jetzt richtig gecklickt');
 });
 
 const wmsLayerGroup = new ol.layer.Group({
@@ -723,7 +723,7 @@ var popup = new ol.Overlay({
   id: '1',
   autoPan: true,
   autoPanAnimation: {
-    duration: 250
+  duration: 250
   }
 });
 
@@ -738,7 +738,14 @@ closer.onclick = function()
 
 //Info für bw-Layer
 map.on('click', function (evt) {
+  
+  
   var feature = map.forEachFeatureAtPixel(evt.pixel, function (feature, layer) {
+    /* Neu
+    var txtName = feature.get('name');
+    var txtPopupCloser = document.getElementById('popup-closer');
+    txtPopupCloser.innerHTML = (txtName);
+    */
     var layname = layer.get('name');
     var coordinates = evt.coordinates;
     var beschreibLangValue = feature.get('beschreib_lang');
@@ -949,7 +956,6 @@ map.on('singleclick', function (evt) {
     }
   });
 });
-
 
 document.getElementById('popup-closer').onclick = function () {
   popup.setPosition(undefined);

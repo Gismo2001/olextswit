@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="20"
+   height="20"
+   version="1.1"
+   viewBox="0 0 5.2917 5.2917"
+   id="svg1"
+   sodipodi:docname="ein1_tmp.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showguides="true"
+     inkscape:zoom="31.27082"
+     inkscape:cx="10.201204"
+     inkscape:cy="8.5543009"
+     inkscape:window-width="1600"
+     inkscape:window-height="953"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <title
+     id="title1">ein1</title>
+  <g
+     id="g1"
+     style="fill:none">
+    <ellipse
+       cx="2.6458"
+       cy="2.6458"
+       rx="2.4512"
+       ry="2.4512"
+       style="fill:none;stroke-width:0.38926;stroke:#d20000;stroke-opacity:1"
+       id="ellipse1" />
+  </g>
+  <rect
+     style="fill:#d70000;fill-opacity:1;fill-rule:evenodd;stroke-width:0.261838"
+     id="rect1"
+     width="2.1166799"
+     height="2.1166799"
+     x="1.58751"
+     y="1.58751" />
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>ein1</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
