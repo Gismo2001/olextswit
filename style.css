@@ -84,6 +84,9 @@ pointer-events: none;
   content: "X";
   font-weight: bold; /* Fett formatieren */
 }
+.popup-text {
+  margin-right: 10px; /* Ändere den Abstand zum "X" nach Bedarf */
+}
 
 .locate {
   top: 75px;
