@@ -15,7 +15,8 @@ import {
   son_punStyle,
   km10scalStyle,
   km100scalStyle,
-  km500scalStyle
+  km500scalStyle,
+  machWasMitFSK
 } from './extStyle';
 
 import { 
@@ -662,11 +663,17 @@ const GNAtlasGroup = new ol.layer.Group({
   fold: 'close',
   layers: [ gnAtlas2023, gnAtlas2020, gnAtlas2017, gnAtlas2014, gnAtlas2012, gnAtlas2010, gnAtlas2009, gnAtlas2002, gnAtlas1970, gnAtlas1957, gnAtlas1937]
 });
-const BwGroup = new ol.layer.Group({
-  title: "Bauw.",
+const BwGroupL = new ol.layer.Group({
+  title: "Bauw.(L)",
   fold: true,
   fold: 'close',  
-  layers: [gehoelzvecLayer, exp_gew_info_layer, exp_gew_umn_layer, exp_bw_son_lin_layer, exp_bw_son_pun_layer, exp_bw_ein_layer, exp_bw_bru_andere_layer, exp_bw_bru_nlwkn_layer, exp_bw_que_layer, exp_bw_due_layer, exp_bw_weh_layer, exp_bw_sle_layer]
+  layers: [gehoelzvecLayer, exp_gew_info_layer, exp_gew_umn_layer, exp_bw_son_lin_layer ]
+});
+const BwGroupP = new ol.layer.Group({
+  title: "Bauw.(P)",
+  fold: true,
+  fold: 'close',  
+  layers: [ exp_bw_son_pun_layer, exp_bw_ein_layer, exp_bw_bru_andere_layer, exp_bw_bru_nlwkn_layer, exp_bw_que_layer, exp_bw_due_layer, exp_bw_weh_layer, exp_bw_sle_layer]
 });
 const kmGroup = new ol.layer.Group({
   title: "Station",
@@ -687,7 +694,8 @@ map.addLayer(exp_allgm_fsk_layer);
 map.addLayer(gew_layer_layer);
 map.addLayer(wmsLayerGroup);
 map.addLayer(kmGroup);
-map.addLayer(BwGroup);
+map.addLayer(BwGroupL);
+map.addLayer(BwGroupP);
 
 // Füge eine Vektorquelle und einen Vektorlayer für den blauen Kreis hinzu
 const vectorSource = new ol.source.Vector({
@@ -813,7 +821,8 @@ map.on('click', function (evt) {
     };
     // Popup soll nur für bestimmte Layernamen angezeigt werden
     if (layname !== 'gew' && layname !== 'km10scal' && layname !== 'km100scal' && layname !== 'km500scal' && layname !== 'fsk' && layname !== 'son_lin') {
-      //console.log('Clicked on layer:', layname);
+      console.log('Clicked on layer:', layname);
+      machWasMitFSK(feature);
       if (feature) {
         coordinates = feature.getGeometry().getCoordinates();
         popup.setPosition(coordinates);
@@ -936,8 +945,8 @@ map.on('click', function (evt) {
           '<div style="max-height: 300px; overflow-y: auto;">' +
           '<p><strong>gemark Flur Flurstück:</strong><br>' + feature.get('Suche') + '</p>' +
           'FSK: ' + feature.get('fsk') + '</p>' +
-          //'<p>' + 'Art (p=privat): ' + feature.get('Art') + '</p>' +
-           '<p>' + 'Eig.(öffentl.): ' + feature.get('Eig1') + '</p>' +
+          '<p>' + 'Art (p=privat): ' + feature.get('Art') + '</p>' +
+           '<p>' + 'Eig.(privat): ' + feature.get('Eig1') + '</p>' +
           '</div>';
       }
     }
@@ -950,6 +959,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var container = document.createElement('div');
   var link = document.createElement('a');
   link.textContent = 'Weitere Infos';
+
   link.href = '#'; // Verhindert, dass der Link die Seite neu lädt
   link.addEventListener('click', function(event) {
     event.preventDefault(); // Verhindert die Standardaktion des Links
@@ -961,10 +971,6 @@ document.addEventListener('DOMContentLoaded', function () {
   container.appendChild(popupCloser);
   popup.appendChild(container);
 });
-
-
-
-
 
 document.getElementById('popup-closer').onclick = function () {
   popup.setPosition(undefined);

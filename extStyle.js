@@ -103,10 +103,12 @@ function getStyleForArtEin(feature) {
         
         })
 };
+function machWasMitFSK(feature){
+    console.log (feature.get('Art'));
+};
 function getStyleForArtFSK(feature) {
     const artValue = feature.get('Art');
     let fillColor, strokeColor;
-  
     switch (artValue) {
     case 'p':
         fillColor = 'rgba(200, 200, 200, .6)';
@@ -235,7 +237,9 @@ export { bru_nlwknStyle,
     getStyleForArtEin,
     getStyleForArtUmn,
     km100scalStyle,
-    km500scalStyle    
+    km500scalStyle,
+    
+    machWasMitFSK
 };
     
   
