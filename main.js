@@ -1,4 +1,4 @@
-import './style.css';
+//import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -388,6 +388,22 @@ const wmsWrrlFgLayer = new ol.layer.Tile({
   opacity: 1,
 });
 
+const wmsGewWmsFgLayer = new ol.layer.Tile({
+  title: "GewWms",
+  name: "GewWms",
+  source: new ol.source.TileWMS({
+    url:  'https://www.umweltkarten-niedersachsen.de/arcgis/services/Hydro_wms/MapServer/WMSServer',
+    params: {
+      'LAYERS': 'Gewässernetz',
+      'FORMAT': 'image/png',
+      'TRANSPARENT': true,
+      'TILED': true,
+    },
+  }),
+  visible: false,
+  opacity: 1,
+});
+
 const gnAtlas2023 = new ol.layer.Tile({
   source: new ol.source.TileWMS(({
       url: "https://geo.grafschaft.de/arcgis/services/Migratrion_Okt_2020/BAS_Luftbilder_2/MapServer/WMSServer",
@@ -566,8 +582,7 @@ buttonM.innerHTML = 'M';  // Ändere dies zu buttonM
 elementM.appendChild(buttonM);  // Ändere dies zu buttonM
 document.body.appendChild(elementM);  // Ändere dies zu elementM
 
-buttonM.addEventListener('click', function() {});
-buttonM.addEventListener('touchstart', function() {});
+
 
 //Button für Postionierung hinzufügen
 var element = document.createElement('div');
@@ -646,16 +661,22 @@ button.addEventListener('click', function() {
   }
 });
 
+
 //EventListener für Measuretool
 buttonM.addEventListener('click', function() {
   alert('jetzt richtig gecklickt');
 });
 
+buttonM.addEventListener('touchstart', function() {
+  alert('jetzt richtig gecklickt');
+});
+
+
 const wmsLayerGroup = new ol.layer.Group({
 title: "WMS-Lay",
 fold: true,
 fold: 'close',
-layers: [ wmsLsgLayer, wmsNsgLayer, wmsUesgLayer, wmsWrrlFgLayer ]
+layers: [ wmsLsgLayer, wmsNsgLayer, wmsUesgLayer, wmsWrrlFgLayer, wmsGewWmsFgLayer ]
 });
 const GNAtlasGroup = new ol.layer.Group({
   title: "GN-DOP's",
@@ -747,6 +768,7 @@ closer.onclick = function()
 map.on('singleclick', function (evt) {
   
   const layersToCheck = [
+    { layer: wmsGewWmsFgLayer, name: 'GewWms' },
     { layer: wmsWrrlFgLayer, name: 'WRRL' },
     { layer: wmsUesgLayer, name: 'ÜSG' },
     { layer: wmsNsgLayer, name: 'NSG' },
