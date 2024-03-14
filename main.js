@@ -1,4 +1,4 @@
-//import './style.css';
+import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -92,6 +92,7 @@ window.searchAddress = function searchAddress() {
 
         // Temporären Marker hinzufügen
         addTempMarker([location.lng, location.lat]);
+        
       } else {
         // Adresse nicht gefunden, Meldung ausgeben
         alert('Adresse nicht gefunden');
@@ -100,7 +101,7 @@ window.searchAddress = function searchAddress() {
     .catch(error => {
       console.error('Geokodierung-Fehler:', error);
     });
-}
+};
 // Event-Listener für die Enter-Taste hinzufügen
 var inputElement = document.getElementById('addressInput');
 inputElement.addEventListener('keydown', function (event) {
@@ -108,6 +109,7 @@ inputElement.addEventListener('keydown', function (event) {
     searchAddress();
   }
 });
+// Marker für Positionsmarkierung zur Adresssuche
 // Marker für Positionsmarkierung zur Adresssuche
 function addTempMarker(coordinates) {
   var tempMarker = new ol.layer.Vector({
@@ -124,9 +126,13 @@ function addTempMarker(coordinates) {
     })
   });
 
+  // Setzen Sie das Attribut 'tempMarker' auf true
+  tempMarker.set('tempMarker', true);
+
   // Fügen Sie den temporären Marker zur Karte hinzu
   map.addLayer(tempMarker);
-}
+};
+
 // Funktion zum Entfernen des temporären Markers
 function removeTempMarker() {
   // Durchlaufen Sie alle Karten-Layer und entfernen Sie alle, die als temporärer Marker markiert sind
@@ -135,7 +141,7 @@ function removeTempMarker() {
       map.removeLayer(layer);
     }
   });
-}
+};
 
 const attribution = new ol.control.Attribution({
   collapsible: false,
