@@ -1,4 +1,4 @@
-import './style.css';
+//import './style.css';
 
 import { 
   getStyleForArtEin,
@@ -20,7 +20,7 @@ import {
 } from './extStyle';
 
 import { 
-  //addTempMarker
+  getStyleForArtSonLin
  } from './extfunc';
  
 const arrowStyle = new ol.style.Style({

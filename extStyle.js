@@ -35,12 +35,6 @@ const queStyle = new ol.style.Style({
     scale: .9
     })
 });
-const son_linStyle = new ol.style.Style({
-    stroke: new ol.style.Stroke({
-    color: 'rgba(209, 32, 253, 1)',
-    width: 4
-    }),
-});
 const son_punStyle = new ol.style.Style({
     image: new ol.style.RegularShape({
     fill: new ol.style.Fill({color:'rgba(209, 32, 253, 1)' }),
@@ -65,44 +59,44 @@ const gehoelz_vecStyle = new ol.style.Style({
     width: 3
     }),
 });
+const son_linStyle = new ol.style.Style({
+    stroke: new ol.style.Stroke({
+    color: 'rgba(209, 32, 253, 1)',
+    width: 4
+    }),
+});
 function getStyleForArtEin(feature) {   
     const artValue = feature.get('Ein_ord');
-    let fillColor, strokeColor;
+    
+    let iconSrc;
     switch (artValue) {
         case '1. Ordnung':
-            fillColor = 'rgba(0, 68, 255, .8)';
-            strokeColor = 'black';
+            iconSrc = './data/einErsterOrdnung.svg';
             break;
         case '2. Ordnung':
-            fillColor = 'rgba(214, 0, 0, .8)';
-            strokeColor = 'black';
+            iconSrc = './data/einZweiterOrdnung.svg';
             break;
         case '3. Ordnung':
-            fillColor = 'rgba(114, 114, 114, .8)';
-            strokeColor = 'black';
+            iconSrc = './data/einDritterOrdnung.svg';
+            break;
+        case 'Einleitung':
+            iconSrc = './data/einEinleitung.svg';
             break;
         case 'Sonstige':
-            fillColor = 'rgba(27, 117, 0, .8)';
-            strokeColor = 'black';
+            iconSrc = './data/einSonstige.svg';
             break;
         default:
-            fillColor = 'grey';
-            strokeColor = 'grey';
-        }
-        return new ol.style.Style({
-        image: new ol.style.Circle({
-            fill: new ol.style.Fill({
-                color: fillColor
-            }),
-            stroke: new ol.style.Stroke({
-                color: strokeColor,
-                width: 0.5
-            }),
-            radius: 7
-            })
-        
+            iconSrc = './data/einSonstige.svg';
+    }
+
+    return new ol.style.Style({
+        image: new ol.style.Icon({
+            src: iconSrc,
+            scale: .9 
         })
-};
+    });
+}
+
 function machWasMitFSK(feature){
     console.log (feature.get('Art'));
 };
