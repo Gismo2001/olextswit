@@ -92,7 +92,6 @@ window.searchAddress = function searchAddress() {
 
         // Temporären Marker hinzufügen
         addTempMarker([location.lng, location.lat]);
-        
       } else {
         // Adresse nicht gefunden, Meldung ausgeben
         alert('Adresse nicht gefunden');
@@ -100,8 +99,9 @@ window.searchAddress = function searchAddress() {
     })
     .catch(error => {
       console.error('Geokodierung-Fehler:', error);
+      removeTempMarker();
     });
-};
+}
 // Event-Listener für die Enter-Taste hinzufügen
 var inputElement = document.getElementById('addressInput');
 inputElement.addEventListener('keydown', function (event) {
@@ -110,8 +110,8 @@ inputElement.addEventListener('keydown', function (event) {
   }
 });
 // Marker für Positionsmarkierung zur Adresssuche
-// Marker für Positionsmarkierung zur Adresssuche
 function addTempMarker(coordinates) {
+  alert(' marker ');
   var tempMarker = new ol.layer.Vector({
     source: new ol.source.Vector({
       features: [new ol.Feature({
@@ -121,27 +121,24 @@ function addTempMarker(coordinates) {
     style: new ol.style.Style({
       image: new ol.style.Icon({
         src: './data/marker1.jpg',
-        scale: 1 // Skalieren Sie die Größe des Icons nach Bedarf
+        scale: 10 // Skalieren Sie die Größe des Icons nach Bedarf
       })
     })
   });
 
-  // Setzen Sie das Attribut 'tempMarker' auf true
-  tempMarker.set('tempMarker', true);
-
   // Fügen Sie den temporären Marker zur Karte hinzu
   map.addLayer(tempMarker);
-};
-
+}
 // Funktion zum Entfernen des temporären Markers
 function removeTempMarker() {
   // Durchlaufen Sie alle Karten-Layer und entfernen Sie alle, die als temporärer Marker markiert sind
+  alert(' marker ');
   map.getLayers().getArray().forEach(function (layer) {
     if (layer.get('tempMarker')) {
       map.removeLayer(layer);
     }
   });
-};
+}
 
 const attribution = new ol.control.Attribution({
   collapsible: false,
@@ -393,7 +390,6 @@ const wmsWrrlFgLayer = new ol.layer.Tile({
   visible: false,
   opacity: 1,
 });
-
 const wmsGewWmsFgLayer = new ol.layer.Tile({
   title: "GewWms",
   name: "GewWms",
@@ -680,6 +676,7 @@ buttonM.addEventListener('touchstart', function() {
 
 const wmsLayerGroup = new ol.layer.Group({
 title: "WMS-Lay",
+name: "WMS-Lay",
 fold: true,
 fold: 'close',
 layers: [ wmsLsgLayer, wmsNsgLayer, wmsUesgLayer, wmsWrrlFgLayer, wmsGewWmsFgLayer ]
@@ -770,65 +767,74 @@ closer.onclick = function()
   closer.blur();
   return false;
 };
+
+
 // Info für wms-Layer
 map.on('singleclick', function (evt) {
   
-  const layersToCheck = [
-    { layer: wmsGewWmsFgLayer, name: 'GewWms' },
-    { layer: wmsWrrlFgLayer, name: 'WRRL' },
-    { layer: wmsUesgLayer, name: 'ÜSG' },
-    { layer: wmsNsgLayer, name: 'NSG' },
-    { layer: wmsLsgLayer, name: 'LSG' },
-  ];
+  // Überprüfe, ob die wmsLayerGroup eingeschaltet ist
+  const isWmsLayerGroupVisible = map.getLayers().getArray().some(layer => layer.get('name') === 'WMS-Lay' && layer.getVisible());
+ 
+  if (isWmsLayerGroupVisible) {
+    // Die wmsLayerGroup ist eingeschaltet, fahre mit der Abfrage für wms-Layer fort
+    const layersToCheck = [
+      { layer: wmsGewWmsFgLayer, name: 'GewWms' },
+      { layer: wmsWrrlFgLayer, name: 'WRRL' },
+      { layer: wmsUesgLayer, name: 'ÜSG' },
+      { layer: wmsNsgLayer, name: 'NSG' },
+      { layer: wmsLsgLayer, name: 'LSG' },
+    ];
 
-  const viewResolution = map.getView().getResolution();
-  const viewProjection = map.getView().getProjection();
+    const viewResolution = map.getView().getResolution();
+    const viewProjection = map.getView().getProjection();
 
-  layersToCheck.forEach(({ layer, name }) => {
-    if (layer.getVisible()) {
-      //console.log("gecklickt");
-      const url = layer.getSource().getGetFeatureInfoUrl(evt.coordinate, viewResolution, viewProjection, {'INFO_FORMAT': 'text/html'});
-      //console.log(name);
-      if (url) {
-        fetch(url)
-          .then((response) => response.text())
-          .then((html) => {
-            if (html.trim() !== '') {
-              const existingInfoDiv = document.getElementById('info');
-              if (existingInfoDiv) {existingInfoDiv.remove();}
-              
-              const infoDiv = document.createElement('div');
-              infoDiv.id = 'info';
-              infoDiv.style.border = '1px solid black';
-              infoDiv.style.background = 'white';
-              infoDiv.style.opacity = '1';
-              infoDiv.style.overflowX = 'auto';
-              infoDiv.innerHTML = `<strong>${name} Layer</strong><br>${html}`;
-              infoDiv.style.position = 'absolute';
-              infoDiv.style.bottom = '150px';
-              infoDiv.style.width = '100%';
-              infoDiv.style.left = '0px';
-              infoDiv.style.zIndex = '9999';
+    layersToCheck.forEach(({ layer, name }) => {
+      if (layer.getVisible()) {
+        const url = layer.getSource().getGetFeatureInfoUrl(evt.coordinate, viewResolution, viewProjection, {'INFO_FORMAT': 'text/html'});
+        if (url) {
+          fetch(url)
+            .then((response) => response.text())
+            .then((html) => {
+              if (html.trim() !== '') {
+                const existingInfoDiv = document.getElementById('info');
+                if (existingInfoDiv) {existingInfoDiv.remove();}
+                
+                const infoDiv = document.createElement('div');
+                infoDiv.id = 'info';
+                infoDiv.style.border = '1px solid black';
+                infoDiv.style.background = 'white';
+                infoDiv.style.opacity = '1';
+                infoDiv.style.overflowX = 'auto';
+                infoDiv.innerHTML = `<strong>${name} Layer</strong><br>${html}`;
+                infoDiv.style.position = 'absolute';
+                infoDiv.style.bottom = '150px';
+                infoDiv.style.width = '100%';
+                infoDiv.style.left = '0px';
+                infoDiv.style.zIndex = '9999';
 
-              const closeIcon = document.createElement('span');
-              closeIcon.innerHTML = '&times;';
-              closeIcon.style.position = 'absolute';
-              closeIcon.style.top = '5px';
-              closeIcon.style.right = '5px';
-              closeIcon.style.cursor = 'pointer';
-              closeIcon.style.fontSize = '20px';
-              
-              closeIcon.addEventListener('click', function () {
-                infoDiv.style.display = 'none';
-              });
-              
-              infoDiv.appendChild(closeIcon);
-              document.body.appendChild(infoDiv);
-            }
-          });
+                const closeIcon = document.createElement('span');
+                closeIcon.innerHTML = '&times;';
+                closeIcon.style.position = 'absolute';
+                closeIcon.style.top = '5px';
+                closeIcon.style.right = '5px';
+                closeIcon.style.cursor = 'pointer';
+                closeIcon.style.fontSize = '20px';
+                
+                closeIcon.addEventListener('click', function () {
+                  infoDiv.style.display = 'none';
+                });
+                
+                infoDiv.appendChild(closeIcon);
+                document.body.appendChild(infoDiv);
+              }
+            });
+        }
       }
-    }
-  });
+    });
+  } else {
+    // Die wmsLayerGroup ist nicht eingeschaltet
+    console.log('Die wmsLayerGroup ist nicht eingeschaltet.');
+  }
 });
 
 var closer = document.getElementById('popup-closer');
